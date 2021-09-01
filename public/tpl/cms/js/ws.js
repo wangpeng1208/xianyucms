@@ -1,3 +1,4 @@
+// 定义一个订阅发布
 var Event = {
     EVENT: {},
     emit(eventName, resp) {
@@ -9,7 +10,6 @@ var Event = {
     },
     on(name, fn) {
         if (this.EVENT[name] && Object.prototype.toString.call(this.EVENT[name]) === "[object Array]") {
-
             this.EVENT[name].push(fn)
         } else {
             this.EVENT[name] = [fn]
@@ -19,12 +19,11 @@ var Event = {
         this.EVENT[name] = null
     }
 }
-
+// Websocket方法
 var socket = {
     socket: null,
     token: getCookie('i7_token'),
     init() {
-        var _this = this
         this.socket = new WebSocket("ws://127.0.0.1:8282");
         this.socket.onopen = () => {
             this.heartCheck();
@@ -51,9 +50,6 @@ var socket = {
         // 重新连接
         // this.init()
     },
-    // sendRequst(options) {
-    //     this.socket.send(options)
-    // },
     message(evt) {
         var msg = JSON.parse(evt.data);
         switch (msg.type) {
@@ -76,33 +72,18 @@ var socket = {
                 return;
             case 'notice':
                 Event.emit('notice', msg)
-                // $('#notice').append('<li class="login_notice">' + msg.msgContent + '</li>');
                 return;
             case 'vodRoomJoinStatus':
                 Event.emit('vodRoomJoinStatus', msg)
-                // $('#notice').append('<li class="login_notice">' + msg.msgContent + '</li>');
                 return;
             case 'vodRoomChat': // 影片评论和在线聊天
                 Event.emit('vodRoomChat', msg)
-                // var time = getNowFormatDate(msg.time);
-                // $('#notice').append('<li calss="msg">' + time + msg.nickname + ":" + msg.msgContent + '</li>');
                 return;
             case 'addCm':
                 Event.emit('addCm', msg)
-                /*var data = {
-                    'cm_uid': msg.uid,
-                    'cm_vid': msg.videoId,
-                    'cm_username': msg.nickname,
-                    'cm_content': msg.msgContent,
-                    'token': u_sgin,
-                };
-                data = JSON.stringify(data);
-                addChat(data);*/
                 return;
         }
     }
-
-
 }
 socket.init()
 //所有用户进入房间 滚动提示 房间在线人数
@@ -179,19 +160,15 @@ $('document').ready(function () {
         msgContent.val("");
     });
 
-    // }
 
     /*
     cm_uid cm_username cm_content
     * */
-    function addChat(data) {
+/*    function addChat(data) {
         console.log(data);
         $.post(cms.root + "index.php?s=home-cm-addChat", {"data": data});
-
-
-    }
+    }*/
 });
-
 
 /*
 保存cookies
