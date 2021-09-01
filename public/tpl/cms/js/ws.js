@@ -161,9 +161,6 @@ $('document').ready(function () {
     });
 
 
-    /*
-    cm_uid cm_username cm_content
-    * */
 /*    function addChat(data) {
         console.log(data);
         $.post(cms.root + "index.php?s=home-cm-addChat", {"data": data});
