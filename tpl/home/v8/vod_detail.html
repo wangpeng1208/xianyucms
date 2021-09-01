@@ -73,7 +73,7 @@ $vod_news=xianyu_mysql_news('news:'.$vod_name.';did:'.$vod_id.';field:news_id,ne
             </ul>
             <span id="ratewords">还行</span>
             </div>
-  <h1 class="text-overflow">{$vod_name}[免费在线观看]{notempty name="vod_continu"}<em class="hidden-sm hidden-md hidden-lg">{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}</em>{/notempty}</h1>
+  <h1 class="text-overflow">{$vod_name}{notempty name="vod_continu"}<em class="hidden-sm hidden-md hidden-lg">{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}</em>{/notempty}</h1>
   <ul class="info clearfix">
   <li class="col-md-12 text hidden-xs">
   {notempty name="vod_aliases"}<span>别名：</span>{$vod_aliases}{/notempty}

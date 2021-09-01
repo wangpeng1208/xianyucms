@@ -26,9 +26,9 @@ var socket = {
     init() {
         var _this = this
         this.socket = new WebSocket("ws://127.0.0.1:8282");
-        // this.socket.onopen = () => {
-        //     this.sendRequst();
-        // }
+        this.socket.onopen = () => {
+            this.heartCheck();
+        }
         this.socket.onmessage = evt => {
             this.message(evt)
         }
@@ -38,6 +38,11 @@ var socket = {
         this.socket.onerror = err => {
             this.error(err)
         }
+    },
+    heartCheck() {
+        setInterval(function () {
+            socket.socket.send("{'type':'ping'}");
+        }, 3000);
     },
     error(err) {
         console.log(err)
@@ -55,9 +60,9 @@ var socket = {
             case 'init':
                 // 发送绑定信息
                 var bind = {
-                    "type":"init",
+                    "type": "init",
                     "msg": {
-                        "token" : this.token
+                        "token": this.token
                     }
                 }
                 this.socket.send(JSON.stringify(bind));
@@ -101,6 +106,7 @@ var socket = {
 }
 socket.init()
 //所有用户进入房间 滚动提示 房间在线人数
+// 用户从该组离线后 考虑是否发功一个新的在线人数--ing
 Event.on('vodRoomJoinTip', msg => {
     $('#vodRoomTip').append(msg.msgContent);
     $('#onLineNumber').html('(' + msg.onLineNumber + '人)');
@@ -108,15 +114,15 @@ Event.on('vodRoomJoinTip', msg => {
 //房间用户的进入状态
 Event.on('vodRoomJoinStatus', msg => {
     $('#vodRoomJoinStatus').html(msg.msgContent);
-    if(msg.status == 1){
+    if (msg.status == 1) {
         $('#vodRoomJoin').hide()
     }
 })
 //房间聊天内容
 Event.on('vodRoomChat', msg => {
-    if(msg.uid == cms.uid){
-        var  reverse = 'reverse'
-    }else{
+    if (msg.uid == cms.uid) {
+        var reverse = 'reverse'
+    } else {
         reverse = ''
     }
     var msgTime = getNowFormatDate(msg.time)
@@ -134,42 +140,44 @@ Event.on('vodRoomChat', msg => {
     `;
     // 监听聊天滚动的位置
     var noticeEle = document.getElementById('notice');
-    noticeEle.innerHTML = noticeEle.innerHTML  +  newMsg ;
+    noticeEle.innerHTML = noticeEle.innerHTML + newMsg;
     noticeEle.scrollTop = noticeEle.scrollHeight; //当前div的滚轮始终保持最下面
 })
 
 $('document').ready(function () {
-    // if ((cms.model = 'home') && (cms.controller = 'vod') && (cms.action = 'play')) {
-    //     $('#vodRoomJoin').click(function () {
     // 自动进入房间
-            var data = {
-                "type": "vodRoomJoin",
-                "msg":{
-                    'model':cms.model,
-                    "controller": cms.controller,
-                    "action": cms.action,
-                    "videoId": cms.id,
-                }
-            };
-            socket.socket.send(JSON.stringify(data));
-        // });
-        var sendMsgEle = $("#sendMsgWrapper");
-    if(!xianyu.user.islogin()){
+    var data = {
+        "type": "vodRoomJoin",
+        "msg": {
+            'model': cms.model,
+            "controller": cms.controller,
+            "action": cms.action,
+            "videoId": cms.id,
+        }
+    };
+    socket.socket.send(JSON.stringify(data));
+    var sendMsgEle = $("#sendMsgWrapper");
+    if (!xianyu.user.islogin()) {
         sendMsgEle.hide();
     }
     $("#sendMsg").click(function () {
-            var msgContent = $(".msgContent")
-            if(!xianyu.user.islogin()){xianyu.user.loginform();return false;}
-            if (!msgContent.val()) { return }
-            var data = {
-                "type": "vodRoomChat",
-                "msg": {
-                    "msgContent": msgContent.val(),
-                }
-            };
-            socket.socket.send(JSON.stringify(data));
-            msgContent.val("");
-        });
+        var msgContent = $(".msgContent")
+        if (!xianyu.user.islogin()) {
+            xianyu.user.loginform();
+            return false;
+        }
+        if (!msgContent.val()) {
+            return
+        }
+        var data = {
+            "type": "vodRoomChat",
+            "msg": {
+                "msgContent": msgContent.val(),
+            }
+        };
+        socket.socket.send(JSON.stringify(data));
+        msgContent.val("");
+    });
 
     // }
 
@@ -216,6 +224,7 @@ function delCookie(name) {
     var cval = getCookie(name);
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
+
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份

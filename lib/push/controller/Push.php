@@ -105,6 +105,7 @@ class Push
                 'userid' => $this->uid,
                 'nickname' => '游客'. $this->uid
             ];
+            Gateway::bindUid($this->client_id, $_SESSION['user']['userid']);
         }else{
             require_once './lib/push/mysql/Connection.php';
             $dataBase = require './runtime/conf/database.php';
@@ -113,8 +114,9 @@ class Push
             $this->uid = $userToken['user_id'];
             $userInfo = $this->db->select('*')->from('zanpiancms_user')->where("userid='$this->uid'")->row();
             $_SESSION['user'] = $userInfo;
+            Gateway::bindUid($this->client_id, $_SESSION['user']['userid']);
         }
-        Gateway::bindUid($this->client_id, $_SESSION['user']['userid']);
+
     }
 
     /*
@@ -138,7 +140,7 @@ class Push
         Gateway::sendToUid($this->uid, json_encode([
             'type' => 'vodRoomJoinStatus',
             'nickname' => $_SESSION['user']['nickname'],
-            'msgContent' => '在线',
+            'msgContent' => '连接成功',
             'status' => 1,
         ]));
         // vodRoomJoinTip 在线人数和在线列表
