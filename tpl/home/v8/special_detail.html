@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$special_name} - {$list_name} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="special_keywords"}{$special_keywords}{else/}{$special_name}{$list_name}{/notempty}">
+<meta name="description" content="{notempty name="special_description"}{$special_description}{else/}{$special_name}{$list_name}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<!--盒子开始--> 
+<div class="container">
+  <div class="row">
+   <div class="layout-box clearfix">
+      <div class="col-md-7 col-sm-12 col-xs-12">
+        <div class="box-video-list">
+          <div class="item">
+            <div class="pic" style="padding-top:50%;background: url({$special_banner})  no-repeat; background-position:50% 50%; background-size: cover;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 col-sm-12 col-xs-12">
+        <div class="box-topic-content">
+          <div class="head">
+            <h3>{$special_name}</h3>
+          </div>
+          <div class="item">{$special_content}</div>
+        </div>
+      </div>
+    </div>  
+  <!--左侧盒子开始--> 
+  <div class="col-md-9 col-sm-12 box-main-content">
+  {notempty name="list_vod"} 
+  <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">该专题包含影片</h3>
+    <div class="more pull-right"><span class="text-muted pull-right">共有<span class="text-color">“{:count($list_vod)}”</span>个影片</div>
+    </div>
+     <div class="box-topic-list clearfix">
+     <ul class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+             {volist name="list_vod" id="xianyu"}
+            <li class="col-md-3 col-sm-3 col-xs-4 {gt name="i" value="6"}hidden-xs{/gt}">
+            <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">
+            {notempty name="xianyu.vod_prty"}
+            <span class="tips orange">推荐</span>
+            {/notempty}
+            <span class="player"></span>
+            <span class="score">{$xianyu.vod_gold}</span>
+            <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span>
+            </a>
+            <div class="title"><h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5></div>
+             <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor}</div>
+            </li>
+            {/volist}
+         </ul>
+         </div>
+    </div>
+    {/notempty}
+    {notempty name="list_news"}
+  <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">该专题包含资讯</h3>
+    <div class="more pull-right"><span class="text-muted pull-right">共有<span class="text-color">“{:count($list_news)}”</span>篇资讯</div>
+    </div>
+     <div class="box-topic-list clearfix">
+     <div class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+ {volist name="list_news" id="xianyu"}
+        <div class="col-md-12 col-sm-12 col-xs-12 clearfix news-box-txt p-0">
+<div class="col-md-4 col-sm-4 col-xs-12 news-box-txt-l"><a class="video-pic loading" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:62.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span></a></div>
+<div class="col-md-8 col-sm-8 col-xs-12"><div class="news-info">
+<div class="news-info-top"><h3><a href="{$xianyu.news_readurl}" target="_blank">{$xianyu.news_name}</a></h3><span class="hidden-sm hidden-xs">{$xianyu.news_addtime|date='Y-m-d H:i:s',###}</span></div>
+<div class="news-info-txt">
+{$xianyu.news_remark|msubstr=0,100,'...'}
+</div>
+</div></div>
+</div>
+{/volist}
+         </div>
+         </div>
+    </div>  
+    {/notempty}  
+    
+  {notempty name="list_star"} 
+  <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">该专题包含明星</h3>
+    <div class="more pull-right"><span class="text-muted pull-right">共有<span class="text-color">“{:count($list_star)}”</span>位明星</div>
+    </div>
+     <div class="box-topic-list clearfix">
+     <ul class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+             {volist name="list_star" id="xianyu"}
+            <li class="col-md-3 col-sm-3 col-xs-4">
+            <a class="video-pic loading" data-original="{$xianyu.star_picurl}" href="{$xianyu.star_readurl}" title="{$xianyu.star_name}">
+            <span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_hits}</span><span class="note text-bg-r">{$xianyu.star_name}</span>
+            </a>
+            </li>
+            {/volist}
+         </ul>
+         </div>
+    </div>
+    {/notempty}         
+  </div>
+  
+ <!--左侧盒子结束--> 
+ 
+ <!--右侧盒子开始--> 
+  <div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+      <div class="layout-box clearfix">
+    <div class="box-title pg-0">
+        <div class="box-details-qrcode side clearfix">
+          <div class="item">
+            <h5 class="text-muted">扫一扫用手机查看</h5>
+            <p class="qrcode"></p>
+            <p class="text-muted">分享到朋友圈</p>
+          </div>
+     </div>
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>视频排行榜</h3>
+    </div>  
+     <div class="box-video-text-list clearfix p-0">
+        <ul class="clearfix mg-0">
+         {php}$vod_hist =xianyu_mysql_vod('limit:10;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_letters,vod_content,vod_gold,vod_color,vod_hits_day;cahce_name:default;cahce_time:86400;order:vod_hits_day desc');{/php}
+        {volist name="vod_hist" id="xianyu"}
+          <li class="list p-0"><a class="pull-left" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="4"}active{/lt}">{$i}</em>{$xianyu.vod_name}</a><span class="hits text-color">{$xianyu.vod_hits_day}</span></li>
+        {/volist}
+       </ul>
+  </div> 
+  
+{php}$index_special_new = xianyu_mysql_special('limit:4;field:special_id,special_cid,special_name,special_letters,special_mx,special_logo,special_content,special_banner;order:special_addtime desc');{/php}
+{notempty name="index_special_new"}
+    <div class="box-title" style="padding-left:0px; padding-right:0px;">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe626;</i>推荐{$list_name}</h3>
+    <div class="more pull-right"><a href="{:getlistname($tpl_id[11],'list_url')}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>  
+     <div class="box-video-ranking clearfix" style="padding:0px">
+          <div class="item">
+            <ul class="clearfix">
+            {volist name="index_special_new" id="xianyu"}
+              <li><a class="video-pic loading" href="{$xianyu.special_readurl}" title="{$xianyu.special_name}" data-original="{$xianyu.special_logo}" style="padding-top:50%;"><span class="player"></span><span class="note text-bg-c">{$xianyu.special_name}</span></a></li>
+          {/volist}    
+
+
+            </ul>
+          </div>
+        </div>  
+        {/notempty}
+  
+</div>
+</div> 
+ <!--右侧盒子结束-->  
+</div>
+</div>
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

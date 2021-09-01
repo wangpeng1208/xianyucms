@@ -1,0 +1,106 @@
+<div class="modal fade xianyu-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog clearfix">
+    <div class="modal-content clearfix">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="xianyu-modal-tabs">
+          <ul id="myTab">
+          <li class="active"><a href="#tab_login" data-toggle="tab">用户登录</a><li>
+          <li><a href="#tab_reg" data-toggle="tab">用户注册</a></li>
+          </ul>
+         </div>
+      </div>
+      <div class="modal-body">
+      <div class="modal-body-tab active in" id="tab_login">
+        <form class="form-horizontal" id="login-form" method="post" role="form" onsubmit="return false;">
+          <div class="form-group">
+           <label for="username" class="col-md-3 control-label hidden-xs">用户:</label>
+            <div class="col-md-6 col-xs-12">
+              <input class="form-control txt" name="username" id="username" type="text" placeholder="用户名或邮箱">
+            </div>
+          </div>
+          <div class="form-group">
+          <label for="password" class="col-md-3 control-label hidden-xs">密码:</label>
+            <div class="col-md-6 col-xs-12">
+              <input class="form-control txt" name="password" id="password" type="password" placeholder="您的密码">
+            </div>
+          </div>
+           {notempty name="userconfig['user_code']"}
+           <div class="form-group">
+           <label for="validate" class="col-md-3 control-label hidden-xs">验证码:</label>
+            <div class="col-md-3 col-xs-6">
+              <input class="form-control txt" id="xianyu-validate" data="validate" name="validate" type="text" placeholder="验证码">
+            </div>
+              <div class="col-md-3 col-xs-3 p-0"> <img id="verify_img"  src="{:captcha_src()}" alt="captcha" width="150px" alt="请点击刷新验证码" onclick="this.src='{:captcha_src()}'" /></div>
+
+           </div>
+          {/notempty}  
+            <div class="form-group">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 col-xs-12">
+            <input type="checkbox" name="cookietime" id="cookietime" checked="checked" value="2592000" />
+            <input type="hidden" name="notforward" id="notforward" value="1">
+            <input  type="hidden" name="dosubmit" id="dosubmit" value="1">记住我的登录 </label>
+            <label><a rel="nofollow" href="{:xianyu_user_url('user/login/forgetpwd')}" target="_blank" class="text-color"> 忘记密码？ </a></label>
+            </div>
+          </div>       
+          <div class="form-group">
+          <div class="col-md-3 col-xs-12"></div>
+            <div class="col-md-6 col-xs-12"><button type="submit" class="btn btn-success btn-block" id="login-submit">登录</button></div>
+          </div>
+          </form>
+          </div>
+       <div class="modal-body-tab fade" id="tab_reg">
+    <form class="form-horizontal" id="reg-form" method="post" role="form" onsubmit="return false;">
+          <div class="form-group">
+          <label for="username" class="col-md-3 control-label hidden-xs">用户:</label>
+             <div class="col-md-6 col-xs-12">
+              <input class="form-control txt" name="username" id="username" type="text" placeholder="用来登录的用户名">
+            </div>
+          </div>          
+          <div class="form-group">
+          <label for="nickname" class="col-md-3 control-label hidden-xs">昵称:</label>
+            <div class="col-md-6 col-xs-12">
+              <input class="form-control txt" name="nickname" id="nickname" type="text" placeholder="用来交流的昵称" required>
+            </div>
+          </div>      
+          <div class="form-group">
+          <label for="password" class="col-md-3 control-label hidden-xs">密码:</label>
+            <div class="col-md-6 col-xs-12">
+              <input class="form-control txt" name="password" id="password" type="password" placeholder="密码">
+            </div>
+          </div>
+           {notempty name="userconfig['user_code']"}
+           <div class="form-group">
+           <label for="validate" class="col-md-3 control-label hidden-xs">验证码:</label>
+            <div class="col-md-3 col-xs-6">
+              <input class="form-control txt" id="xianyu-validate" data="validate" name="validate" type="text" placeholder="验证码">
+            </div>
+               <div class="col-md-3 col-xs-3 p-0"> <img id="verify_img"  src="{:captcha_src()}" alt="captcha" width="150px" alt="请点击刷新验证码" onclick="this.src='{:captcha_src()}'" /></div>
+          </div> 
+          {/notempty}   
+          <input value="1" name="agreement"  type="hidden">             
+          <div class="form-group">
+          <div class="col-md-3 col-xs-12"></div>
+          <div class="col-md-6 col-xs-12">
+           <button type="submit" class="btn btn-success btn-block" id="reg-submit">注册</button></div>
+          </div>
+          </form> 
+          </div>         
+          <div class="modal-body clearfix">
+          <div class="col-md-3 col-xs-12"></div>
+          <div class="col-md-6 col-xs-12">
+          <div class="login-ico">
+          <a rel="nofollow" class="qq pull-left" {notempty name="snsconfig['api_login_auth']"} href="{:xianyu_user_url('user/snslogin/qq')}" target="_self"{else/}  id="addsns" data-id="qq"{/notempty}><i class="icon iconfont">&#xe73e;</i></a>
+
+          <a class="weixin" rel="nofollow" href="#" type="300"><i class="icon iconfont">&#xe73b;</i></a>
+          
+          <a class="weibo pull-right" rel="nofollow"{notempty name="snsconfig['api_login_auth']"} href="{:xianyu_user_url('user/snslogin/weibo')}" target="_self"{else/} id="addsns" data-id="weibo"{/notempty}><i class="icon iconfont">&#xe73c;</i></a>
+</div> </div>
+          </div>
+          </div>
+        </div>
+         </div>
+      </div>
+
+  </div>

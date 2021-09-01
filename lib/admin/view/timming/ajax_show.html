@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   {include file="public/meta" /}
+    </head>
+    <body class="inside-header inside-aside {:defined('IS_DIALOG') && IS_DIALOG ? 'is-dialog' : ''}">
+        <div id="main" role="main">
+            <div class="tab-content tab-addtabs">
+                <div id="content">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- END RIBBON -->
+                        <div class="content">
+ <div class="panel panel-default panel-intro" id="contents">
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+            <div class="pull-right search" id="tiaomsg">
+            </div>
+<div class="pull-left pagination-details search"><span class="pagination-info">共{$recordcount}条数据 需要分{$pagecount}次执行 当前执行{$pageindex}次</span><span class="page-list">每次{$pagesize}条数据</span>
+</div>
+            </div>
+          </div>
+              
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding"> 
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body" >
+            <form class="ids" id="form" method="post">
+            <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+            <tbody id="show-list">                                      
+              </tbody>
+              </table>
+           </form>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+	var list   = document.getElementById('show-list');
+	function showmsg(msg, classname){
+		var li = document.createElement('tr'); 
+		li.innerHTML = msg;
+		classname && li.setAttribute('class', 'list-group-item text-' + classname);
+		list.appendChild(li);
+		document.scrollTop += 30;
+	}
+</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+{include file="public/script" /}
+    </body>
+</html>

@@ -1,0 +1,259 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本设置</a></li>
+                     <li ><a href="#tab_2" data-toggle="tab">邮件设置</a></li>
+                     <li ><a href="#tab_3" data-toggle="tab">注册验证</a></li>
+                     <li ><a href="#tab_4" data-toggle="tab">订阅发送</a></li>     
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax" role="form"  data-toggle="validator" method="post" action="{:admin_url('admin/user/up')}">      
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+         <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">会员注册:</label>
+        <div class="col-xs-12 col-sm-6">
+         <select name="info[user_reg]" id="info[user_reg]" class="form-control selectpicker">
+          <option value="1">开启</option>
+           <option value="0" {eq name="user_reg" value="0"}selected{/eq}>关闭</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">注册后赠送积分:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_register_score]" id="info[user_register_score]" value="{$user_register_score|default='0'}" class="form-control" data-tip="注册后赠送积分数量">
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">注册后赠送VIP:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_register_vip]" id="info[user_register_vip]" value="{$user_register_vip|default='0'}" class="form-control" data-tip="注册后赠送VIP天数">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">成功邀请注册赠送积分:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_register_score_uid]" id="info[user_register_score_uid]" value="{$user_register_score_uid|default='0'}" class="form-control" data-tip="成功邀请注册赠送积分数量">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论赠送积分:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_cm_score]" id="info[user_cm_score]" value="{$user_cm_score|default='0'}" class="form-control" data-tip="评论赠送积分数量">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论赠送积分当日最多:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_cm_score_day]" id="info[user_cm_score_day]" value="{$user_cm_score_day|default='0'}" class="form-control" data-tip="评论赠送积分数量">
+        </div>
+    </div>                            
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">开启验证码:</label>
+       <div class="col-xs-12 col-sm-6">
+                    <select name="info[user_code]" id="info[code]" class="form-control selectpicker">
+                        <option value="1">开启</option>
+                        <option value="0" {eq name="user_code" value="0"}selected{/eq}>关闭</option>
+                    </select>
+        </div>
+    </div>       
+
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论留言审核:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[user_check]" id="info[user_check]" class="form-control selectpicker">
+                        <option value="1">开启</option>
+                        <option value="0" {eq name="user_check" value="0"}selected{/eq}>关闭</option>
+                    </select>
+        </div>
+    </div>   
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论留言间隔时间:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_second]" id="info[user_second]" value="{$user_second}" class="form-control" data-tip="两次评论/留言/顶踩/评分间隔时间多少秒">
+        </div>
+    </div>        
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">留言每页显示数量:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_gbnum]" id="info[user_gbnum]" value="{$user_gbnum}" class="form-control" data-tip="留言每页显示数量">
+        </div>
+    </div>   
+    
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论每页显示数量:</label>
+       <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[user_cmnum]" id="info[user_cmnum]" value="{$user_cmnum}" class="form-control" data-tip="评论每页显示数量">
+        </div>
+    </div> 
+    
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评论留言过滤:</label>
+       <div class="col-xs-12 col-sm-6">
+             <textarea   name="info[user_replace]" id="info[user_replace]" class="form-control" rows="5" style="font-size:14px;">{$user_replace}</textarea>
+        </div>
+    </div> 
+    
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">会员中心公告:</label>
+       <div class="col-xs-12 col-sm-6">
+             <textarea name="info[user_notice]" id="info[user_notice]" class="form-control" rows="5" style="font-size:14px;">{$user_notice}</textarea>
+        </div>
+    </div>       
+    
+    
+          </div>
+         
+<div class="tab-pane fade " id="tab_2">
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮件发送方式:</label>
+       <div class="col-xs-12 col-sm-6">
+      <select name="info[mail_type]" class="form-control selectpicker" data-tip="选择邮件发送方式" >
+              <option value="0">Please select</option>
+              <option value="1" {eq name="mail_type" value="1"}selected{/eq}>SMTP</option>
+              <option value="2" {eq name="mail_type" value="2"}selected{/eq}>Mail</option>
+         </select>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">SMTP服务器:</label>
+       <div class="col-xs-12 col-sm-6">
+                    <input type="text" name="info[mail_smtp_host]" id="mail_smtp_host" value="{$mail_smtp_host}" class="form-control" data-tip="SMTP服务器地址">
+        </div>
+    </div> 
+
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮件发送端口:</label>
+       <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[mail_smtp_port]" id="mail_smtp_port" value="{$mail_smtp_port}" class="form-control" data-tip="邮件发送端口">
+        </div>
+    </div> 
+    
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮件发送名:</label>
+   <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[mail_from]" id="mail_from" value="{$mail_from}" class="form-control" data-tip="邮件发送名">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮件用户名:</label>
+         <div class="col-xs-12 col-sm-6">
+          <input type="text" name="info[mail_smtp_user]" id="mail_smtp_user" value="{$mail_smtp_user}" class="form-control" data-tip="邮件用户名">
+        </div>
+    </div>      
+    
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮箱密码:</label>
+         <div class="col-xs-12 col-sm-6">
+       <input type="text" name="info[mail_smtp_pass]" id="mail_smtp_pass" value="{$mail_smtp_pass}" class="form-control" data-tip="邮箱密码，如果是qq邮箱和163邮箱以及163域名邮箱，则填安全密码">
+        </div>
+    </div>  
+       <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">SMTP验证方式:</label>
+       <div class="col-xs-12 col-sm-6">
+          <select name="info[mail_verify_type]" id="mail_verify_type" class="form-control selectpicker">
+                  <option value="0">None</option>
+                  <option value="1" {eq name="mail_verify_type" value="1"}selected{/eq}>TLS</option>
+                  <option value="2" {eq name="mail_verify_type" value="2"}selected{/eq}>SSL</option>
+            </select>
+        </div>
+    </div>        
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">测试EMAIL地址:</label>
+        <div class="col-sm-10" style="margin-left:0; padding-left:0">
+         <div class="col-xs-12 col-sm-6">
+        <input type="text" name="info[mail_test]" id="mail_test" value="{$mail_test}" class="form-control">
+        </div>
+        <div class="col-sm-4" style="margin-left:5px; padding-left:0"><a class="btn btn-info testmail">发送测试邮件</a></div>
+        </div>
+    </div>  
+         </div>
+ <div class="tab-pane fade " id="tab_3">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">会员验证密匙：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[user_key]" id="user_key"  value="{$user_key}" class="form-control">
+              </div>
+              </div>
+               <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">开启关闭邮件认证：</label>
+             <div class="col-xs-12 col-sm-6">
+                 <select name="info[user_email_auth]" id="user_email_auth"class="form-control selectpicker">
+                        <option value="1">开启</option>
+                        <option value="0" {eq name="user_email_auth" value="0"}selected{/eq}>关闭</option>
+                    </select>
+                </div>
+                </div> 
+
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">邮件认证内容：</label>
+            <div class="col-xs-12 col-sm-10">
+             <textarea name="info[user_registermessage]" id="register" class="form-control summernote" cols="50" rows="10">{$user_registermessage}</textarea>
+                </div>
+             </div>   
+             
+             <div class="form-group">
+             <label for="c-content" class="control-label col-xs-12 col-sm-2"></label>
+             <div class="col-xs-12 col-sm-10">
+             可用变量：网站名 - {sitename} ，网站地址 - {siteurl} ，用户名 - {nickname} ，用户主页 - {userurl} ，Email - {email} ，点击认证地址 - {click} ，链接地址：{linkurl}</div>
+</div>
+             <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">密码找回内容：</label>
+            <div class="col-xs-12 col-sm-10">
+             <textarea name="info[user_passwordmessage]" id="forget" class="form-control summernote" cols="50" rows="10">{$user_passwordmessage}</textarea>
+                </div>
+                </div>
+
+</div> 
+         
+ <div class="tab-pane fade " id="tab_4">
+
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">订阅邮件发送:</label>
+      <div class="col-xs-12 col-sm-6">
+                 <select name="info[remindset_auth]" id="remindset_auth"class="form-control selectpicker">
+                        <option value="1">开启</option>
+                        <option value="0" {eq name="remindset_auth" value="0"}selected{/eq}>关闭</option>
+                    </select>
+        </div>
+    </div>  
+
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">邮件发送标题:</label>
+         <div class="col-xs-12 col-sm-6">
+                    <input type="text" name="info[remindset_title]" id="info[remindset_title]" value="{$remindset_title}" class="form-control">
+        </div>
+    </div>  
+
+
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">邮件发送内容：</label>
+            <div class="col-xs-12 col-sm-10">
+             <textarea name="info[remindset_message]" id="remindset_message" class="form-control summernote" cols="50" rows="10">{$remindset_message}</textarea>
+                </div>
+             </div> 
+             
+<div class="form-group">
+<label for="c-content" class="control-label col-xs-12 col-sm-2"></label>
+<div class="col-xs-12 col-sm-10">
+可用变量：网站名 - {sitename} ，网站地址 - {siteurl} ，用户名 - {nickname} ，用户主页 - {userurl} ，Email - {email} ，点击认证地址 - {click} ，链接地址：{linkurl},会员中心:{usercenterindex},订阅地址:{usercenterremind},订阅设置:{usercenterremindset}
+</div>
+</div>
+          </div>                  
+ 
+         
+</div>     
+</div>
+<div class="layui-layer-btn layui-layer-footer">
+<div class="row"><div class="col-xs-2"></div><div class="col-xs-12 col-sm-6">
+            <button type="submit" class="btn btn-success btn-embossed">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button onClick="javascript:history.back(-1);return false;" class="btn btn-danger">返回</button>
+        </div></div>
+        </div>
+  </form>      
+</div>

@@ -1,0 +1,65 @@
+{layout name="layout/default" /}
+<div id="setbind" style="position:absolute;display:none;background:#e8edf0;border-color: #e8edf0;padding:4px 5px 5px 5px;z-index:9;"></div>
+<div class="panel panel-default panel-intro" id="contents">
+  <div class="panel-heading">
+    <div class="panel-lead" style="overflow:hidden"><em style="float:left">明星采集 {notempty name="cid" value="0"}<a href="{:admin_url('admin/collect/data',array('action'=>$action,'apiid'=>$apiid,'play'=>$play,'inputer'=>$inputer,'wd'=>$wd))}" class="ajax-url"><font color="red">查看全部资源</font></a>{/notempty}</em><span style="float:right"><a onclick="javascript:history.back(-1);return false;" class="btn-link">返回明星列表</a></span></div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+         <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">    
+        <tbody> 
+<tr style="height:45px;">
+  <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('admin/getstar/index',array('type'=>1))}" class="ajax-url btn-link">{empty name="sex"}<b>男明星</b>{else/}男明星{/empty}</a></td>
+    <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('admin/getstar/index',array('type'=>1,'sex'=>1))}" class="ajax-url btn-link">{notempty name="sex"}<b>女明星</b>{else/}女明星{/notempty}</a></td>
+  </tr>        
+         </tbody>
+         </table>        
+         <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">          
+            <div class="pull-right search pagination">{$pagelist}</div>         
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar">
+                 <a url="{:admin_url('admin/getstar/index',array('action'=>'ids','type'=>$type,'sex'=>$sex))}" target-form="ids" class="btn btn-success btn-add disabled btn-disabled btn-disabled collect-post">采集选中</a> <a  href="{:admin_url('admin/getstar/index',array('action'=>'sex','type'=>$type,'sex'=>$sex))}"  class="btn btn-warning">采集{$xb}明星</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body">
+            <form class="ids" id="form" method="post">
+            <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+            <thead>
+            <tr style="height:45px;">
+            <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+            <th style="text-align:center;vertical-align: middle;">明星ID</th>
+            <th style="text-align:left;vertical-align: middle;">明星名称</th>
+            <th style="text-align:left;vertical-align: middle;">明星性别</th>
+            </tr>  
+             </thead>
+            <tbody>                    
+              {volist name="star_data" id="vo"}
+              <tr>
+                <td class="bs-checkbox" style="text-align:center;vertical-align: middle;">
+                <input name="id[]" type="checkbox" value="{$vo['star_id']}" id="checkbox"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.star_id}</td>
+              <td style="text-align:left;vertical-align: middle;">{$vo.star_name} <a href="{:admin_url('admin/star/index',array('wd'=>urlencode($vo.vod_name)))}" target="_blank" style="color:#FF0000">查</a></td>
+              <td style="text-align:left;vertical-align: middle;">{$vo.star_sex}</td>
+              </tr>
+             {/volist}                      
+              </tbody>
+              </table>
+           </form>
+            </div>
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info">共{$recordcount}条数据 {$pageindex}/{$pagecount} </span><span class="page-list">每页显示 {$pagesize} 条</span></div>
+              <div class="pull-right pagination">{$pagelist}</div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

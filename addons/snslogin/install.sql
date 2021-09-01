@@ -1,0 +1,1 @@
+INSERT INTO `__PREFIX__usernav` (`id`, `name`, `url`, `cid`, `ico`, `oid`, `status`) VALUES (NULL, '同步登录', 'user/center/sns', '2', 'sns', '3', '1');

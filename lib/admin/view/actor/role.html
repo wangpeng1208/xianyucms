@@ -1,0 +1,99 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+     <div class="panel-body is-dialog">
+<form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+{notempty name="info.role_id"} 
+<input type="hidden" name="role_id" value="{$info['role_id']|default=''}"> 
+{/notempty}
+<table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+  <tbody>
+  <tr style="line-height:35px;">
+    {notempty name="info.vod_id"}
+        <td>
+        <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;float:left">视频ID:</label>
+         <input style="width:auto;float:left" type="text" name="role_vid" value="{$info.role_vid|default=''}" class="form-control"  readonly>
+          <label for="c-keywords" class="control-label" style="width:auto;margin:0 10px;float:left">视频名称:</label>
+         <input style="width:auto;float:left" type="text" name="vod_name" value="{$info.vod_name|default=''}" class="form-control"  readonly>
+        {else /} 
+        <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;float:left">视频ID:</label>
+        <input type="text" name="role_vid" value="{$info.role_vid|default=''}" class="form-control" style="float:left">
+         {/notempty} 
+ <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;float:left">角色分类:</label>
+ <div style="width:auto; float:left">
+          <select name="role_cid" class="form-control selectpicker" style="width:auto;">
+<option value="">选择分类</option> 
+{volist name="listrole" id="vo"}<option value="{$vo.list_id}" {if isset($info['role_cid'])} {eq name="vo.list_id" value="$info['role_cid']"}selected{/eq}{/if}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info['role_cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+</select>  
+</div>      
+         </td>
+         </tr> 
+
+          <tr style="line-height:35px;">
+         <td>
+         <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;float:left">角色名:</label>
+         <input style="width:20%" type="text" name="role_name" value="{$info.role_name|default=''}" class="form-control">
+         <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;">演员名称:</label>
+         <input style="width:20%"  type="text" name="role_star" value="{$info.role_star|default=''}" class="form-control">
+         <span style="line-height:30px; margin-left:10px;">推送到百度：</span><input name="insertseo" type="checkbox" {empty name="info['role_id']"}checked{/empty} title="勾选推送到百度" style="border:none;width:auto; position:relative; top:2px;margin-bottom:3px;margin-right:8px;" ></span>
+          </td>
+         </tr>  
+           <tr style="line-height:35px;">
+           <td>
+           <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;">角色名:</label>
+                <input style="width:auto" id="c-image" class="form-control" size="70" name="role_pic" type="text" value="{$info['role_pic']|default=''}">
+                <span><button type="button" id="plupload-image" class="btn btn-danger plupload" data-input-id="c-image" data-mimetype="image/*" data-multipart='{"sid":"role"}' data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> 上传</button></span>   
+          </td>
+         </tr>              
+ <tr><td><ul class="row list-inline plupload-preview" id="p-image"></ul>  </td></tr>
+           <tr>
+           <td> 
+           <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px; line-height:35px">角色介绍:</label>
+           <textarea class="summernote form-control" name="role_content" style="height:100px;">{:xianyu_news_img_array($info['role_content'])}</textarea>
+          </td>
+         </tr>
+           <tr style="line-height:35px;">
+           <td>
+            <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;">角色排序:</label>
+           <input type="text" name="role_oid"  value="{$info.role_oid|default=''}" class="form-control" data-tip="越小越前面" style="text-align:center;width:60px;">
+             </td>
+         </tr>
+         
+            <tr style="line-height:35px;">
+           <td>
+            <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px; float:left">角色状态:</label>
+            <div style="width:auto; float:left">
+                    <select name="role_status" class="form-control selectpicker" style="width:auto">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.role_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                    </div>
+             </td>
+         </tr>
+             <tr style="line-height:35px;">
+           <td>
+            <label for="c-keywords" class="control-label" style="width:auto; margin:0 10px;">角色时间:</label>
+           <input type="text" name="role_addtime" value="{notempty name="info.role_addtime"}{$info.role_addtime|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s',time())}{/notempty}" class="form-control" style="width:auto"><input name="checktime" type="checkbox" style="border:none;width:auto;position:relative; top:5px; margin-left:10px;" value="1" {notempty name="info.admin_time_edit"}checked{/notempty} title="勾选则使用系统当前时间">
+             </td>
+         </tr>        
+          </tbody>
+        </table>    
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

@@ -1,0 +1,40 @@
+{php}
+if($param['order'])
+$s_order=$param['order']." desc";
+else
+$s_order="addtime desc";
+$list=xianyu_mysql_vod('mcid:'.$param['mcid'].';cid:'.$list_id.';year:'.$param['year'].';lz:'.$param['lz'].';letter:'.$param['letter'].';area:'.$param['area'].';language:'.$param['language'].';field:vod_id,vod_cid,vod_name,vod_director,vod_letters,vod_pic,vod_gold,vod_continu,vod_title,vod_total,vod_actor,vod_mcid,vod_year,vod_addtime,vod_content;limit:30;page:true;p:'.$list_page.';order:vod_'.$s_order.';');
+{/php}
+<div class="layout-box clearfix">
+    <div class="box-switch-tabs active clearfix">
+        <span class="text-muted pull-right hidden-xs" id="count">共有<span class="text-color">“{$list.0.page.pagecount|default='0'}”</span>个影片,当前第<span
+                class="text-color">“{$list_page}”</span>页</span>
+    </div>
+    <div class="box-video-list">
+        <div class="item">
+            <ul class="clearfix" id="content">
+                {notempty name="list"}
+                {volist name="list" id="xianyu"}
+                <li class="col-md-2 col-sm-3 col-xs-4">
+                    <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}"
+                       title="{$xianyu.vod_name}">
+                        <span class="player"></span>
+                        <span class="score">{$xianyu.vod_gold}</span>
+                        <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span>
+                    </a>
+                    <div class="title"><h5 class="text-overflow"><a href="{$xianyu.vod_readurl}"
+                                                                    title="{$xianyu.vod_name}">{$xianyu.vod_name}</a>
+                    </h5></div>
+                    <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+                </li>
+                {/volist}
+                {else/}
+                <div class="kong">抱歉，没有找到相关内容！</div>
+                {/notempty}
+            </ul>
+        </div>
+    </div>
+    <div class="box-page clearfix ajax-page" id="long-page">
+        <ul>{$list.0.page.pageurl}</ul>
+    </div>
+</div>

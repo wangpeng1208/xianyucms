@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}列表{/notempty}{neq name="list_page" value="1"}第{$list_page}页{/neq} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$description}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+{php}$list = xianyu_mysql_special('limit:16;field:special_id,special_cid,special_name,special_letters,special_content,special_mx,special_logo;page:true;p:'.$list_page.';order:special_hits desc;');{/php}
+   <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe626;</i>{:getlistname($tpl_id[11],'list_name')}</h3>
+    </div>  
+     <div class="box-topic-list clearfix">
+        <ul class="item">
+        {volist name="list" id="xianyu"}
+          <li class="col-md-4 col-sm-12 col-xs-12 news-box"><a class="video-pic loading" href="{$xianyu.special_readurl}" title="{$xianyu.special_name}" data-original="{$xianyu.special_logo}" style="padding-top:50%;">
+            <div class="details text-bg-c"><span class="text"> <i class="icon iconfont icon-house"></i> 专题</span><span class="name">{$xianyu.special_name}</span><span class="count">—— {:special_count($xianyu.special_id)}个影片 ——</span></div></a></li>
+        {/volist}
+        </ul>
+      </div>
+      {notempty name="list"}
+<div class="box-page clearfix" id="long-page"><ul>{$list.0.page.pageurl}</ul></div>
+{/notempty}
+ </div>  
+   
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

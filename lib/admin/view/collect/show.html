@@ -1,0 +1,52 @@
+{layout name="layout/default" /}
+<div id="setbind" style="position:absolute;display:none;background:#e8edf0;border-color: #e8edf0;padding:4px 5px 5px 5px;z-index:9;"></div>
+<div class="panel panel-default panel-intro" id="contents">
+  <div class="panel-heading">
+    <div class="panel-lead" style="overflow:hidden"><em style="float:left">{$collect_name}分类绑定设置
+    {if condition="(!empty($cid)) OR (!empty($wd)) "}<a href="{:admin_url('admin/collect/data',array('action'=>$action,'apiid'=>$apiid))}" class="ajax-url"><font color="red">查看全部资源</font></a>{/if}</em><span style="float:right"><a href="{:admin_url('admin/collect/index',array('cid'=>$collect_cid))}" class="btn-link">返回资源库列表</a></span></div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+   {notin name="collect_cid" value="99"}   
+        <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">    
+        <tbody> 
+ <tr style="height:45px;">{volist name="list" id="vo"}
+{if condition="$i neq 1 and $i%6 eq 1"}</tr>
+<tr style="height:45px;">{/if}
+  <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('admin/collect/data',array('action'=>$action,'apiid'=>$apiid,'play'=>$play,'inputer'=>$inputer,'cid'=>$vo['list_id'],'wd'=>$wd))}" class="ajax-url btn-link" >{eq name="vo.list_id" value="$cid"}<b>{$vo.list_name}</b>{else/}{$vo.list_name}{/eq}</a><a class="bind" url="{:admin_url('admin/collect/setbind',array('sid'=>$collect_cid,'cid'=>$vo.list_id,'bind'=>$vo.bind_id))}" id="bind_{$vo.bind_id}">{if condition="collect_bind_id($vo['bind_id']) gt 0"}<font color="#f39c12"> 已绑定</font>{else /}<font color="#e74c3c"> 未绑定</font>{/if}</a></td>
+  {/volist}
+  </tr>         
+         </tbody>
+         </table>  
+         {/notin}
+         <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">          
+            <div class="pull-right search pagination">{$pagelist}</div>
+              <div class="columns-right pull-right" style="margin-top:10px; margin-right:10px;">
+                <form class="form-inline form-commonsearch nice-validator n-default" method="post" action="">
+                  <input class="form-control" placeholder="搜索" type="text" name="wd">
+                  <button type="submit" class="btn btn-default ajax-posturl"  title="普通搜索"  target-form="form-commonsearch"><i class="glyphicon glyphicon-search"></i></button>
+                </form>
+              </div>            
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar">
+                 <a url="{:admin_url('admin/collect/data',array('action'=>'ids','apiid'=>$apiid,'play'=>$play,'inputer'=>$inputer,'wd'=>$wd,'cid'=>$cid,'h'=>$h))}" target-form="ids" class="btn btn-success btn-add disabled btn-disabled btn-disabled collect-post">采集选中</a> {notempty name="cid" value="0"}<a  href="{:admin_url('admin/collect/data',array('action'=>'day','apiid'=>$apiid,'inputer'=>$inputer,'cid'=>$cid))}"  class="btn btn-warning">采集本类</a>{/notempty} <a  href="{:admin_url('admin/collect/data',array('action'=>'day','apiid'=>$apiid,'play'=>$play,'inputer'=>$inputer,'wd'=>$wd,'cid'=>$cid,'h'=>24))}"  class="btn btn-info">采集当天</a> <a  href="{:admin_url('admin/collect/data',array('action'=>'all','apiid'=>$apiid))}"  class="btn btn-danger">采集所有</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+          {block name="body"}{/block}
+          <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info">共{$recordcount}条数据 {$pageindex}/{$pagecount} </span><span class="page-list">每页显示 {$pagesize} 条</span></div>
+              <div class="pull-right pagination">{$pagelist}</div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,79 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{eq name="cid" value="99"}评论{/eq}{eq name="cid" value="100"}会员{/eq}{$model.title}采集</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+            <div class="pull-right search">
+            {notempty name="jumpurl"}<a href="{$jumpurl}" style="font-weight:bold; color:#F00">上次有采集任务没有完成，是否接着采集?</a>{/notempty}
+            </div>
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar"><a href="{:admin_url('admin/collect/index',array('cid'=>$cid))}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="javascript:;" data-name="添加资源" data-url="{:admin_url('admin/collect/add')}" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a> <a  url="{:admin_url('admin/collect/status',array('status'=>0))}" target-form="ids" class="confirm btn btn-info btn-disabled btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 正常</a> <a  url="{:admin_url('admin/collect/status',array('status'=>1))}" target-form="ids" class="confirm btn btn-warning btn-disabled btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 锁定</a> <a  url="{:admin_url('admin/collect/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;" id="contents">
+            <div class="fixed-table-body">
+            <form class="ids">
+            <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+            <thead>
+            <tr style="height:45px;">
+            <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+            <th style="text-align:center;vertical-align: middle;">ID</th>
+            <!-- <th class="col" style="text-align:center">资源类型</th>-->
+            <th style="text-align:left;vertical-align: middle;">资源信息</th>
+            <th style="text-align:center;vertical-align: middle;">采集当天</th>
+            <th style="text-align:center;vertical-align: middle;">采集本周</th>
+            <th style="text-align:center;vertical-align: middle;">采集所有</th>
+            <th style="text-align:center;vertical-align: middle;">重新采集</th> 
+            <th style="text-align:center;vertical-align: middle;">绑定分类</th> 
+            <th style="text-align:center;vertical-align: middle;">是否锁定</th>             
+            <th style="text-align:center;vertical-align: middle;">相关操作</th>
+            </tr>  
+             </thead>
+            <tbody>                    
+              {volist name="list" id="vo"}
+              <tr>
+                <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$vo['collect_id']}" id="checkbox"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.collect_id}</td>
+<!--  <td align="center">XML</td>-->
+                <td style="text-align:left;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'show','apiid'=>$vo['collect_id']))}"><b style="color:#F00">{$vo.collect_nature}</b> {$vo.collect_name}  {$vo.collect_title}</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'day','apiid'=>$vo['collect_id'],'h'=>24))}">采集当天</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'week','apiid'=>$vo['collect_id'],'h'=>98))}">采集本周</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'all','apiid'=>$vo['collect_id']))}">采集所有</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'all','again'=>1,'apiid'=>$vo['collect_id']))}">重新采集</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a class="btn-link" href="{:admin_url('admin/collect/data',array('action'=>'show','apiid'=>$vo['collect_id']))}">绑定分类</a></td>                        
+                {neq name="vo.collect_admin" value="1"}
+                <td style="text-align:center;vertical-align: middle;">
+                {eq name="vo.collect_status" value="1"}
+                 <a  class="btn btn-info btn-xs btn-danger ajax-get" url="{:admin_url('admin/collect/status',array('id'=> $vo['collect_id'],'status'=>0))}">锁定</a>{else /}<a class="btn  btn-xs btn-default ajax-get" url="{:admin_url('admin/collect/status',array('id'=> $vo['collect_id'],'status'=>1))}">正常</a>{/eq}
+                </td>
+                <td style="text-align:center;vertical-align: middle;">
+                <a href="javascript:;" data-name="编辑资源" data-url="{:admin_url('admin/collect/edit',array('id'=> $vo['collect_id']))}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i></a> <a url="{:admin_url('admin/collect/del',array('id' => $vo['collect_id']))}" class="confirm btn btn-danger btn-xs ajax-get"><i class="fa fa-trash"></i></a></td>
+                {else/}
+                <td style="text-align:center;vertical-align: middle;">
+                <span class="btn  btn-xs btn-default">正常</span>
+                </td>
+                <td style="text-align:center;vertical-align: middle;">
+                <font color="red">不能操作</font>
+                </td>
+                {/neq}
+              </tr>
+             {/volist}                      
+              </tbody>
+              </table>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

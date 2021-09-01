@@ -1,0 +1,97 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty}  
+  <div class="panel-body is-dialog">
+  <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+    <div class="form-group">
+      <label for="name" class="control-label col-xs-12 col-sm-2">配置标识:</label>
+      <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="name" value="{$info.name|default=''}" data-rule="required" autocomplete="false" placeholder="用于config函数调用，只能使用英文且不能重复">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="control-label col-xs-12 col-sm-2">配置标题:</label>
+      <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="title" value="{$info['title']|default=''}" data-rule="required" autocomplete="false" placeholder="用于后台显示的配置标题">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置排序:</label>
+      <div class="col-xs-12" style="width:auto">
+        <input type="text" class="form-control" name="sort" value="{$info.sort|default=''}" autocomplete="false" placeholder="越小越前面" style="text-align:center; width:auto">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置类型:</label>
+      <div class="col-xs-12" style="width:auto">
+        <select name="type" class="form-control selectpicker" style="width:auto">
+		{volist name=":parse_config_attr(config('config_type_list'))" id="type"}
+          <option value="{$key}" {eq name="key" value="$info['type']"}selected{/eq}>
+          {$type}
+          </option>
+		{/volist}
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置分组:</label>
+      <div class="col-xs-12" style="width:auto">
+        <select name="group" class="form-control selectpicker" style="width:auto">
+          <option value="0">不分组</option>
+          {volist name=":parse_config_attr(config('config_group_list'))" id="group"}		
+          <option value="{$key}" {eq name="key" value="$info['group']"}selected{/eq}>
+          {$group}
+          </option>
+          {/volist}		
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置值:</label>
+      <div class="col-xs-12 col-sm-6">
+        <textarea name="value" class="form-control" style="height: 90px">{$info.value|default=''}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置项:</label>
+      <div class="col-xs-12 col-sm-6">
+        <textarea name="extra" class="form-control" style="height: 90px">{$info.extra|default=''}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">配置说明:</label>
+      <div class="col-xs-12 col-sm-6">
+        <textarea name="remark" class="form-control" style="height: 90px">{$info.remark|default=''}</textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+      <div class="col-xs-12" style="width:auto">
+        <select name="status" class="form-control selectpicker" style="width:auto">
+          <option value="1">显示</option>
+          <option value="0" {eq name="info.status" value="0" }selected{/eq}>
+          隐藏
+          </option>
+        </select>
+      </div>
+    </div>
+   {notempty name="info.id"}
+    <input type="hidden" name="id" value="{$info['id']|default=''}">
+   {/notempty}
+ <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

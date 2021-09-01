@@ -1,0 +1,60 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro" id="contents">
+    <div class="panel-heading"><div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div></div>
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in">
+                <div class="widget-body no-padding">
+                <div class="bootstrap-table"><div class="fixed-table-toolbar"><div class="bs-bars pull-left"><div id="toolbar" class="toolbar">
+                <a target-form="ids" url="{:admin_url('admin/auth/up')}" class="btn btn-primary btn-disabled ajax-post disabled"><i class="fa fa-refresh"></i> 更新</a> <a href="javascript:;" data-name="添加" data-url="{:admin_url('admin/auth/add')}" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a>   <a  url="{:admin_url('admin/auth/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> 
+                        <a href="javascript:;" class="btn btn-danger btn-toggle-all"><i class="fa fa-plus"></i> 显示全部</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span>
+                    </div></div></div></div>
+                    <div class="fixed-table-container" style="padding-bottom: 0px;">
+                    <div class="fixed-table-body">
+                    <form class="ids"> 
+                    <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                   <thead>
+                    <tr style="height:45px;">
+                   <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+                   <th style="text-align:center;vertical-align: middle; ">ID</th>
+                   <th style="text-align:center;vertical-align: middle; ">标题</th>
+                   <th style="text-align:center;vertical-align: middle; ">图标</th>
+                   <th style="text-align:center;vertical-align: middle; ">名称</th>
+                   <th style="text-align:center;vertical-align: middle; ">规则URL</th>
+                   <th style="text-align:center;vertical-align: middle; width:60px">排序</th>
+                   <th style="text-align:center;vertical-align: middle; ">状态</th>
+                   <th style="text-align:center;vertical-align: middle; ">菜单</th>
+                   <th style="text-align:center;vertical-align: middle; "><a href="javascript:;" class="btn btn-success btn-xs btn-toggle"><i class="fa fa-chevron-up"></i></a></th>   
+                  <th style="text-align:center;vertical-align: middle; ">操作</th></tr> 
+           </thead>
+           <tbody> 
+           {notempty name="list"}             
+{volist name="list" id="menu"}
+                    <tr {neq name="menu.type" value="2"}style="display: none;"{/neq}{egt name="menu.level" value="3"}style="display: none;"{/egt}>
+                    <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$menu['id']}" id="checkbox"></td>
+                    <td style="text-align:center;vertical-align: middle;">{$menu.id}</td> <td style="text-align: left;">{$menu.title_show}{eq name="menu.type" value="2"}<a href="javascript:;" data-name="添加子类" data-url="{:admin_url('admin/auth/add',array('pid'=>$menu['id']))}" class="btn-editone"><i class="fa fa-plus" style="color:#F30; margin-left:8px;"></i></a>{/eq}</td> 
+                    <td style="text-align:center;vertical-align: middle;"><i class="{$menu.icon}"></i></td>
+                    <td style="text-align:center;vertical-align: middle;"><input name="title[{$menu['id']}]" class="form-control input-sm" value="{$menu.title}" type="text" style="text-align:center; width:50%; margin:0 auto"></td>
+                    <td style="text-align:center;vertical-align: middle;"><input name="name[{$menu['id']}]" class="form-control input-sm" value="{$menu.name}" type="text"></td> 
+                    <td style="text-align:center;vertical-align: middle;"><input name="sort[{$menu['id']}]" class="form-control input-sm" value="{$menu.sort}" type="text" style="text-align:center;"></td> 
+                    <td style="text-align:center;vertical-align: middle;">{eq name="menu.status" value="1"}
+                 <a class="btn  btn-xs btn-default ajax-get" url="{:admin_url('admin/auth/status',array('id'=> $menu['id'],'status'=>0))}">正常</a>{else /}<a class="btn btn-info btn-xs btn-danger ajax-get" url="{:admin_url('admin/auth/status',array('id'=> $menu['id'],'status'=>1))}">禁用</a>{/eq}</td>
+                    <td style="text-align:center;vertical-align: middle;">{eq name="menu.type" value="2"}<a class="btn btn-info btn-xs btn-change ajax-get" url="{:admin_url('admin/auth/type',array('id'=> $menu['id'],'status'=>1))}">是</a>{else /}<a class="btn btn-default btn-xs btn-change ajax-get" url="{:admin_url('admin/auth/type',array('id'=> $menu['id'],'status'=>2))}">否</a>{/eq}</td>
+                    
+                    <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" data-id="{$menu.id}" data-pid="{$menu.pid}" {eq name="menu.haschild" value="1"} class="btn btn-xs btn-success btn-node-sub"{else /}class="btn btn-xs btn-default  btn-node-sub"{/eq}><i class="fa fa-sitemap"></i></a></td>
+                    
+                    <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" data-name="编辑{$menu.title}" data-url="{:admin_url('admin/auth/edit',array('id'=>$menu['id']))}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i></a> <a  url="{:admin_url('admin/auth/del',array('id'=>$menu['id']))}" class="confirm btn btn-danger btn-xs ajax-get"><i class="fa fa-trash"></i></a></td>  
+                    </tr>
+
+                    {/volist}
+                 {else/}<tr><td style="text-align:center;vertical-align: middle;" colspan="11" >抱歉，没有找到相关内容！</td></tr>{/notempty}
+          </tbody>
+        </table>
+        </form>
+                    </div></div></div><div class="clearfix"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+
+{notempty name=":get_addons_status('barrage')"}
+<div class="play_barrage hidden-xs">
+<div class="col-md-10 col-sm-10 col-xs-8 barrage_l">
+<form id="barrage-form" method="post" role="form" onsubmit="return false;">
+<input type="hidden" id="comm_sid" name="comm_sid" value="{$list_sid}">
+{eq name="list_sid" value="1"}
+<input type="hidden" id="comm_vid" name="comm_vid" value="{$vod_id}">
+{/eq}         
+<input type="text" class="input col-md-11 col-sm-11 col-xs-10" id="comm_txt" name="comm_txt" value="请在这里输入弹幕内容." onfocus="if(this.value=='请在这里输入弹幕内容.'){this.value='';}" onblur="if(this.value==''){this.value='请在这里输入弹幕内容.';};">
+<button type="button" class="col-md-1 col-sm-2 col-xs-2 btn btn-sm" id="barrage-submit">提交</button>
+</form>
+</div>
+<div class="col-md-2 col-sm-2 col-xs-4 barrage_r"><div class="barrage_switch on"><div class="barrage_m" id="slider"></div><span class="danmu">弹幕</span></div></div></div>
+{/notempty}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="renderer" content="webkit" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport"
+        name="viewport">
+    <title>My DPlayer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@1.25.0/dist/DPlayer.min.css">
+    <style type="text/css">body,html,.dplayer{padding:0;margin:0;width:100%;height:100%;color:#aaa;background-color:#000}a{text-decoration:none}
+        *{margin:0;border:0;padding:0;text-decoration:none}
+        #stats{position:fixed;top:5px;left:10px;font-size:12px;color:#fdfdfd;z-index:2147483647;text-shadow:1px 1px 1px #000, 1px 1px 1px #000}#dplayer,#poster{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9;overflow:hidden;object-fit:cover;object-position:center center}#poster{z-index:998;background-color:#000}#poster .play-btn,.play-icon{position:absolute;width:54px;height:54px;left:50%;top:50%;z-index:980;margin-left:-27px;margin-top:-27px}#poster .play-btn img,.play-icon img{width:54px;height:54px;z-index:990}.play-icon{display:none}#stats{color:#ccc}</style>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cdnbye@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dplayer@1.25.0"></script>
+
+</head>
+
+<body>
+    <div id="stats"></div>
+    <input type="text" style="display: none;" value="0" name="full">
+    <div id="shows">
+        <div id="poster" style="display: none;">
+            <div class="play-btn">
+                <!--<img src="//ae01.alicdn.com/kf/HTB1rN74ajzuK1RjSspp760z0XXaW.png">-->
+            </div>
+        </div>
+        <div class="play-icon" style="display: none;">
+            <!--<img src="//ae01.alicdn.com/kf/HTB1rN74ajzuK1RjSspp760z0XXaW.png">-->
+        </div>
+    </div>
+    <div id="dplayer"></div>
+    <script type="text/javascript">
+        var _peerId = '', _peerNum = 0, _totalP2PDownloaded = 0, _totalP2PUploaded = 0;
+        var type = 'customHls';
+        if (navigator.userAgent.match(/iPad|iPhone|iPod|Baidu|UCBrowser/i)) {
+            type = 'normal';
+        }
+
+        var vurl = window.location.href.split("?url=")[1];
+        var container = document.getElementById('dplayer');
+        const dp = new DPlayer({
+            container: container,
+            lang: 'zh-cn',
+            autoplay: true,
+            loop: true,
+            video: {
+                url: vurl,
+                type: type,
+                pic: 'https://p3fx.kgimg.com/v2/fxuseralbum/4ac7dd5ec89bf9fba07c64ded393a3e4.png',
+                customType: {
+                    'customHls': function (video, player) {
+                        const hls = new Hls({
+                            debug: false,
+                            // Other hlsjsConfig options provided by hls.js
+                            p2pConfig: {
+                                logLevel: false,
+                                // 如果是直播设为true
+                                live: false,
+                                // Other p2pConfig options provided by CDNBye
+                            }
+                        });
+                        hls.loadSource(video.src);
+                        hls.attachMedia(video);
+                        hls.p2pEngine.on('stats', function (stats) {
+                            _totalP2PDownloaded = stats.totalP2PDownloaded;
+                            _totalP2PUploaded = stats.totalP2PUploaded;
+                            updateStats();
+                        }).on('peerId', function (peerId) {
+                            _peerId = peerId;
+                        }).on('peers', function (peers) {
+                            _peerNum = peers.length;
+                            updateStats();
+                        });
+                    }
+                }
+            }
+        });
+
+        function updateStats() {
+            var text = 'P2P正在为您加速' + (_totalP2PDownloaded / 1024).toFixed(2)
+                + 'MB 已分享' + (_totalP2PUploaded / 1024).toFixed(2) + 'MB' + ' 连接节点' + _peerNum + '个';
+            document.getElementById('stats').innerText = text
+        }
+
+        dp.on('loadstart', function () {
+            $('.play-icon').css('display', 'block')
+        });
+        dp.on('playing', function () {
+            $('.play-icon').css('display', 'none')
+        });
+        dp.on('pause', function () {
+            $('.play-icon').css('display', 'block')
+        });
+        dp.on('play', function () {
+            $('.play-icon').css('display', 'none')
+        });
+        $('.play-icon').click(function () {
+            dp.play()
+        })
+        $('#poster').click(function () {
+            $('#poster').css('display', 'none')
+            dp.play()
+        });
+
+        //隐藏右键
+        // $(".dplayer-menu").css("display", "none");
+        //添提示
+        $('<a href="https://www.abprar.com" target="_blank"><span style="color:red" >韩国电影网</span></a>').appendTo(".dplayer-time");
+        //双击全屏
+        container.addEventListener('dblclick', fullbox);
+        function fullbox(e) {
+            // console.log(e);
+            var full = jQuery("[name='full']").val(); //获取input里full的值，为0
+            if (full == 0) {
+                var full = 1;	//重新赋值
+                jQuery("[name='full']").val(full);
+                dp.fullScreen.request('browser');
+            }
+            if (full == 1) {
+                var full = 0;
+                jQuery("[name='full']").val(full);
+                dp.fullScreen.cancel('browser');
+            }
+        }
+    </script>
+</body>
+</html>

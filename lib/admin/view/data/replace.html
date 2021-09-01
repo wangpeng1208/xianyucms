@@ -1,0 +1,60 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>
+                {$nav_title.title}
+            </em>{$nav_title.remark}
+        </div>
+    </div>
+    <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+    <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">选择数据表与字段:</label>
+                <div class="col-xs-12 col-sm-5">
+               <select name="exptable" id="exptable" size="10" style="width:100%">
+            {volist name="list_table" id="xianyu"}<option value="{$xianyu}">{$xianyu}</option>{/volist}
+            </select>
+            <div id="fields"></div>
+                </div>
+            </div>  
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">要替换的字段:</label>
+                <div class="col-xs-12 col-sm-5">
+                    <input type="text" class="form-control" name="rpfield" id="rpfield" value=""  >
+                </div>
+            </div>
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">被替换的内容:</label>
+                <div class="col-xs-12 col-sm-5">
+                    <input type="text" class="form-control" name="rpstring" id="rpstring" value="" placeholder="被替换的内容">
+                </div>
+            </div>
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">替换为的内容:</label>
+                <div class="col-xs-12 col-sm-5">
+                    <input type="text" class="form-control" name="tostring" id="tostring" value="" placeholder="替换为你的内容">
+                </div>
+            </div>           
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">替换条内容件:</label>
+                <div class="col-xs-12 col-sm-5">
+                    <input type="text" class="form-control" name="condition" id="condition" value="" placeholder="留空则全部替换,请遵循SQL的条件语句规则 如vod_id=888 vod_id&gt;888">
+                </div>
+            </div>  
+            </div>    
+  <div class="layui-layer-btn layui-layer-footer">
+            <div class="row">
+                <div class="col-xs-2">
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <button type="submit" class="btn btn-success btn-embossed">确定</button>
+                    <button type="reset" class="btn btn-default btn-embossed">重置</button>
+                    <button onclick="javascript:history.back(-1);return false;" class="btn btn-danger">返回</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="clearfix">
+</div>

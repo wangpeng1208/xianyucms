@@ -1,0 +1,16 @@
+<div class="playlog-tool"><a class="playlog-clear" rel="nofollow" href="javascript:;" id="playlog-clear" target="_self">清空全部播放记录</a><a class="playlog-close" rel="nofollow" href="javascript:;" id="playlog-close" target="_self">关闭</a></div>
+<ul>
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+  <li><h5><a href="{$xianyu.vod_readurl}">{$xianyu.vod_name}</a><em>/</em><a target="_blank" href="{$xianyu.vod_palyurl}">{$xianyu.play_name}</a></h5>
+  <a href="javascript:;" class="playlog-del" id="playlog-del" data-id="{$xianyu.log_id}" data-vid="{$xianyu.vod_id}"><i class="icon iconfont">&#xe610;</i></a>
+  {notempty name="xianyu.vod_playnext"}
+  <a class="pull-right" target="_blank" href="{$xianyu.vod_playnext}">下一集</a>
+  {/notempty}
+  </li>
+{/volist}  
+{else /}
+<strong>暂无观看历史记录列表</strong>
+{/notempty}
+</ul>
+<div class="playlog-todo text-muted" id="playlog-todo"><a rel="nofollow" id="login" class="text-color" href="javascript:;">登录</a>后将能永久保存播放记录<em>|</em><a rel="nofollow" id="register" class="text-color"  href="javascript:;">免费注册</a></div>

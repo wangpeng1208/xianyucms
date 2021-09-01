@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>我的首页 - 会员中心  - {$sitename}</title>
+{include file="user_include" /}
+</head>
+<body class="center_body">
+{include file="center_header" /}
+<div class="container">
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-12 box-main-content">
+  <div class="user-box clearfix mb20 user-info-left pb-0">
+   <div class="col-md-4 col-sm-4 col-xs-12 user-center-avatar p-0">
+   {if condition="($userinfo['viptime']) > time() "}
+   <div class="user-vip"><i class="text-center icon iconfont text-color">&#xe67d;</i></div>
+   {/if}
+    <h2 class="text-center">
+      <a href="{:xianyu_user_url('user/home/index',array('id'=>$userinfo['userid']),true,true)}" target="_blank">
+        <img class="img-circle face jQuery-image-upload" src="{$userinfo.avatar} " align="会员首页">
+      </a>
+    </h2>
+    </div>
+
+    <div class="col-md-8 col-sm-8 col-xs-12  user-center-info">
+     <p><strong class="mr10 text-overflow">{$userinfo.nickname}</strong><span>{notempty name="userinfo.email"}({$userinfo.email}){/notempty}</span><a class="text-color" href="{:xianyu_user_url('user/center/info')}">编辑资料</a></p>
+          <p class="text-muted"><span>注册邮箱：</span>{$userinfo.email|default='请点击修改设置'} <a href="javascript:;" class="btn btn-warning btn-sm" id="user-email">修改</a></p>
+     <p class="text-muted text-overflow"><span>订阅邮箱：</span>{notempty name="userinfo.iemail"}{$userinfo.iemail}{else /}<span class="text-color"><a href="{:xianyu_user_url('user/center/info')}"><b>点击设置订阅邮箱</b></a></span>{/notempty}</p>
+     <p class="text-muted"><span>注册时间：</span>{$userinfo.regdate|date='Y-m-d H:i:s',###}</p>
+     <p class="text-muted"><span>最后登录：</span>{$userinfo.last_login_time|date='Y-m-d H:i:s',###}</p>
+     <p class="text-muted"><span>最后登录IP：</span>{$userinfo.last_login_ip|long2ip}</p>
+    </div>
+    </div>
+
+   </div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12 box-main-side">
+    <div class="user-box clearfix mb20 user-info-right pb-0">
+    <div class="user-center-title pl-0 pt-0"><h2 class="text-color">帐号信息：</h2></div>
+    <p class="col-md-6 col-sm-6 col-xs-12 text-muted p-0"><span>我的积分：</span><span class="text-color" id="usescore">{$userinfo.score}</span>个 <a href="javascript:;" class="btn btn-warning btn-sm" id="user-payment">冲值</a></p>
+    <p class="col-md-6 col-sm-6 col-xs-12 text-muted p-0"><span>VIP权限：</span><span class="text-color" id="viptime">{$userinfo.viptime|date='Y/m/d H:i:s',###}</span> <a href="javascript:;" class="btn btn-warning btn-sm" id="user-vip">续费</a></p>
+    <p class="col-md-6 col-sm-6 col-xs-6 text-muted p-0"><span>消费记录：</span><span class="text-color">{$userinfo.score_count}</span>条</p>
+    <p class="col-md-6 col-sm-6 col-xs-6 text-muted p-0"><span>充值记录：</span><span class="text-color">{$userinfo.order_count}</span>条</p>
+
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>评论：</span>{$userinfo.comment_count}条</p>
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>收藏：</span>{$userinfo.favorite_count}个</p>
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>订阅：</span>{$userinfo.remind_count}个</p>
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>观看：</span>{$userinfo.playlog_count}条</p>
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>留言：</span>{$userinfo.gb_count}条</p>
+    <p class="col-md-4 col-sm-4 col-xs-6 text-muted p-0"><span>私信：</span>{$userinfo.msg_count}条</p>
+    <p class="col-md-12 col-sm-12 col-xs-12 text-muted p-0"><span>推广连接：</span>{:xianyu_user_url('user/reg/index',array('uid'=>$userinfo['userid']),true,true)}</p>
+    </div>
+  </div>
+
+
+<div class="clearfix"></div>
+
+<div class="col-md-3 col-sm-4 col-xs-12 box-main-content">
+{include file="center_left" /}
+</div>
+
+<div class="col-md-9 col-sm-8 col-xs-12 xs-bt-20 box-main-side">
+<div class="user-box clearfix">
+<div class="user-center-title pt-0 pl-0"><h2 class="text-color">最近动态</h2></div>
+  <div class="comment-focus m-0">
+    <ul class="ui-comment" id="datalist">
+      <div class="loading text-center">动态加载中...</div>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+xianyu.user.get("{:zp_url('user/center/getall')}");
+</script>
+{include file="user_footer" /}
+</body>
+</html>

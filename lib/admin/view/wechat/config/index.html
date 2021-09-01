@@ -1,0 +1,136 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <div class="panel-lead"><em>微信公众平台配置</em>{$nav_title.remark}</div>
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本设置</a></li>
+                   <li ><a href="#tab_2" data-toggle="tab">默认设置</a></li>
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="post" action="{:url('admin/wechat.config/up')}">      
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+<!--         <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">微信公众平台:</label>
+        <div class="col-xs-12 col-sm-6">
+         <select name="info[wechat_open]" id="info[wechat_open]" class="form-control selectpicker">
+          <option value="1">开启</option>
+          <option value="0" {eq name="wechat_open" value="0"}selected{/eq}>关闭</option>
+         </select>
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">公众号二维码:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[wechat_qrcode]" id="info[wechat_qrcode]" value="{$wechat_qrcode}" class="form-control" data-tip="公众号二维码图片地址">
+        </div>
+    </div>     
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">开发者AppID:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[app_id]" id="info[app_id]" value="{$app_id}" class="form-control" data-tip="在微信公众平台-基本配置-开发者ID(AppID)获取">
+        </div>
+    </div> 
+     
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">开发者AppSecret:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[app_secret]" id="info[app_secret]" value="{$app_secret}" class="form-control" data-tip="在微信公众平台-基本配置-开发者密码(AppSecret)获取">
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">Token:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[token]" id="info[token]" value="{$token}" class="form-control" data-tip="在微信公众平台-基本配置-服务器配置中获取">
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">AESKey:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[aes_key]" id="info[aes_key]" value="{$aes_key}" class="form-control" data-tip="在微信公众平台-基本配置-服务器配置中获取">
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">URL回调地址:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[callback]" id="info[callback]" value="{$callback}" class="form-control" data-tip="修改为你的回调地址后需要填写到微信公众平台中">
+        </div>
+    </div>                      
+         <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">调试模式:</label>
+        <div class="col-xs-12 col-sm-6">
+         <select name="info[debug]" id="info[debug]" class="form-control selectpicker">
+          <option value="1">开启</option>
+          <option value="0" {eq name="debug" value="0"}selected{/eq}>关闭</option>
+         </select>
+        </div>
+    </div>
+         <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">日志级别:</label>
+        <div class="col-xs-12 col-sm-6">
+         <select name="info[level]" id="info[level]" class="form-control selectpicker">
+         <option value="debug" {eq name="level" value="debug"}selected{/eq}>debug</option>
+         <option value="info" {eq name="level" value="info"}selected{/eq}>info</option>
+         <option value="notice" {eq name="level" value="notice"}selected{/eq}>notice</option>
+         <option value="warning" {eq name="level" value="warning"}selected{/eq}>warning</option>
+         <option value="error" {eq name="level" value="error"}selected{/eq}>error</option>
+         <option value="critical" {eq name="level" value="critical"}selected{/eq}>critical</option>
+         <option value="alert" {eq name="level" value="alert"}selected{/eq}>alert</option>
+         <option value="emergency" {eq name="level" value="emergency"}selected{/eq}>emergency</option>
+         </select>
+        </div>
+    </div>    
+     </div>
+<div class="tab-pane fade" id="tab_2">
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">微信发送域名:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="info[wechat_url]" id="info[wechat_url]" value="{$wechat_url}" class="form-control" data-tip="获取站内数据后发送连接的URL如m.xianyucms.com">
+        </div>
+    </div>
+     <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">开启搜索视频:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="info[wechat_defaultvod]" class="form-control selectpicker">
+                        <option value="1">开启</option>
+                        <option value="0" {eq name="wechat_defaultvod" value="0" }selected{/eq}>关闭</option>
+                    </select>
+                </div>
+            </div>          
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">关注欢迎内容:</label>
+        <div class="col-xs-12 col-sm-6">
+        <textarea name="info[wechat_defaultmsg]"  class="form-control" style="height:150px;" aria-invalid="true">{$wechat_defaultmsg}</textarea>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">未知指令内容:</label>
+        <div class="col-xs-12 col-sm-6">
+        <textarea name="info[wechat_errormsg]"  class="form-control" style="height:150px;" aria-invalid="true">{$wechat_errormsg}</textarea>
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">微信密码过期时间:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="info[wechat_password]" id="info[wechat_password]" value="{$wechat_password|default='1'}" class="form-control" data-tip="微信生成视频密码的有效时间,单位分钟" style="text-align:center">
+        </div>
+    </div>       
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">播放地址有效时间:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="info[wechat_playtime]" id="info[wechat_playtime]" value="{$wechat_playtime|default='86400'}" class="form-control" data-tip="使用微信密码播放后的有效时间，单位秒" style="text-align:center">
+        </div>
+    </div>   
+     </div>     
+</div>     
+</div>
+<div class="layui-layer-btn layui-layer-footer">
+<div class="row"><div class="col-xs-2"></div><div class="col-xs-12 col-sm-6">
+            <button type="submit" class="btn btn-success btn-embossed">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button onClick="javascript:history.back(-1);return false;" class="btn btn-danger">返回</button>
+        </div></div>
+        </div>
+  </form>      
+</div>

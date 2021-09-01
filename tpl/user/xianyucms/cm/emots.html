@@ -1,0 +1,36 @@
+<div class="smileBoxOuter" id="smileBoxOuter" tabindex="2">
+  <ul class="smileBox">
+    {foreach name="list_emots" item="row"}
+    {if condition="$key lt 40"}
+    <li><a href="javascript:void(0)" class="smile{$row.emot_id}" title="{$row.emot_name}"></a></li>
+    {/if}
+    {/foreach}
+  </ul>
+  <ul class="smileBox" style="display:none;">
+    {foreach name="list_emots" item="row"}
+    {if condition="$key gt 40"}
+    <li><a href="javascript:void(0)" class="smile{$row.emot_id}" title="{$row.emot_name}"></a></li>
+    {/if}
+    {/foreach}
+  </ul>
+  <div class="smilePage"> <a href="javascript:void(0)" class="current">1</a> <a href="javascript:void(0)">2</a> </div>
+</div>
+<div style="display:none" id="commsub">
+  <div class="comment-replay">
+    <div class="comment-replay-arrow"></div>
+    <div class="comment-replay-cnt">
+      <form method="post" id="comm-sub-form">
+        <div class="ui-form-item recm_id" id='0'>
+          <textarea class="form-control" id="commtxt" name="recomm_txt" onfocus="if(this.value==&#39;请在这里发表您的个人看法，最多1000个字。&#39;){this.value=&#39;&#39;;}" onblur="if(this.value==&#39;&#39;){this.value=&#39;请在这里发表您的个人看法，最多1000个字。&#39;;};" autocomplete="off"></textarea>
+        </div>
+        <div class="comment-replay-assist fn-clear clearfix"> <span class="emotion pull-left" tabindex="1" data-id='0' id="row_id"><i class="icon iconfont text-color">&#xe64e;</i></span>
+          <input type="hidden" id="comm_vid" value="0" name="comm_vid">
+          <input type="hidden" id="comm_pid" value="0" name="comm_pid">
+          <input type="hidden" id="comm_id" value="0" name="comm_id">
+          <input type="hidden" id="comm_tuid" value="0" name="comm_tuid">   
+          <input type="hidden" id="comm_sid" value="0" name="comm_sid">    
+          <a rel="nofollow" class="ui-button btn btn-success btn-sm sub" href="javascript:void(0);">回复此人</a></div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+{volist name="friends" id="r"}
+
+<li><a href="{:xianyu_user_url('/user/friend/chat',array('uid'=>$uid,'fid'=>$r['userid']))}"><img src="{$r['pic']}" alt="" class="img-rounded"> {$r.nickname}</a> </li>
+
+
+{/volist}
+</body>
+</html>

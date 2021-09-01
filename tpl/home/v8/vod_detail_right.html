@@ -1,0 +1,51 @@
+
+{php}$vod_hits =xianyu_mysql_vod('limit:9;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_letters,vod_gold,vod_color,vod_hits_day,vod_hits;cahce_name:vod_hits;cahce_time:86400;order:vod_hits desc');{/php}
+    {notempty name="vod_hits"}
+      <div class="layout-box clearfix">
+    <div class="box-title " style="padding:0px 0px 10px 0">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>热门视频</h3>
+    </div>  
+     <div class="box-video-text-list">
+      {volist name="vod_hits" id="xianyu" offset="0" length='1'}
+<div class="col-md-6 col-sm-12 col-xs-12 p-0">
+<a class="video-pic" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"  style="background: url({$xianyu.vod_picurl}) no-repeat top center;background-size:cover;"><span class="note text-bg-r">{notempty name="xianyu.vod_continu"}第{:preg_replace('/\D/s', '', $xianyu.vod_continu)}集{else /}{$xianyu.vod_title}{/notempty}</span><span class="num">{$i}</span></a>
+</div>
+<div class="col-md-6 col-sm-12 col-xs-12" style=" padding-top:0px; padding-right:0px;">
+<div class="col-md-12 p-0 text-overflow"><strong>{$xianyu.vod_name}</strong></div>
+<div class="col-md-12 pg-0 text-overflow">{$xianyu.vod_mcid|mcat_url=$vod_cid}</div>
+<div class="col-md-12 p-0 text-overflow">{$xianyu.vod_actor}</div>
+<div class="col-md-12 pg-0 text-overflow">{$xianyu.vod_year|default='未录入'} / {$vod_area|default='其他'}</div>
+<div class="col-md-12 p-0 text-overflow">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</div>
+<div class="col-md-12 pg-0 text-overflow"><span>人气：</span><span class="hits text-color"><em>{$xianyu.vod_hits}</em></span></div>
+</div>
+{/volist}
+        <ul class="clearfix mg-0">
+         {volist name="vod_hits" id="xianyu" offset="1"}
+              <li class="list p-0"><a class="pull-left" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i+1}</em>{$xianyu.vod_name|msubstr=0,10,'...'}</a><span class="hits text-color">{$xianyu.vod_hits}</span>
+              </li>
+         {/volist}
+       </ul>
+     </div>
+      </div>
+      {/notempty}   
+     
+    {php}$new_news =xianyu_mysql_news('limit:9;field:news_id,news_name,news_cid,news_pic,news_addtime,news_hits,news_remark;;cahce_name:vod_hits;cahce_time:86400;order:news_hits desc');{/php}
+      {notempty name="new_news"}
+       <div class="layout-box clearfix">
+    <div class="box-title " style="padding:0px 0px 10px 0">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>热门资讯</h3>
+    </div>  
+     <div class="box-video-text-list">
+          {volist name="new_news" id="xianyu" offset="0" length='1'}
+         <div class="clearfix"><a class="video-pic loading" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:52.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span><span class="num">{$i}</span></a></div>
+         {/volist}
+        <ul class="clearfix mg-0">
+         {volist name="new_news" id="xianyu" offset="1"}
+              <li class="list p-0"><a class="pull-left" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i+1}</em>{$xianyu.news_name|msubstr=0,15}</a>
+              </li>
+         {/volist}
+       </ul>
+     </div>
+      </div>
+      {/notempty}
+      </div>

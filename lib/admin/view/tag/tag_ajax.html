@@ -1,0 +1,22 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-body">
+    <div class="fixed-table-body" style="overflow:hidden">
+    <ul style="padding:10px; line-height:25px;">
+    {notempty name="list"}
+     {volist name="list" id="vo"}
+     <span style=" margin-right:10px;display:block; float:left"><a href="javascript:;" sid="{$vo.tag_sid}" name="{$vo.tag_name}" class="addtag">{$vo.tag_name}</a>({$vo.tag_count})</span>
+     {/volist}
+     {else/}
+     <div style="width:100%; text-align:center">暂无TAG标签请先添加</div>
+     {/notempty}
+     </ul>
+    </div>
+  </div>
+</div>
+<div class="hide layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">关闭</button>
+    </div>
+</div>

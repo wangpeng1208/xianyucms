@@ -1,0 +1,181 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">基础设置</a></li>
+            <li class=""><a href="#tab2" data-toggle="tab">高级设置</a></li>
+        </ul>
+    </div>
+<div class="panel-body is-dialog">
+<form id="edit-form" class="edit-form form-horizontal" role="form" data-toggle="validator" method="post">
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab1">
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">字段名:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="name" value="{$info.name|default=''}" data-rule="required" placeholder="英文字母开头，长度不超过30">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">表单名:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="title" value="{$info['title']|default=''}" data-rule="required" placeholder="请输入字段标题，用于表单显示">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">字段类型:</label>
+        <div class="col-xs-12 col-sm-6">
+          <select name="type" id="type" class="form-control selectpicker">
+			    <option value="text"{eq name="item.status" value="1"}>单行文本</option>
+				<option value="string" >字符串</option>
+				<option value="password" >密码</option>
+				<option value="textarea" >文本框</option>
+				<option value="bool" >布尔型</option>
+				<option value="select" >选择</option>
+				<option value="num" >数字</option>
+				<option value="decimal" >金额</option>
+				<option value="tags" >标签</option>
+				<option value="datetime" >时间控件</option>
+				<option value="date" >日期控件</option>
+				<option value="editor" >编辑器</option>
+				<option value="bind" >模型绑定</option>
+				<option value="image" >图片上传</option>
+				<option value="images" >多图上传</option>
+				<option value="attach" >文件上传</option>
+			</select>
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">字段长度:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="length" value="{$info['length']|default=''}" placeholder="字段的长度值">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">参数:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="extra" value="{$info['extra']|default=''}" placeholder="用于表单显示的名称">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">默认值:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="value" value="{$info['value']|default=''}" placeholder="用于表单显示的名称">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">字段备注:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="remark" value="{$info['remark']|default=''}" placeholder="用于表单中的提示">
+        </div>
+    </div>              
+     <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">是否显示:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="is_show" class="form-control selectpicker">
+			<option value="1">始终显示</option>
+			<option value="2">新增显示</option>
+			<option value="3">编辑显示</option>
+			<option value="0" selected>不显示</option>
+			</select>
+        </div>
+    </div>   
+     <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">是否必填:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="is_must" id="is_must" class="form-control selectpicker">
+			<option value="1" >是</option>
+            <option value="0" {eq name="info.is_must" value="0" }selected{/eq}>否</option>
+			</select>
+        </div>
+    </div>   
+
+</div>
+
+<div class="tab-pane fade" id="tab2">
+     <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">验证方式:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="validate_type" id="validate_type" class="form-control selectpicker">
+                <option value="0" selected>请选择</option>
+				<option value="regex" >正则验证</option>
+				<option value="function" >函数验证</option>
+				<option value="unique" >唯一验证</option>
+				<option value="length" >长度验证</option>
+				<option value="in" >验证在范围内</option>
+				<option value="notin" >验证不在范围内</option>
+				<option value="between" >区间验证</option>
+				<option value="notbetween" >不在区间验证</option>
+			</select>
+        </div>
+    </div> 
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">验证规则:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="validate_rule" value="{$info['validate_rule']|default=''}" placeholder="根据验证方式定义相关验证规则">
+        </div>
+    </div>
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">出错提示:</label>
+        <div class="col-xs-12 col-sm-6">
+        <textarea name="error_info" class="form-control">{$info.error_info|default=''}</textarea>
+        </div>
+    </div>
+   <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">验证时间:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="validate_time" id="validate_time" class="form-control selectpicker">
+                <option value="0" selected>请选择</option>
+				<option value="3" >始 终</option>
+				<option value="1" >新 增</option>
+				<option value="2" >编 辑</option>
+			</select>
+        </div>
+    </div>
+   <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">自动完成方式:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="auto_type" id="auto_type" class="form-control selectpicker">
+                <option value="0" selected>请选择</option>
+				<option value="function" >函数</option>
+				<option value="field" >字段</option>
+				<option value="string" >字符串</option>
+			</select>
+        </div>
+    </div>
+   <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">自动完成规则:</label>
+        <div class="col-xs-12 col-sm-6">
+			<select name="auto_time" id="auto_time" class="form-control selectpicker">
+				<option value="0" selected>请选择</option>
+				<option value="3" >始 终</option>
+				<option value="1" >新 增</option>
+				<option value="2" >编 辑</option>
+			</select>
+        </div>
+    </div>             
+           
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">自动完成时间:</label>
+        <div class="col-xs-12 col-sm-6">
+        <input type="text" class="form-control" name="auto_rule" value="{$info.auto_rule}" placeholder="根据完成方式订阅相关规则">
+        </div>
+    </div>
+ 
+   </div>   
+</div>
+{notempty name="info.id"}
+            <input type="hidden" name="id" value="{$info['id']|default=''}"/>
+	        <input type="hidden" name="model_id" value="{$info['model_id']|default=''}"/>
+{/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

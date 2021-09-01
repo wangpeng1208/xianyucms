@@ -1,0 +1,37 @@
+<div class="user-box clearfix {neq name="action" value="index"} hidden-xs{/neq}">
+{php}$visitors_list = xianyu_mysql_visitors('userid:'.$userinfo['userid'].';field:visitors_userid,nickname,avatar,limit:8;order:visitors_addtime desc');{/php}
+{notempty name="visitors_list"}
+<div class="user-center-title pt-0"><h2 class="text-color">最近访客</h2></div>
+<ul class="box-star-list clearfix" >
+{volist name="visitors_list" id="fk"}
+<li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$fk.visitors_userid|cmf_get_user_avatar}" style="padding-top:100%;" href="{:xianyu_user_url('user/home/index',array('id'=>$fk['visitors_userid']))}"><span class="text-overflow">{$fk.nickname}</span></a>
+</li>
+{/volist}
+</ul>
+</div>
+{else /}
+<div class="user-center-title pt-0 hidden-xs"><h2 class="text-color">最近用户</h2></div>
+{php}$user_list = xianyu_mysql_user('limit:9;order:last_login_time desc');{/php}
+{$user_list|print_r}
+<ul class="box-star-list clearfix" >
+{volist name="user_list" id="r"}
+<li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$r['avatar']}" style="padding-top:100%;" href="{:xianyu_user_url('user/home/index',array('id'=>$r['userid']))}"><span class="text-overflow">{$r.nickname}</span></a>
+</li>
+{/volist}
+</ul>
+</div>
+{/notempty}
+
+
+{php}$star_hits=xianyu_mysql_star('limit:12;field:star_id,star_cid,star_name,star_letters,star_content,star_pic,star_pic,star_zy,star_area;stars:5;cahce_name:default;cahce_time:86400;order:star_hits_day desc');{/php}
+{notempty name="star_hits"}
+<div class="user-box clearfix mt20 {neq name="action" value="index"} hidden-xs{/neq}">
+<div class="user-center-title pt-0"><h2 class="text-color">热门明星</h2></div>
+<ul class="box-star-list clearfix" >
+{volist name="star_hits" id="xianyu"}
+<li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_name}</span></a>
+</li>
+{/volist}
+</ul>
+</div>
+{/notempty}

@@ -1,0 +1,106 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+<div class="panel-body is-dialog">   
+<form id="edit-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="POST" action=""> 
+<div class="form-group">
+                <label for="cm_uid" class="control-label col-xs-12 col-sm-2">用户ID:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_uid" value="{$info.cm_uid|default=''}" readonly >
+                </div>
+                <label for="name" class="control-label col-xs-12 col-sm-2">用户昵称：</label>
+                <div class="col-xs-12 col-sm-2">
+                  {notempty name="info.userid"}<input type="text" class="form-control" name="cm_username" value="{$info['nickname']|default=''}" readonly>{else /}<input type="text" class="form-control" name="cm_username" value="{$info['cm_username']|default=''}">{/notempty}
+                </div>          
+            </div>   
+<div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">评论模型:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_model" value="{$info.cm_model|default=''}" readonly>
+                </div>
+                  <label for="name" class="control-label col-xs-12 col-sm-2">评论标题：</label>
+                   <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_name" value="{$info.cm_name|default=''}" readonly>
+                </div> 
+                   <label for="name" class="control-label col-xs-12 col-sm-2">内容ID：</label>
+                   <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_vid" value="{$info.cm_vid|default=''}" readonly>
+                </div>                 
+            </div>   
+                      
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">一级评论ID:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_pid" value="{$info.cm_pid|default=''}" style="text-align:center">
+                </div>
+                 <label for="name" class="control-label col-xs-12 col-sm-2">上级评论ID:</label>
+                 <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_tid" value="{$info.cm_tid|default=''}" style="text-align:center">
+                </div>   
+                 <label for="name" class="control-label col-xs-12 col-sm-2">上级用户ID:</label>
+                 <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_tuid" value="{$info.cm_tuid|default=''}" style="text-align:center">
+                </div>                             
+            </div>
+            
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">支持数:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_support" value="{$info.cm_support|default=''}" style="text-align:center">
+                </div>
+                <label for="name" class="control-label col-xs-12 col-sm-2">支持数:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="cm_oppose" value="{$info.cm_oppose|default=''}" style="text-align:center">
+                </div>
+            </div> 
+            
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">评论内容：</label>
+                <div class="col-xs-12 col-sm-8">
+                   <textarea class="form-control" name="cm_content" cols="50" rows="10">{$info.cm_content|default=''}</textarea>
+                </div>
+            </div>                             
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">评论IP</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="cm_ip" value="{$info.cm_ip|long2ip}" disabled>
+                </div>
+            </div>
+           <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">评论时间</label>
+                <div class="col-xs-12 col-sm-7">
+                    <input type="text" class="form-control" name="cm_addtime" value="{$info.cm_addtime|date='Y-m-d H:i:s',###}">
+                </div>
+                 <div class="col-xs-12 col-sm-1">
+                    <input id="checktime"  name="checktime" type="checkbox" value="1" {$info.checktime} title="勾选则使用系统当前时间">
+                </div>
+            </div>  
+               <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select name="cm_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.cm_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>   
+      {notempty name="info.cm_id"}
+       <input type="hidden" name="cm_id" value="{$info['cm_id']|default=''}">
+      {/notempty}                        
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

@@ -1,0 +1,25 @@
+
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+<channel>
+<title>{$sitename}</title> 
+<description>{$sitename}</description> 
+<link>{$siteurl}</link> 
+<language>zh-cn</language> 
+<docs>{$sitename}</docs> 
+<generator>Rss Powered By {$siteurl}</generator> 
+<image>
+<url>{$siteurl}Public/images/logo.gif</url> 
+</image>
+{php}$vod_new = xianyu_mysql_vod('field:vod_id,vod_name,vod_mcid,vod_cid,vod_letters,vod_pic,vod_content,vod_actor,vod_title,vod_color,vod_addtime,vod_actor;limit:100;page:true;p:'.$page.';order:vod_id desc'); {/php}
+{volist name="vod_new" id="xianyu"}
+<item>
+<title>{$xianyu.vod_name}</title>
+<link>{:rtrim($siteurl,'/')}{$xianyu['vod_readurl']}</link>
+<author>{$xianyu.vod_actor}</author>
+<pubDate>{$xianyu.vod_addtime|date='Y-m-d H:i:s',###}</pubDate>
+<description><![CDATA["{$xianyu.vod_content|msubstr=0,200}"]]></description>
+</item>
+{/volist}
+</channel>
+</rss>

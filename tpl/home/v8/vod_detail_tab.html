@@ -1,0 +1,27 @@
+
+{php}
+if(!empty($vod_actor)){
+$actor=str_replace(array('/','|',' ','，','、'),',',$vod_actor);
+$tab_actor = xianyu_mysql_vod('actor:'.$actor.';limit:10;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_id desc');}
+if(!$tab_actor || count($tab_actor) == 1){ $tab_actor = xianyu_mysql_vod('limit:10;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;cahce_name:default;cahce_time:86400;order:vod_id desc'); }
+{/php}              
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">同主演</h3>
+    </div>
+        <div class="swiper-container vod-swiper-5">
+            <ul class="swiper-wrapper">
+            {volist name="tab_actor" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.vod_picurl}">{notempty name="xianyu.vod_diantai"}<span class="tips orange">{$xianyu.vod_diantai}</span>{/notempty}<span class="note text-bg-c">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span><div class="swiper-lazy-preloader"></div></a>
+                  <div class="title">
+                    <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+                  </div>
+                  <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor}</div>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+           </div>

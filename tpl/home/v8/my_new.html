@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}最新更新的100个电视剧、电影、动漫、综艺节目{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$description}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+ 
+    
+    {php}$index_new =xianyu_mysql_vod('field:vod_id,vod_cid,vod_name,vod_year,vod_letters,vod_mcid,vod_pic,vod_actor,vod_continu,vod_title,vod_total,vod_content,vod_gold,vod_addtime,vod_bigpic,vod_jumpurl;limit:100;order:vod_addtime desc');{/php}
+    
+     <!--最近更新模块开始-->
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe62b;</i>最近更新</h3>
+    <div class="more pull-right"><span class="text-muted pull-right">最近<span class="text-color">“100”</span>个视频</div>
+    </div>
+    <ul class="clearfix">
+            {volist name="index_new" id="xianyu" offset="0" length='6'}
+            <li class="col-md-2 col-sm-4 col-xs-4">
+            <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" >
+            <span class="tips red">{$xianyu.list_name}</span>
+            <span class="player"></span>
+            <span class="num">{$i}</span>
+            <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span>
+            </a>
+            <div class="title"><h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5></div>
+             <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+            </li>
+            {/volist}
+            </ul>
+   <div class="box-video-text-list clearfix">
+            <ul>
+            {volist name="index_new" id="xianyu" offset="6" length='100'}
+              <li class="list2 text-overflow"><a class="pull-left" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="5"}active{/lt}">{$i+6}</em>{$xianyu.vod_name}&nbsp;/&nbsp;{$xianyu.vod_title}</a><span class="time hidden-xs">{$xianyu.vod_addtime|date='m-d H:i:s',###}</span>
+              </li>
+           {/volist}
+           
+            </ul>
+        </div>
+      </div>  
+  <!--最近更新结束-->         
+  
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

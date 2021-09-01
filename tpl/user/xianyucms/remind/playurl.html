@@ -1,0 +1,7 @@
+{volist name="vod_playlist" id="zpvod" offset="0" length='1'}
+{php}$countji=count($zpvod['son'])-1;if($zpvod['son']>2){krsort($zpvod['son']);}{/php}
+{volist name="zpvod['son']" id="zpvodson" key="iii" offset="0" length='8'}
+<a href="{$zpvodson.playurl}" target="_blank">{$zpvodson.playname|msubstr=0,10}</a>
+{/volist}
+{/volist}
+<a href="{$vod_readurl}" target="_blank" class="more">更多</a>

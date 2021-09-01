@@ -1,0 +1,130 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body" id="contents">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+          卡密统计 （总额：{$count_total} 积分 / 已用：{$count_use|default=0} 积分 / 未用：{$count_nouse|default=0} 积分)
+            <div class="fixed-table-toolbar">
+              <div class="columns-right pull-right" style="margin-top:10px;">
+                <form class="form-inline form-commonsearch nice-validator n-default" method="post" action="">
+                  <input class="form-control" placeholder="搜索" type="text" name="wd">
+                  <button type="submit" class="btn btn-default ajax-posturl"  title="普通搜索"  target-form="form-commonsearch"><i class="glyphicon glyphicon-search"></i></button>
+                </form>
+              </div>  
+              
+              <div class="pull-right search">
+
+    <select name="stype" class="form-control" type="get-select" style="margin:0 0 0 10px;border-left:none">
+    <option value="{:admin_url('admin/card/index',array('wd'=>$wd,'uid'=>$uid,'score'=>$score,'status'=>$status,'type'=>$type,'order'=>$order))}">面值</option>
+{volist name="scorelist" id="vo"}
+<option value="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$vo,'status'=>$status,'uid'=>$uid,'type'=>$type,'order'=>$order))}" {eq name="vo" value="$score"}selected{/eq}>{$vo}</option>
+{/volist}
+</select>
+              </div>           
+               <div class="pull-right search">
+                <select name="status" class="form-control" type="get-select" style="margin:0 0 0 10px;">
+                  <option value="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>$type,'order'=>$order))}">卡密状态</option>
+                  <option value="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>1,'uid'=>$uid,'type'=>$type,'order'=>$order))}" {eq name="status" value="1"}selected{/eq}>已使用</option>
+                  <option value="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>0,'uid'=>$uid,'type'=>$type,'order'=>$order))}" {eq name="status" value="2"}selected{/eq}>未使用</option>
+                </select>
+              </div> 
+             <div class="pull-right" style="margin-top:5px;">
+            <div class="fixed-table-toolbar">
+             <div class="commonsearch-table">
+<form class="form-inline form-commonsearch nice-validator n-default" method="post" action="" role="form">
+<div class="form-group">
+<label for="createtime" class="control-label" style="padding:0 10px">生成：</label><input class="form-control" placeholder="数量" type="text" name="card_num" style="width:100px;">
+
+    <select name="card_score" class="form-control">
+    <option value="{$vo}">面值</option>
+{volist name="scorelist" id="vo"}
+<option value="{$vo}">{$vo}积分</option>
+{/volist}
+</select>
+
+</div>
+                
+                <div class="form-group" style="margin:5px">
+                  <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-success ajax-post" target-form="form-commonsearch" url="{:admin_url('admin/card/create')}">提交</button>
+                    <button type="reset" class="btn btn-info copy_num">复制</button>
+                  </div>
+                </div>
+              </form>
+            </div></div> 
+            </div>    
+                                   
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar"><a href="{:admin_url('admin/card/index')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a  url="{:admin_url('admin/card/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body">
+              <form class="ids">
+                <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                  <thead>
+                    <tr style="height:45px;">
+                      <th class="bs-checkbox "><input name="btSelectAll" type="checkbox"></th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_id desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_id','order'=>'asc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_id','order'=>'desc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      
+               <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_score desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_score','order'=>'asc'))}" class="btn-link sort ajax-url">卡密面值 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_score','order'=>'desc'))}" class="btn-link sort ajax-url">卡密面值 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      
+             <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_number desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_number','order'=>'asc'))}" class="btn-link sort ajax-url">充值卡密 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_number','order'=>'desc'))}" class="btn-link sort ajax-url">充值卡密 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+
+              <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_addtime desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_addtime','order'=>'asc'))}" class="btn-link sort ajax-url">生成时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_addtime','order'=>'desc'))}" class="btn-link sort ajax-url">生成时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              
+<th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_usetime desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_usetime','order'=>'asc'))}" class="btn-link sort ajax-url">使用时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_usetime','order'=>'desc'))}" class="btn-link sort ajax-url">使用时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_status desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_status','order'=>'asc'))}" class="btn-link sort ajax-url">使用状态 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_status','order'=>'desc'))}" class="btn-link sort ajax-url">使用状态 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="card_uid desc"}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_uid','order'=>'asc'))}" class="btn-link sort ajax-url">使用用户 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/card/index',array('wd'=>$wd,'score'=>$score,'status'=>$status,'uid'=>$uid,'type'=>'card_uid','order'=>'desc'))}" class="btn-link sort ajax-url">使用用户 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">相关操作</th>
+                    </tr>
+                  </thead>
+            <tbody>
+                  {notempty name="list"}
+                  {volist name="list" id="vo"}
+                <tr>
+                <td class="bs-checkbox"><input data-index="{$vo['card_id']}" name="id[]" type="checkbox"  value="{$vo['card_id']}"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo['card_id']}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo['card_score']}积分</td>
+                <td style="text-align:center;vertical-align: middle;"><span class="copy_number">{$vo['card_number']}</span></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.card_addtime|date='Y-m-d H:i:s',###}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.card_usetime|date='Y-m-d H:i:s',###}</td>
+                <td style="text-align:center;vertical-align: middle;">{eq name="vo.card_status" value="1"}已使用{else/}未使用{/eq}</td> 
+                <td style="text-align:center;vertical-align: middle;">{$vo.card_uid}</td>
+                <td style="text-align:center;vertical-align: middle;">         
+                 <a url="{:admin_url('admin/card/del' , array('id' => $vo['card_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a>
+                </td>
+{/volist}   
+                  {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="10" >抱歉，没有找到相关内容！</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+ </table>
+              </form>
+            </div>
+            {gt name="list->lastPage()" value="1"}
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info">共{$list->total()}条数据 {$list->currentPage()}/{$list->lastPage()} </span><span class="page-list">每页显示 {$list->listRows()} 条数据</span></div>
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+            {/gt}
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

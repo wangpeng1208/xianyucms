@@ -1,0 +1,71 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body" id="contents">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+                  
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar"><a href="{:admin_url('admin/timming/index')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="javascript:;" data-name="添加任务" data-url="{:admin_url('admin/timming/add')}" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a> <a  url="{:admin_url('admin/timming/status',array('status'=>1))}" target-form="ids" class="confirm btn btn-info btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 启用</a> <a  url="{:admin_url('admin/timming/status',array('status'=>0))}" target-form="ids" class="confirm btn btn-warning btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 禁用</a> <a  url="{:admin_url('admin/timming/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body">
+              <form class="ids">
+                <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                  <thead>
+                    <tr style="height:45px;">
+                      <th class="bs-checkbox "><input name="btSelectAll" type="checkbox"></th>
+                      <th style="text-align:center;vertical-align: middle;">ID</th>
+                      <th style="text-align:center;vertical-align: middle;">名称</th>
+                      <th style="text-align:center;vertical-align: middle;">描述</th>
+                      <th style="text-align:center;vertical-align: middle;">类型</th>
+                      <th style="text-align:center;vertical-align: middle;">状态</th>
+                      <th style="text-align:center;vertical-align: middle;">执行时间</th>
+                      <th style="text-align:center;vertical-align: middle;">执行地址</th>
+                      <th style="text-align:center;vertical-align: middle;">操作</th>
+                    </tr>
+                  </thead>
+            </tr>
+            <tbody>
+                  {notempty name="list"}
+                  {volist name="list" id="vo"}
+                  {php}$apiarray=json_decode($vo['timming_apiid'],true);{/php}
+                <tr style="height:45px;">
+                <td class="bs-checkbox"><input data-index="{$vo['timming_id']}" name="id[]" type="checkbox"  value="{$vo['timming_id']}"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.timming_id}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.timming_name}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.timming_remark}</td>
+                <td style="text-align:center;vertical-align: middle;">{eq name="vo.timming_type" value="1"}采集{else/}生成{/eq}</td>
+                <td style="text-align:center;vertical-align: middle;"> {eq name="vo.timming_status" value="1"} <a class="btn btn-info btn-xs btn-success ajax-get" url="{:admin_url('admin/timming/status',array('id'=> $vo['timming_id'],'status'=>0))}">启用</a>{else /}<a class="btn btn-info btn-xs btn-danger ajax-get" url="{:admin_url('admin/timming/status',array('id'=> $vo['timming_id'],'status'=>1))}">禁用</a>{/eq}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.timming_uptime|date='Y-m-d H:i:s',###|default='未执行'}</td>
+                <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('api/timming/index',array('tid'=>$vo['timming_id'],'pwd'=>$vo['timming_password']))}" target="_blank" class="btn btn-success btn-editone btn-xs">WIN系统运行地址</a>
+                
+                {eq name="vo.timming_type" value="1"}
+                 <a href="javascript:;" data-content="{volist name="apiarray" id="data"}采集地址{$key+1}：{:zp_url('api/timming/data',array('tid'=>$vo.timming_id,'pwd'=>$vo.timming_password,'apiid'=>$data,'os'=>1),false,true).'-'.$vo['timming_cjaction']}<br>{/volist}{notempty name="vo.timming_htmlaction"}<br>生成地址：{:admin_url('api/timming/'.$vo['timming_htmlaction'],array('tid'=>$vo['timming_id'],'pwd'=>$vo['timming_password'],'os'=>1),false,true)}{/notempty}"  class="btn btn-success btn-add btn-xs liunx_url" >LIUNX运行地址</a>{else/}<a href="{:admin_url('api/timming/'.$vo['timming_htmlaction'],array('tid'=>$vo['timming_id'],'pwd'=>$vo['timming_password'],'os'=>1),false,true)}" target="_blank" class="btn btn-success btn-editone btn-xs">LIUNX运行地址</a>{/eq}</td>
+                 
+                 
+               <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" data-name="编辑" data-url="{:admin_url('admin/timming/edit',array('id'=>$vo['timming_id']))}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a> <a url="{:admin_url('admin/timming/del',array('id'=>$vo['timming_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></td>
+              </tr>
+ {/volist}   
+                  {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="8" >抱歉，没有找到相关任务！</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+                </table>
+  </form>
+</div></div></div></div><div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>              

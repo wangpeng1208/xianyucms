@@ -1,0 +1,66 @@
+
+<div class="modal fade xianyu-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog clearfix">
+    <div class="modal-content clearfix">
+      <div class="modal-header">
+        请使用 手机QQ 扫码登录
+      </div>
+      <div class="modal-body">
+    <style>
+        .xianyu-modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+        }
+        .qrcode {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <img class="qrcode" src="data:image/jpeg;base64,{$qrcode}" />
+    <div id="mobile"></div>
+    <div id="msg"></div>
+    <script>
+        if(xianyu.browser.useragent.mobile){
+            $("#mobile").text("手机登录需要请先保存截图，然后用手机QQ扫码")
+        }
+
+        var qrsig,logincheck,url;
+        qrsig = "{$qrsig}";
+        url = '/index.php?s=user-login-index&qrsig=' + qrsig;
+        $('.xianyu-modal').on('shown.bs.modal', function () {
+            logincheck = setInterval(qrcodelogin,3000);
+        });
+
+        $('.xianyu-modal').on('hide.bs.modal', function () {
+             clearInterval(logincheck);
+        });
+
+       function qrcodelogin() {
+           if (!xianyu.user.islogin()) {
+               $.ajax({type:"GET",url:url,success:function (res) {
+                        if(res.msg == '登录成功' || es.msg == '注册成功') {
+                            $('.xianyu-modal').modal('hide');
+                            xianyu.playlog.get();
+                            xianyu.user.userinfo();
+                        }
+                        if(res.msg == '二维码已失效') {
+                            window.location.reload();
+                        }
+                        $("#msg").text(res.msg);
+                    }});
+           }
+       }
+
+
+
+
+    </script>
+
+    </div>
+</div>
+</div>
+</div>

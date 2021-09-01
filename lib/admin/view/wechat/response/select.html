@@ -1,0 +1,132 @@
+{eq name="app" value="news"}
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">图文标题:</label>
+  <div class="col-xs-12 col-sm-8">
+    <input type="text" class="form-control" name="response_content[title]" value="{$info.response_content['title']|default=''}" autocomplete="false">
+  </div>
+</div>
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">图文缩略图:</label>
+  <div class="col-xs-12 col-sm-8">
+    <input type="text" class="form-control" name="response_content[image]" value="{$info.response_content['image']|default=''}" autocomplete="false">
+  </div>
+</div>
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">图文描述:</label>
+  <div class="col-xs-12 col-sm-8">
+    <textarea class="form-control" name="response_content[description]" cols="50" rows="10">{$info.response_content['description']|default=''}</textarea>
+  </div>
+</div>
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">连接URL:</label>
+  <div class="col-xs-12 col-sm-8">
+    <input type="text" class="form-control" name="response_content[url]" value="{$info.response_content['url']|default=''}" autocomplete="false">
+  </div>
+</div>
+{/eq}
+{eq name="app" value="text"}
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">文本内容:</label>
+  <div class="col-xs-12 col-sm-8">
+   <textarea class="form-control" name="response_content[content]" cols="50" rows="10">{$info.response_content['content']|default=''}</textarea>
+  </div>
+</div>
+{/eq}
+
+{eq name="app" value="select"}
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">查询模型:</label>
+  <div class="col-xs-12 col-sm-6">
+  <div class="form-inline">
+    <select name="response_content[model]" class="province form-control">
+    <option value="">选择模型</option>
+	<option  value="vod" {eq name="info.response_content['model']" value="vod"}selected{/eq}>视频</option>
+    <option  value="news" {eq name="info.response_content['model']" value="news"}selected{/eq}>新闻</option>
+    <option  value="star" {eq name="info.response_content['model']" value="star"}selected{/eq}>明星</option>
+    <option  value="story" {eq name="info.response_content['model']" value="story"}selected{/eq}>剧情</option>
+    <option  value="actor" {eq name="info.response_content['model']" value="actor"}selected{/eq}>演员</option>
+    <option  value="role" {eq name="info.response_content['model']" value="role"}selected{/eq}>角色</option>
+    </select>    
+    <select name="response_content[order]" class="province form-control">
+    <option value="">排序字段</option>
+    <option  value="id" {eq name="info.response_content['order']" value="id"}selected{/eq}>ID</option>
+	<option  value="addtime" {eq name="info.response_content['order']" value="addtime"}selected{/eq}>时间</option>
+    <option  value="hits" {eq name="info.response_content['order']" value="hits"}selected{/eq}>总人气</option>
+    <option  value="hits_day" {eq name="info.response_content['order']" value="hits_day"}selected{/eq}>日人气</option>
+    <option  value="hits_week" {eq name="info.response_content['order']" value="hits_week"}selected{/eq}>周人气</option>
+    <option  value="hits_month" {eq name="info.response_content['order']" value="hits_month"}selected{/eq}>月人气</option>
+    <option  value="rand" {eq name="info.response_content['order']" value="rand"}selected{/eq}>随机推荐</option>
+    </select>
+    <select name="response_content[type]" class="province form-control">
+    <option  value="desc" {eq name="info.response_content['type']" value="desc"}selected{/eq}>倒序</option>
+	<option  value="asc" {eq name="info.response_content['type']" value="asc"}selected{/eq}>正序</option>
+    </select>           
+    </div> 
+     </div>
+</div>
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">查询条数:</label>
+  <div class="col-xs-12 col-sm-2">
+  <input type="text" class="form-control" name="response_content[limit]" value="{$info.response_content['limit']|default=''}" autocomplete="false" style="text-align:center">
+  </div>
+</div>
+{/eq}
+{eq name="app" value="search"}
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">搜索模型:</label>
+  <div class="col-xs-12 col-sm-6">
+  <div class="form-inline">
+    <select name="response_content[model]" class="province form-control">
+    <option value="">选择模型</option>
+	<option  value="vod" {eq name="info.response_content['model']" value="vod"}selected{/eq}>视频</option>
+    <option  value="news" {eq name="info.response_content['model']" value="news"}selected{/eq}>新闻</option>
+    <option  value="star" {eq name="info.response_content['model']" value="star"}selected{/eq}>明星</option>
+    </select> 
+   <select name="response_content[cid]" class="province form-control">
+    <option value="">全部分类</option>   
+{volist name="listvod" id="vo"}<option value="{$vo.list_id}" {eq name="vo.list_id" value="$info.response_content['cid']"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info.response_content['cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+{volist name="listnews" id="vo"}<option value="{$vo.list_id}" {eq name="vo.list_id" value="$info.response_content['cid']"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info.response_content['cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+{volist name="liststar" id="vo"}<option value="{$vo.list_id}" {eq name="vo.list_id" value="$cid"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info.response_content['cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+    </select>      
+    <select name="response_content[type]" class="province form-control">
+    <option value="">搜索方式</option>
+    <option  value="eq" {eq name="info.response_content['type']" value="eq"}selected{/eq}>相等</option>
+	<option  value="vague" {eq name="info.response_content['type']" value="vague"}selected{/eq}>模糊</option>
+    </select>           
+    </div> 
+     </div>
+</div>
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">搜索条数:</label>
+  <div class="col-xs-12 col-sm-2">
+  <input type="text" class="form-control" name="response_content[limit]" value="{$info.response_content['limit']|default=''}" autocomplete="false" style="text-align:center">
+  </div>
+</div>
+{/eq}
+
+{eq name="app" value="find"}
+<div class="form-group">
+  <label for="auto_remark" class="control-label col-xs-12 col-sm-2">关联模型:</label>
+  <div class="col-xs-12 col-sm-6">
+  <div class="form-inline">
+    <select name="response_content[model]" class="province form-control">
+    <option value="">选择模型</option>
+	<option  value="vod" {eq name="info.response_content['model']" value="vod"}selected{/eq}>视频</option>
+    <option  value="news" {eq name="info.response_content['model']" value="news"}selected{/eq}>新闻</option>
+    <option  value="star" {eq name="info.response_content['model']" value="star"}selected{/eq}>明星</option>
+    <option  value="story" {eq name="info.response_content['model']" value="story"}selected{/eq}>剧情</option>
+    <option  value="actor" {eq name="info.response_content['model']" value="actor"}selected{/eq}>演员</option>
+    <option  value="role" {eq name="info.response_content['model']" value="role"}selected{/eq}>角色</option>
+    </select>  
+    <span style="margin-left:10px; margin-right:10px;">关联ID: </span>
+    <input type="text" class="form-control" name="response_content[id]" value="{$info.response_content['id']|default=''}" autocomplete="false" style="text-align:center;width:100px" placeholder="关联ID">          
+    </div> 
+     </div>
+</div>
+{/eq}

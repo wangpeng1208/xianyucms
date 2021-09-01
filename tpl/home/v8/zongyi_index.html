@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}最新{$list_name}-{$list_dir}{$list_name_big}{$list_name}-2015最新{$list_name}{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}最新{$list_name}包含的影片有{volist name='array_list' id='xianyu'}{$xianyu.list_name|msubstr=0,10},{/volist}完全免费在线观看！{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}$index_slide=xianyu_mysql_slide('nocid:-1;limit:6;order:slide_oid asc');{/php}
+<!--幻灯模块-->
+<div class="container">
+  <div class="row">
+  
+  <div class="layout-box clearfix">
+        <div class="box-min-mcid clearfix">
+        <div class="item clearfix">
+          <dl class="clearfix">
+            <dt class="text-muted">类型</dt>
+            <dd class="clearfix">
+            {volist name="mcatlist" id="vo"}
+            <a {gt name="i" value="16"}class="hidden-sm hidden-md hidden-lg"{/gt} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}" target="_blank">{$vo.m_name|msubstr=0,2}</a>
+            {/volist} 
+            </dd>
+          </dl>
+          <dl class="clearfix">
+            <dt class="text-muted">地区</dt>
+            <dd class="clearfix">
+            {volist name="list_area_all" id="area"}
+            <a class="{gt name="i" value="14"}hidden-sm hidden-md hidden-lg{/gt}" href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>"",'mename'=>"",'area'=>urlencode($area['name']),'earea'=>$area['ename'],'year'=>"",'letter'=>"",'order'=>""))}" target="_blank">{$area['name']|msubstr=0,2}</a>
+            {/volist}
+            
+            </dd>
+          </dl>          
+          <dl class="cleafix hidden-sm">
+            <dt class="text-muted">年份</dt>
+            <dd class="clearfix">
+            {volist name="list_year" id="year"}
+            <a {gt name="i" value="12"}class="hidden-sm hidden-md hidden-lg"{/gt} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>"",'mename'=>"",'area'=>"",'earea'=>"",'year'=>$year,'letter'=>"",'order'=>""))}" target="_blank">{$year}</a>
+            {/volist}
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+ {volist name="list_area_all"  id="area" offset="0" length='8'}
+{php}$list_vod= xianyu_mysql_vod('cid:'.$list_id.';area:'.$area['name'].';field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_pic,vod_area,vod_title,vod_total,vod_continu,vod_gold,vod_gold,vod_addtime;limit:10;order:vod_addtime desc');{/php}
+{notempty name="list_vod"}
+<div class="layout-box clearfix">
+  <div class="box-title">
+     <h3 class="m-0"><i class="icon iconfont text-color">&#xe677;</i>{$area['name']}{$list_name}</h3>
+     <div class="more pull-right"><a href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>'','mename'=>"",'area'=>urlencode($area['name']),'earea'=>$area['ename'],'year'=>"",'letter'=>"",'order'=>""))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+  </div>
+  <ul class="clearfix">
+  {volist name="list_vod" id="xianyu"}
+  <li class="col-md-2 col-sm-3 col-xs-4 {gt name="i" value="6"}visible-sm{/gt}"><a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" ><span class="player"></span> <span class="score">{$xianyu.vod_gold}</span> <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span> </a>
+    <div class="title">
+      <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+    </div>
+  </li>
+  {/volist}
+  </ul>
+  <div class="box-video-footer visible-xs clearfix"><a href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>'','mename'=>"",'area'=>urlencode($area['name']),'earea'=>$area['ename'],'year'=>"",'letter'=>"",'order'=>""))}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+</div>
+{/notempty}
+{/volist}  
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

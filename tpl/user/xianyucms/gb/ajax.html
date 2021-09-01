@@ -1,0 +1,8 @@
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+    <li>
+    <label class='label-checkbox'><input name='ids[]' value='{$xianyu['gb_id']}' type='checkbox'/></label>
+    <div class='user-txt-list-cnt'><h5><span class='date-time'>{$xianyu.gb_addtime|date='Y-m-d H:i:s',###}</span><strong>{$list_name[$xianyu['gb_cid']]}:</strong>{$xianyu['gb_title']|strip_tags|remove_xss}<a class='mdel' href='javascript:void(0)' data='{:xianyu_user_url('user/center/delgb',array('id'=>$xianyu['gb_id']))}'>删除</a></h5><p>{$xianyu.gb_content|strip_tags|remove_xss}</p><div class='mymsg-list-cnt'>
+{empty name="xianyu.gb_intro"}<strong>管理员回复：</strong>我们会尽快回复您{else /}<strong>管理员回复：</strong>{$xianyu.gb_intro}{/empty}</div></div></li>
+   {/volist}
+{/notempty}

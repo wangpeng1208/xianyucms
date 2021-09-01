@@ -1,0 +1,1 @@
+{volist name="cat_list" id="vo"}<span style=" margin-right:10px;display:block; float:left"><input style="border:none;width:auto; margin-bottom:3px;margin-right:5px;position:relative; top:2px;" type="checkbox"  name="vod_mcids[]"   value="{$vo.m_cid}"/> {$vo.m_name}</span>{/volist}

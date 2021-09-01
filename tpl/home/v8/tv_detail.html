@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$tv_name}在线直播_{$tv_name}节目表- {$sitename}</title>
+<meta name="keywords" content="{$tv_name}在线直播,{$tv_name}直播在线观看,{$tv_name}节目表,{$tv_name}节目单">
+<meta name="description" content="{$sitename}为你提供了{$tv_name}在线直播,以及一周内{$tv_name}节目表等相关信息希望你能喜欢。">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+<div class="row"> 
+  {php}$array_listid = getlistall($list_pid);{/php}
+    <div class="layout-box clearfix">
+    <div class="box-title-nav pull-left">
+    <ul class="clearfix">
+    <li><a class="text-overflow" href="{$list_url_big}">全部{$list_name_big}</a></li>
+   {volist name="array_listid" id="zp_listid" offset="0" length='7'}
+    <li><a class="text-overflow {eq name="zp_listid.list_id" value="$list_id"}active{/eq}" href="{$zp_listid.list_url}">{$zp_listid.list_name}</a></li>
+{/volist}
+    </ul>
+    </div>    
+    </div> 
+<div class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix tv_detail_box">
+<div class="tv_detail_week">
+<ul>
+{volist name="tv_week_list" id="zpvod"}
+        <a  data="p-{$zpvod.wid}" target="_self" {notempty name="zpvod.cut"}class="active"{/notempty}>{$zpvod.date}<em>{notempty name="zpvod.day"}今天{else /}{$zpvod.week} {/notempty}</em></a>
+        {/volist}
+</ul></div>
+<div id="content">
+<div class="col-md-4 col-sm-4 col-xs-12 p-0 clearfix">
+<div class="layout-box clearfix">
+<div class="tv_detail_title">早间节目（00:00 ~ 09:00）</div>
+    <div class="box-video-text-list clearfix">
+       <ul>
+        {volist name="tv_datalist['data']" id="tv"}
+         {between name="tv.time" value="00:00,08:59"}
+         <li class="list1 text-overflow">
+         {php}$url=get_vod_url($tv['keywords'],1,$tv_name);{/php}
+         {notempty name="tv.live"}
+              <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}<span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>
+              {else /}
+              <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}
+          {/notempty}
+           </li>
+          {/between}
+         {/volist} 
+            </ul>
+        </div>
+</div>
+</div>
+
+
+ <div class="col-md-4 col-sm-4 col-xs-12 p-0 clearfix">
+ <div class="layout-box clearfix">
+ <div class="tv_detail_title">白天节目（09:00 ~ 18:00）</div>
+    <div class="box-video-text-list clearfix">
+            <ul>
+        {volist name="tv_datalist['data']" id="tv"}
+         {between name="tv.time" value="09:00,17:59"}
+         {php}$url=get_vod_url($tv['keywords'],1,$tv_name);{/php}
+         <li class="list1 text-overflow">
+         {notempty name="tv.live"}
+              <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}<span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>
+              {else /}
+             <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}
+          {/notempty}
+          </li> 
+          {/between}
+         {/volist} 
+            </ul>
+</div></div>
+</div>
+ <div class="col-md-4 col-sm-4 col-xs-12 p-0 clearfix">
+  <div class="layout-box clearfix">
+   <div class="tv_detail_title">晚间节目（18:00 ~ 24:00）</div>
+    <div class="box-video-text-list clearfix">
+            <ul>
+        {volist name="tv_datalist['data']" id="tv"}
+         {between name="tv.time" value="18:00,23:59"}
+         <li class="list1 text-overflow">
+         {php}$url=get_vod_url($tv['keywords'],1,$tv_name);{/php}
+         {notempty name="tv.live"}
+             <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}
+             <span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>
+              {else /}
+             <span class="pull-left time">{$tv.time}</span>{notempty name="url"}<a href="{$url}" target="_blank">{$tv.keywords}</a>{else /}{$tv.name}{/notempty}  
+          {/notempty}
+          </li>
+          {/between}
+         {/volist} 
+            </ul>
+        </div>
+        </div>
+</div>
+</div>
+</div> 
+ 
+</div>
+</div>
+<!--盒子结束--> 
+<script>
+var type_ajax_url="index.php?s=tv-read";
+var type_parms={"id":"{$tv_id}","p":1};
+</script>
+{include file="zp_footer" /}
+</body>
+</html>

@@ -1,0 +1,130 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty}
+    <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+<div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">任务名称:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="timming_name" value="{$info.timming_name|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>    
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">任务描述：</label>
+                <div class="col-xs-12 col-sm-8">
+                   <textarea class="form-control" name="timming_remark">{$info.timming_remark|default=''}</textarea>
+                </div>
+            </div>  
+             <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">任务类型:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="timming_type" class="form-control selectpicker" style="width:65px;" id="timming_type">
+                        <option value="1">采集</option>
+                        {notempty name="url_html"} 
+                        <option value="2" {eq name="info.timming_type" value="2" }selected{/eq}>生成</option>
+                        {/notempty} 
+                    </select>
+                </div>
+            </div> 
+              <div class="form-group" id="collect_list">
+                <label for="content" class="control-label col-xs-12 col-sm-2">资源列表:</label>
+                <div class="col-xs-12 col-sm-8">
+            <select name="timming_apiid[]" multiple class="form-control" style="height:100px">
+{volist name="collect_list" id="vo"}
+<option value="{$vo['collect_id']}" {notempty name="info.timming_api"}{if in_array($vo['collect_id'],$info.timming_api)}selected{/if}{/notempty}>{$i}.{$vo.collect_name}{$vo.collect_title}</option>
+{/volist}
+</select>
+                </div>
+            </div> 
+             
+               <div class="form-group" id="collect_action">
+                <label for="content" class="control-label col-xs-12 col-sm-2">采集参数:</label>
+                <div class="col-xs-12 col-sm-8">
+                 <div class="col-xs-12 col-sm-2" style=" padding-left:0px;">
+                <select name="collect_action" class="province form-control" id='collect_action'>
+	<option  value="action-day-h-24" {eq name="info.timming_cjaction" value="action-day-h-24"}selected{/eq}>采集当天</option>
+    <option  value="action-week-h-98" {eq name="info.timming_cjaction" value="action-week-h-98"}selected{/eq}>采集本周</option>
+    <option  value="action-day-h-720" {eq name="info.timming_cjaction" value="action-day-h-720"}selected{/eq}>采集本月</option>
+    <option  value="action-all" {eq name="info.timming_cjaction" value="action-all"}selected{/eq}>采集全部</option>
+    <option  value="action-all-again-1" {eq name="info.timming_cjaction" value="action-all-again-1"}selected{/eq}>重新采集</option>
+    </select> 
+    </div>
+   <div class="col-xs-12 col-sm-5">
+<input type="text" class="form-control" id="timming_apipar" name="timming_cjaction" value="{$info.timming_cjaction|default=''}"  autocomplete="false" data-tip="自定义采集参数：action-day-h-24 可以修改数字24为小时 action-all为采集全部">
+               </div>
+     </div> 
+            </div> 
+      <div class="form-group" id="timming_apitime">
+                <label for="content" class="control-label col-xs-12 col-sm-2">采集间隔时间:</label>
+                <div class="col-xs-12 col-sm-2">
+                   <input type="text" class="form-control" name="timming_cjtime" value="{$info.timming_cjtime|default='20'}"  autocomplete="false" data-tip="单位分钟，默认0不采集">
+                </div>
+            </div> 
+           {notempty name="url_html"}
+               <div class="form-group" id="timming_htmlaction">
+               <label for="content" class="control-label col-xs-12 col-sm-2">生成参数:</label>
+                <div class="col-xs-12 col-sm-2">
+                <select name="timming_htmlaction" class="province form-control">
+                <option  value="create_time-jump-1" {eq name="info.timming_htmlaction" value="create_time-jump-1"}selected{/eq}>生成上次生成后的内容</option>
+	<option  value="vod_detail_cids-day-d-jump-1" {eq name="info.timming_htmlaction" value="vod_detail_cids-day-d-jump-1"}selected{/eq}>生成全站当天数据</option>
+    <option  value="vod_detail_cids-day-d" {eq name="info.timming_htmlaction" value="vod_detail_cids-day-d"}selected{/eq}>生成视频当天内容</option>
+    <option  value="list_create-day-d" {eq name="info.timming_htmlaction" value="list_create-day-d"}selected{/eq}>生成视频分类</option>
+    <option  value="news_detail_cids-day-d" {eq name="info.timming_htmlaction" value="news_detail_cids-day-d"}selected{/eq}>生成当天文章内容</option>
+    <option  value="list_create-day-d-sid-2" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-2"}selected{/eq}>生成文章分类</option>
+    <option  value="star_detail_cids-day-d" {eq name="info.timming_htmlaction" value="star_detail_cids-day-d"}selected{/eq}>生成当天明星内容</option>
+    <option  value="list_create-day-d-sid-3" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-3"}selected{/eq}>生成剧情分类</option>    
+    <option  value="story_detail_cids-day-d" {eq name="info.timming_htmlaction" value="story_detail_cids-day-d"}selected{/eq}>生成当天剧情内容</option>
+    <option  value="list_create-day-d-sid-4" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-4"}selected{/eq}>生成剧情分类</option>
+    <option  value="actor_detail_cids-day-d" {eq name="info.timming_htmlaction" value="actor_detail_cids-day-d"}selected{/eq}>生成当天演员表内容</option>
+    <option  value="list_create-day-d-sid-6" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-6"}selected{/eq}>生成演员表分类</option>
+    <option  value="role_detail_cids-day-d" {eq name="info.timming_htmlaction" value="role_detail_cids-day-d"}selected{/eq}>生成当天角色内容</option>
+    <option  value="list_create-day-d-sid-5" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-5"}selected{/eq}>生成角色分类</option>
+    <option  value="special_detail_cids-day-d" {eq name="info.timming_htmlaction" value="special_detail_cids-day-d"}selected{/eq}>生成当专题色内容</option>
+    <option  value="list_create-day-d-sid-10" {eq name="info.timming_htmlaction" value="list_create-day-d-sid-10"}selected{/eq}>生成专题分类</option>
+    <option  value="index_create" {eq name="info.timming_htmlaction" value="index_create"}selected{/eq}>生成首页</option>
+    <option  value="my_detail_cids" {eq name="info.timming_htmlaction" value="my_detail_cids"}selected{/eq}>生成单页</option>
+    </select> 
+    </div>   
+     </div>                      
+      <div class="form-group" id="timming_htmltime">
+                <label for="content" class="control-label col-xs-12 col-sm-2">生成间隔时间:</label>
+                <div class="col-xs-12 col-sm-2">
+                   <input type="text" class="form-control" name="timming_htmltime" value="{$info.timming_htmltime|default='0'}"  autocomplete="false" data-tip="单位分钟，默认0不生成,生成当天更新添加的内容与分类页面">
+                </div>
+            </div> 
+        {/notempty} 
+<div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">任务密码:</label>
+                <div class="col-xs-12 col-sm-2">
+               <input type="text" class="form-control" name="timming_password" value="{$info.timming_password|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>                                                         
+    <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">任务状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select name="timming_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="info.timming_status" value="0" }selected{/eq}>禁用</option>
+                    </select>
+                </div>
+            </div> 
+             {notempty name="info.timming_id"}
+             <input type="hidden" name="timming_id" value="{$info['timming_id']|default=''}">
+             {/notempty}
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>留言- {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$description}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<!--盒子开始-->
+<div class="container">
+<div class="row">
+{php}$gb_list=xianyu_mysql_gb('limit:'.$userconfig['user_gbnum'].';page:true;order:gb_addtime desc');{/php}
+<!--左侧盒子开始-->
+<div class="col-md-9 col-sm-12 box-main-content">
+  <div class="layout-box clearfix">
+    <div class="box-title bt">
+      <h3 class="m-0"><i class="icon iconfont">&#xe635;</i>留言板</h3>
+      <div class="more pull-right">共有<span class="text-color">“{$gb_list.0.page.pagecount}”</span>条留言</div>
+    </div>
+    <div class="comment-focus" id="content">
+      <ul class="ui-comment">
+        {volist name="gb_list" id="zpgb"}
+        {php}$lou=$gb_list[0]['page']['pagecount']-(($page-1) * $userconfig['user_gbnum'] + $key);{/php}
+        <li class="comment-item fn-clear">
+          <div class="comment-num hidden-xs"><em class="text-color">{$lou}</em><span class="text-muted">条留言<span></span></span></div>
+          <div class="comment-post">
+            <div class="comment-post-cnt">
+              <div class="comment-body">
+                <div class="comment-top"><span class="user">{empty name="zpgb.userid"}游客 {$zpgb.gb_nickname}{else/}<a href="{$zpgb.user_homeurl}">{$zpgb.nickname}</a>{/empty}</span><span class="time">{$zpgb.gb_addtime|date='Y-m-d H:i:s',###}</span></div>
+                <div class="comment-text">{$zpgb.gb_content|htmlspecialchars|remove_xss}</div>
+              </div>
+              {notempty name="zpgb.gb_intro"}
+              <div class="comment-sub">
+                <div class="comment-top text-color">管理员回复:</div>
+                <div class="comment-text">{$zpgb.gb_intro}</div>
+              </div>
+              {/notempty} </div>
+          </div>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+    {notempty name="gb_list"}
+    <div class="box-page clearfix ajax-page" id="long-page">
+      <ul>
+        {$gb_list.0.page.pageurl}
+      </ul>
+    </div>
+    {/notempty} </div>
+</div>
+<!--左侧盒子结束-->
+<!--右侧盒子开始-->
+<div class="col-md-3 col-sm-12 col-xs-12 box-main-side">
+<div class="layout-box clearfix pg-0">
+<div class="box-title bt">
+  <h3 class="m-0"><i class="icon iconfont">&#xe65b;</i>我要留言</h3>
+</div>
+<form id="gbook-form" method="post" role="form" onsubmit="return false;">
+<input name="gb_vid" type="hidden" id="gb_vid" value="{$vod_id|default=0}"/>
+<div class="col-md-12 ">
+  <input class="form-control txt" name="gb_nickname" id="gb_nickname" type="text" value="{notempty name="userid"}{$nickname}{/notempty}" placeholder="请输入您的昵称" {notempty name="userid"}readonly="readonly"{/notempty}>
+</div>
+<div class="col-md-12 pg-0">
+  <ul class="box-index-mcid clearfix" id="gb_types">
+    <li {notempty name="vod_id"}class="active"{/notempty} val="2"><a href="javascript:void(0);" class="text-overflow">报错</a></li>
+    <li val="3"><a href="javascript:void(0);" class="text-overflow">故障</a></li>
+    <li val="4"><a href="javascript:void(0);" class="text-overflow">建议</a></li>
+    <li {empty name="vod_id"}class="active"{/empty} val="1"><a href="javascript:void(0);" class="text-overflow">其他</a></li>
+  </ul>
+  <input type="hidden" name="gb_cid" id="gb_type" value="{notempty name="vod_id"}2{else/}1{/notempty}">
+</div>
+<div class="col-md-12">
+<textarea cols="40" class="form-control txt" name="gb_content" id="gb_content" rows="5" placeholder="输入留言内容">{$gb_content}</textarea>
+</div>
+{notempty name="userconfig['user_code']"}
+<div class="col-md-12 clearfix">
+<div class="col-md-6 col-xs-6 p-0">
+<input class="form-control txt" id="xianyu-validate" data="validate" name="validate" type="text" placeholder="验证码">
+</div>
+ <div class="col-md-6 col-xs-6" style="padding:0px 5px"><span id="validate-xianyu"></span></div>
+</div>
+{/notempty} 
+<div class="col-md-12 clearfix"><button type="submit" class="btn btn-primary pull-left" id="gb-submit">发送留言</button></div>
+</div>
+</div>
+<!--右侧盒子结束-->
+</div>
+</div>
+<script>
+var type_ajax_url="index.php?s=gb-show";
+var type_parms={"id":"{$param['id']}","p":1};
+</script>
+<!--盒子结束-->
+{include file="zp_footer" /}
+</body>
+</html>

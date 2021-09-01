@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}最新{$list_name}-{$list_dir}{$list_name_big}{$list_name}-2015最新{$list_name}{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}最新{$list_name}包含的影片有{volist name='array_list' id='xianyu'}{$xianyu.list_name|msubstr=0,10},{/volist}完全免费在线观看！{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}$index_slide=xianyu_mysql_slide('nocid:-1;limit:6;order:slide_oid asc');{/php}
+<!--幻灯模块-->
+<div class="container">
+  <div class="row"> 
+  <div class="layout-box clearfix">
+        <div class="box-min-mcid clearfix">
+        <div class="item clearfix">
+          <dl class="clearfix">
+            <dt class="text-muted">分类</dt>
+            <dd class="clearfix">
+            {volist name="array_list" id="zplist"}
+            <a {gt name="i" value="12"}class="hidden-sm hidden-md hidden-lg"{/gt} href="{$zplist.list_url}" target="_blank">{$zplist.list_name}</a>
+            {/volist}
+            
+            </dd>
+          </dl>
+          <dl class="clearfix">
+            <dt class="text-muted">类型</dt>
+            <dd class="clearfix">
+            {volist name="mcatlist" id="vo"}
+            <a {gt name="i" value="14"}class="hidden-sm hidden-md hidden-lg"{/gt} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}" target="_blank">{$vo.m_name|msubstr=0,2}</a>
+            {/volist} 
+            </dd>
+          </dl>
+          <dl class="cleafix hidden-sm">
+            <dt class="text-muted">年份</dt>
+            <dd class="clearfix">
+            {volist name="list_year" id="year"}
+            <a {gt name="i" value="12"}class="hidden-sm hidden-md hidden-lg"{/gt} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>"",'mename'=>"",'area'=>"",'earea'=>"",'year'=>$year,'letter'=>"",'order'=>""))}" target="_blank">{$year}</a>
+            {/volist}
+            
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    {php}$tv_list = xianyu_mysql_tv('field:tv_id,tv_name,tv_cid,tv_letters,tv_pic,tv_data,tv_addtime;stars:5;data:true;limit:4;order:tv_addtime desc');{/php}
+<div class="tv_list_box hidden-xs">
+     {volist name="tv_list" id="zptv"}
+    <div class="col-md-3 col-sm-3 col-xs-6 clearfix  pl-0">
+    <div class="layout-box clearfix">
+        <div class="box-switch-tabs active clearfix p-0 m-0">
+        <ul class="nav nav-tabs">
+          <li><a href="{$zptv.tv_readurl}">{$zptv.tv_name}</a></li>
+          <div class="tv-more pull-right"><a href="{$zptv.tv_readurl}" class="text-muted" title="详细">详细 <i class="icon iconfont">&#xe65e;</i></a></div>
+        </ul>
+        </div>
+        <div class="tv_txt_list">
+      <ul class="clearfix">
+      {volist name="zptv.tv_datalist.data" id="list"}
+      {php}$url=get_vod_url($list['keywords'],1,$zptv['tv_name']);{/php}
+      <li><span class="b"></span><i>{$list.time}</i>{notempty name="url"}<a href="{$url}" target="_blank">{$list.name|msubstr=0,14}</a>{else/}{$list.name|msubstr=0,14}{/notempty}{notempty name="list.live"}<span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>{/notempty}</li>
+      {/volist}
+      </ul>  
+        
+    </div>
+    </div>
+    </div>
+  {/volist}
+  </div>
+ 
+    <!--同步盒子开始-->
+    <div class="layout-box clearfix">
+    <div class="col-md-8 col-sm-12 col-xs-12 p-0 clearfix">
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe6de;</i>同步热播</h3>
+    <div class="more pull-right"><a href="{:xianyu_url('home/up/show',array('id'=>$list_id,'dir'=>$list_dir,'type'=>'ls'))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div> 
+    {php}$tv_up =xianyu_mysql_vod('cid:'.$list_id.';limit:8;filmtime:ls;field:vod_id,vod_mcid,vod_actor,vod_year,vod_cid,vod_name,vod_letters,vod_pic,vod_filmtime,vod_title,vod_continu,vod_gold,vod_title,vod_diantai;order:vod_addtime desc');{/php}
+          <div class="swiper-container vod-swiper-4">
+            <ul class="swiper-wrapper">
+            {volist name="tv_up" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.vod_picurl}">{notempty name="xianyu.vod_diantai"}<span class="tips orange">{$xianyu.vod_diantai}</span>{/notempty}<span class="note text-bg-c">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span><div class="swiper-lazy-preloader"></div></a>
+                  <div class="title">
+                    <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+                  </div>
+                  <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor}</div>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+          </div>
+    <div class="box-video-footer visible-xs clearfix"><a href="{:getlistname($tpl_id[1],'list_url')}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+     <div class="col-md-4 col-sm-12 col-xs-12 p-0" >      
+     <div class=" clearfix">     
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe605;</i>卫视同步</h3>
+    <div class="more pull-right"><a href="{:xianyu_url('home/up/show',array('id'=>$list_id,'dir'=>$list_dir,'type'=>'ls'))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>   
+     <div class="box-video-text-list tv-diantai clearfix">
+{php}$vod_tv_diantai =xianyu_mysql_vod('cid:'.$list_id.';diantai:湖南卫视,江苏卫视,东方卫视,浙江卫视,北京卫视,安徽卫视;limit:7;field:vodtv_name,vod_id,vod_cid,vod_name,vod_pic,vod_letters,vod_title,vod_continu,vod_filmtime,vod_actor,vod_mcid,vod_director;cahce_name:default;cahce_time:3600;order:vod_addtime desc');{/php}
+                    <ul style="margin-top:3px">
+                    {volist name="vod_tv_diantai" id="xianyu"}
+<li class="list p-0 mg-0"><span class="pull-right text-color">{$xianyu.vod_gold}</span><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><span class="tv {lt name="i" value="3"}active{/lt}">{$xianyu.vodtv_name}<em></em></span>{$xianyu.vod_name}<span class="time pull-right">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span></a></li>
+
+{/volist}
+                    </ul>
+                </div>
+         </div>  
+          </div>        
+    </div>
+ <!--同步盒子结束--> 
+{volist name="array_list" id="xianyu_listid" key="k"}
+{eq name="k" value="3"}
+{php}$new_actor=xianyu_mysql_actor('limit:3;vcid:'.$list_id.';order:actor_addtime desc');{/php}
+  {notempty name="new_actor"}
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe615;</i>{:getlistname($tpl_id[9],'list_name')}</h3>
+    <div class="more pull-right"><a href="{:getlistname($tpl_id[9],'list_url')}" class="text-muted" title="{:getlistname($tpl_id[9],'list_name')}">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>   
+    {volist name="new_actor" id="xianyu"}
+    <div class="col-md-4 col-sm-4 col-xs-12 actor-box">
+     <div class="col-md-12 actor-title clearfix text-center"><a href="{$xianyu['actor_readurl']}" target="_blank" title="{$xianyu.vod_name}演员表">{notempty name="list_pid"}{:getlistname($list_pid,'list_name')}{else/}{:getlistname(getlistname($xianyu['vod_cid'],'list_pid'),'list_name')}{/notempty}{$xianyu.vod_name}演员表</a></div>   {php}$role_list=xianyu_mysql_role('vid:'.$xianyu['vod_id'].';limit:3;field:star_id,star_cid,star_letters,role_id,role_cid,role_addtime,role_name,role_star,role_pic,vod_letters;star:1;order:role_id asc');{/php}
+    <ul class="clearfix actor-main">
+    {volist name="role_list" id="role"}
+    <li class="col-md-4 col-sm-4 col-xs-4">
+    <a class="video-pic loading" data-original="{$role.role_picurl}" href="{$role.role_readurl}" title="{$xianyu.vod_name}{$role.role_name}"></a>
+    <div class="title"><h5 class="text-center text-overflow"><a href="{$role.role_readurl}" title="{$xianyu.vod_name}{$role.role_name}">{$role.role_name}</a></h5></div>
+            <div class="text-center subtitle text-muted text-overflow">&nbsp;{$role.role_star|default='未知'}&nbsp;饰</div>
+    </li>
+   {/volist}
+    </ul>
+    </div>
+   {/volist}      
+  </div>
+  {/notempty}   
+  {/eq}
+   {switch name="k"}
+   {case value="1"}
+  {php}$list_vod = xianyu_mysql_vod('cid:'.$xianyu_listid['list_id'].';field:vod_id,vod_cid,vod_name,vod_year,vod_letters,vod_mcid,vod_pic,vod_actor,vod_continu,vod_title,vod_total,vod_content,vod_gold,vod_addtime;limit:8;order:vod_addtime desc');{/php}
+  {notempty name="list_vod"} 
+<div class="col-md-8 col-sm-12 box-main-content">
+  <div class="layout-box clearfix">
+    <div class="box-title">
+      <h3 class="m-0">{$xianyu_listid['list_name']}</h3>
+      <div class="more pull-right"><a href="{$xianyu_listid.list_url}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+    <ul class="item">
+    {volist name="list_vod" id="xianyu"}
+    <li class="col-md-3 col-sm-3 col-xs-4 {gt name="i" value="6"}hidden-xs{/gt}"> <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"> {notempty name="xianyu.vod_prty"} <span class="tips orange">推荐</span> {/notempty} <span class="player"></span> <span class="score">{$xianyu.vod_gold}</span> <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span> </a>
+      <div class="title">
+        <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+      </div>
+      <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+    </li>
+    {/volist}
+    </ul>
+    <div class="box-video-footer visible-xs clearfix"><a href="{$xianyu_listid.list_url}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+  </div>
+</div>
+<div class="col-md-4 col-sm-12 box-main-side">
+  <div class="layout-box clearfix">
+    <div class="box-title">
+      <h3 class="m-0"><i class="icon iconfont text-color">&#xe66d;</i>荧幕热星</h3>
+      <div class="more pull-right"><a href="{:getlistname($tpl_id[7],'list_url')}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+{php}$star_hits=xianyu_mysql_star('limit:4;field:star_id,star_cid,star_name,star_letters,star_content,star_pic,star_pic,star_zy,star_area;stars:5;cahce_name:star_hits;cahce_time:86400;order:star_hits desc');{/php}
+    <!--小分类模块结束-->
+    <div class="clearfix" id="myTab">
+      <ul class="box-star-list" >
+        {volist name="star_hits" id="xianyu"}
+        <li class="col-md-3 col-sm-3 col-xs-4 {eq name="i" value="1"}active{/eq}  {eq name="i" value="4"}hidden-xs{/eq}">
+        <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="#con_star_{$i}" data-toggle="tab"><span>{$xianyu.star_name}</span></a>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+    <div class="clearfix star-video-list" >
+    {volist name="star_hits" id="xianyu"}
+      <ul class="box-star-list fade {eq name="i" value="1"}in active{/eq}" id="con_star_{$i}">
+      {php}$hot_star_vod = xianyu_mysql_vod('actor:'.$xianyu['star_name'].';cid:1,2;field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_gold,vod_pic,vod_actor,vod_director,vod_title;limit:3;cahce_name:star_hits_vod;cahce_time:86400;order:vod_addtime desc');{/php}
+        {volist name="hot_star_vod" id="xianyu" key="key"}
+        <li class="col-md-4 col-sm-4 col-xs-4"> <a  href="{$xianyu.vod_readurl}" target="_blank" class="video-pic" style="background: url({$xianyu.vod_picurl})  no-repeat;background-size:cover;" title="{$xianyu.vod_name}"><span class="note text-bg-c">{$xianyu.vod_name}</span></a></li>
+        {/volist}
+        </ul>
+      {/volist}
+      </div>
+    <div class="hidden-sm hidden-xs clearfix">
+      <div class="box-title" style="margin-bottom:0px; padding-bottom:0px;">
+        <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>排行榜</h3>
+        <div class="more pull-right"><a href="{$xianyu_listid.list_url}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+      </div>
+      <div class="box-video-text-list"> 
+      {php}$list_hits =xianyu_mysql_vod('cid:'.$xianyu_listid['list_id'].';limit:7;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_letters,vod_content,vod_gold,vod_color,vod_actor,vod_director,vod_hits;cahce_name:default;cahce_time:86400;order:vod_hits desc');{/php}
+        <ul class="clearfix" style="margin-bottom:0px; margin-top:5px;">
+          {volist name="list_hits" id="xianyu"}
+<li class="list p-0 {gt name="i" value="3"}hidden-md{/gt}"><span class="pull-right text-color">{$xianyu.vod_hits}</span><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i}</em>{$xianyu.vod_name}</a></li>
+          {/volist}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{/notempty}
+{/case}
+{case value="2"}
+{php}$list_vod = xianyu_mysql_vod('cid:'.$xianyu_listid['list_id'].';field:vod_id,vod_cid,vod_name,vod_year,vod_letters,vod_mcid,vod_pic,vod_actor,vod_continu,vod_title,vod_total,vod_content,vod_gold,vod_addtime;limit:8;order:vod_addtime desc');{/php}
+{notempty name="list_vod"}
+<div class="col-md-8 col-sm-12 box-main-content">
+  <div class="layout-box clearfix">
+    <div class="box-title">
+      <h3 class="m-0">{$xianyu_listid['list_name']}</h3>
+      <div class="more pull-right"><a href="{$xianyu_listid.list_url}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+    <ul class="item">
+    {volist name="list_vod" id="xianyu"}
+    <li class="col-md-3 col-sm-3 col-xs-4 {gt name="i" value="6"}hidden-xs{/gt}"> <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"> {notempty name="xianyu.vod_prty"} <span class="tips orange">推荐</span> {/notempty} <span class="player"></span> <span class="score">{$xianyu.vod_gold}</span> <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span> </a>
+      <div class="title">
+        <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+      </div>
+    </li>
+    {/volist}
+    </ul>
+    <div class="box-video-footer visible-xs clearfix"><a href="{$xianyu_listid.list_url}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+  </div>
+</div>
+
+<div class="col-md-4 col-sm-12 box-main-side hidden-xs">
+  <div class="layout-box clearfix">
+    <div class="box-title">
+      <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>排行榜</h3>
+      <div class="more pull-right"><a href="{$xianyu_listid.list_url}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+    <ul class="item">
+    {php}$vod_mov_hist =xianyu_mysql_vod('cid:'.$xianyu_listid['list_id'].';limit:14;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_letters,vod_content,vod_gold,vod_color,vod_hits_day,vod_hits;cahce_name:default;cahce_time:86400;order:vod_hits desc');{/php}
+    {volist name="vod_mov_hist" id="xianyu" offset="0" length='3'}
+    <li class="col-md-4 col-sm-4 col-xs-4 hotlist"> <a  href="{$xianyu.vod_readurl}" target="_blank" class="video-pic" style="background: url({$xianyu.vod_picurl})  no-repeat;background-size:cover;" title="{$xianyu.vod_name}" > <span class="top"><em>{$i}</em></span> <span class="note text-bg-c">{$xianyu.vod_name}</span> </a>
+    </li>
+    {/volist}
+    </ul>
+ <div class="clearfix"></div>   
+ <div class="box-video-text-list">
+      <ul class="clearfix" style="margin-top:4px;">
+        {volist name="vod_mov_hist" id="xianyu" offset="3"}
+<li class="list p-0 {gt name="i" value="3"}hidden-md{/gt}"><span class="pull-right text-color">{$xianyu.vod_hits}</span><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i}</em>{$xianyu.vod_name}</a></li>
+        {/volist}
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+{/notempty}
+{/case}
+{default /}
+{php}$list_vod = xianyu_mysql_vod('cid:'.$xianyu_listid['list_id'].';field:vod_id,vod_cid,vod_name,vod_year,vod_letters,vod_mcid,vod_pic,vod_actor,vod_continu,vod_title,vod_total,vod_content,vod_gold,vod_addtime;limit:8;order:vod_addtime desc');{/php}
+{notempty name="list_vod"}
+<div class="layout-box clearfix">
+  <div class="box-title">
+     <h3 class="m-0">{$xianyu_listid['list_name']}</h3>
+     <div class="more pull-right"><a href="{$xianyu_listid.list_url}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+  </div>
+  <ul class="item">
+  {volist name="list_vod" id="xianyu"}
+  <li class="col-md-2 col-sm-3 col-xs-4 {gt name="i" value="6"}visible-sm{/gt}"><a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" ><span class="player"></span> <span class="score">{$xianyu.vod_gold}</span> <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span> </a>
+    <div class="title">
+      <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+    </div>
+    <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+  </li>
+  {/volist}
+  </ul>
+  <div class="box-video-footer visible-xs clearfix"><a href="{$xianyu_listid.list_url}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+</div>
+{/notempty}
+{/switch}
+{/volist}  
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

@@ -1,0 +1,203 @@
+
+{notempty name="star_bigpicurl"}
+<div class="star_details {eq name="star_pig" value="2"}light{/eq}">
+<div class="star_hot" style=" background-color:{$star_bgcolor}">
+  <div class="container">
+    <div class="star_hot_bg row"  style="background-image:url({$star_bigpicurl});">
+      <div class="star_hot_info col-md-9 col-sm-9 col-xs-12 p-0">
+        <div class="col-md-5 col-sm-3 col-xs-3">
+          <div class="star_hot_hits">热门<br>明星</div>
+        </div>
+        <div class="col-md-7 col-sm-6 col-xs-9 p-0">
+          <div id="flower" data-id="{$star_id}" data-sid="{$list_sid}"><span class="flower hover"></span><span class="fnum" id="flower-count" data-count="{$star_flower}">{$star_flower}</span></div>
+          <h1>{$star_name}{notempty name="star_weibo"}<a rel="nofollow" href="{$star_weibo}" target="_blank" class="weibo"><i class="iconfont">&#xe636;</i></a>{/notempty}</h1>
+          <ul class="info clearfix">
+            <li class="col-md-12 col-sm-12 col-xs-12"> <span>星座：</span>{$star_xz|default='未知'} </li>
+            <li class="col-md-12 col-sm-12 col-xs-12"> <span>身高：</span>{$star_sg|default='未知'} </li>
+            <li class="col-md-12 col-sm-12 col-xs-12"> <span>体重：</span>{$star_tz|default='未知'} </li>
+            <li class="col-md-12 col-sm-12 col-xs-12"> <span>生日：</span>{$star_cstime|default='未知'} </li>
+            <li class="col-md-12 col-sm-12 col-xs-12"> <span>地区：</span>{$star_csd|default='未知'} </li>
+            <li class="col-md-12 col-sm-12 col-xs-12"><span>{$star_content|strip_tags|msubstr=0,100,true}</span>  </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-3 hidden-sm hidden-xs pg-0 star_hot_right">
+        <div class="box-title"> {eq name="action" value="hz"}
+          <h3 class="m-0">本周热星</h3>
+          <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>"",'letter'=>'','order'=>'hits'))}" class="text-muted">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+          {else /}
+          <h3 class="m-0">{notempty name="hezuo"}{notempty name="star_guanxi"}明星关系{else /}合作明星{/notempty}{else /}本周热星{/notempty}</h3>
+          <div class="more pull-right"><a href="{:xianyu_data_url('home/star/hz',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" class="text-muted">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+          {/eq} </div>
+        <ul class="box-star-list clearfix" >
+          {eq name="action" value="hz"}
+          {php}$hot_star=xianyu_mysql_star('limit:4;field:star_id,star_cid,star_name,star_letters,star_pic;order:star_hits_day desc');{/php}
+          {volist name="hot_star" id="xianyu" offset="0" length='3'}
+          <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_name}</span></a></li>
+          {/volist}
+          {else /}
+          {notempty name="star_guanxi"}
+          {volist name="star_guanxi" id="xianyu" offset="0" length='3'}
+          <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_gx}{$xianyu.star_name}</span></a></li>
+          {/volist}
+          {else /}
+          {notempty name="hezuo"}
+          {volist name="hezuo" id="xianyu" offset="0" length='3'}
+          <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">拍档{$xianyu.star_name}</span></a></li>
+          {/volist}
+          {else /}
+          {php}$hot_star=xianyu_mysql_star('limit:4;field:star_id,star_cid,star_name,star_letters,star_pic;order:star_hits_day desc');{/php}
+          {volist name="hot_star" id="xianyu" offset="0" length='3'}
+          <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_name}</span></a></li>
+          {/volist}   
+          {/notempty}
+          {/notempty}
+          {/eq}
+        </ul>
+        {php}$star_works = xianyu_mysql_vod('cid:1,2;actor:'.$star_name.';field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_pic,vod_actor,vod_director,vod_title;limit:2;order:vod_hits_day desc');
+        {/php}
+        <ul class="item clearfix" style="margin-top:30px;">
+          {volist name="star_works" id="xianyu"}
+          <li class="col-md-6 col-sm-6 col-xs-6"> <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><span class="note text-bg-c text-overflow">{$xianyu.vod_name}</span> </a> </li>
+          {/volist}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{/notempty}
+<!--盒子开始-->
+<div class="container star_hot_box">
+<div class="row">
+<!--左侧板块开始-->
+<div{notempty name="star_bigpicurl"} class="star_hot_nav"{/notempty}>
+<div class="details-nav">
+  <ul>
+    <li {eq name="action" value="read"}class="active"{/eq}><a href="{$star_readurl}" title="{$star_name}资料" target="_self"><span class="hidden-xs">明星</span>详细</a></li>
+    {notempty name="vod_list"}
+    <li {eq name="action" value="work"}class="active"{/eq}><a href="{:xianyu_data_url('home/star/work',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" title="{$star_name}电影电视剧" target="_self"><span class="hidden-xs">影视</span>作品</a></li>
+    {/notempty}
+    {notempty name="hezuo"}
+    <li {eq name="action" value="hz"}class="active"{/eq}><a href="{:xianyu_data_url('home/star/hz',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" title="{$star_name}合作过的明星" target="_self"><span class="hidden-xs">明星</span>关系</a></li>
+    {/notempty}
+    {notempty name="actor_list"}
+    <li {eq name="action" value="role"}class="active"{/eq}><a href="{:xianyu_data_url('home/star/role',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" title="{$star_name}演过的角色" target="_self"><span class="hidden-xs">参演</span>角色</a></li>
+    {/notempty}
+    {notempty name="news_star"}
+    <li {eq name="action" value="news"}class="active"{/eq}><a href="{:xianyu_data_url('home/star/news',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" title="{$star_name}近况" target="_self"><span class="hidden-xs">近况</span>新闻</a></li>
+    {/notempty}
+  </ul>
+</div>
+<div class="layout-box clearfix p-0 mt-0">
+{empty name="star_bigpicurl"}
+  <div class="col-md-9 col-sm-9 col-xs-12">
+    <div class="col-md-3 col-sm-3 col-xs-4 clearfix">
+      <div class="details-pic">
+        <div class="video-pic" style="background: url({$star_picurl}) no-repeat top center;background-size:cover;">
+          <div id="flower" data-id="{$star_id}" data-sid="{$list_sid}"><span class="flower hover"></span><span class="fnum" id="flower-count">{$star_flower}</span></div>
+        </div>
+        <div class="details-tool" id="updown">
+          <div class="vod-sect"> <a rel="nofollow" id="up" class="b-r"  href="javascript:void(0);" data-type="up" data-id="{$star_id}" data-sid="{$list_sid}"><i class="iconfont hidden-xs">&#xe607;</i>顶</a> </div>
+          <div class="vod-rss"> <a rel="nofollow" id="down" class="b-l b-r" href="javascript:void(0);" data-type="down" data-id="{$star_id}" data-sid="{$list_sid}"><i class="iconfont hidden-xs">&#xe606;</i>踩</a> </div>
+          <a rel="nofollow" class="b-l hidden-xs" id="qrcode" data-toggle="popover" data-trigger="hover" data-placement="top" data-container="body" data-title="手机浏览请扫瞄二维码" href="javascript:void(0);"><i class="iconfont">&#xe62d;</i>手机</a> </div>
+      </div>
+    </div>
+    <div class="col-md-9 col-sm-9 col-xs-8 clearfix p-0">
+      <div class="details-info p-0" style="width:100%">
+        <h1>{$star_name}<em class="hidden-sm hidden-md hidden-lg">{$star_bm}</em></h1>
+        <ul class="info clearfix">
+          <li class="col-md-12 col-sm-12 col-xs-12  pt-0 hidden-sm hidden-md hidden-lg text-overflow"><span>{$star_xb}{notempty name='star_gj'} / {$star_gj}{/notempty}{notempty name='star_zy'} / {$star_zy}{/notempty}</span></li>
+          <li class="col-md-12 col-sm-12 col-xs-12 pt-0 hidden-sm hidden-md hidden-lg text-overflow"><span>{$star_sg}{notempty name='star_tz'} / {$star_tz}{/notempty}{notempty name='star_xz'} / {$star_xz}{/notempty}{notempty name='star_xx'} / {$star_xx}{/notempty}</span></li>
+          <li class="col-md-12 col-sm-12 col-xs-12 hidden-sm hidden-md hidden-lg text-overflow pt-0"><span>{$star_mz}{notempty name='star_csd'} / {$star_csd}{/notempty}{notempty name='star_cstime'} / {$star_cstime}{/notempty}</span></li>
+         <li class="col-md-12 col-sm-12 col-xs-12 pt-0 pb-0 hidden-sm hidden-md hidden-lg"><span class="hidden-xs">详细介绍：</span><span>{$star_content|strip_tags|msubstr=0,55,true}</span>  </li>
+                    
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"><span>别名：</span>{$star_bm|default='未知'}</li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>外文名：</span>{$star_wwm|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>性别：</span>{$star_xb|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>国籍：</span>{$star_gj|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>身高：</span>{$star_sg|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>体重：</span>{$star_tz|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>民族：</span>{$star_mz|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>星座：</span>{$star_xz|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>血型：</span>{$star_xx|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>出生日期：</span>{$star_cstime|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>出生地区：</span>{$star_csd|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>职业：</span>{$star_zy|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>毕业院校：</span>{$star_school|default='未知'} </li>
+          <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"> <span>经纪公司：</span>{$star_gs|default='未知'} </li>
+          <li class="col-md-12 col-sm-12 col-xs-12 pt-0 hidden-xs"><span>明星/评论：</span><a rel="nofollow" href="#xianyu-cm">当前有<em id="commnum">0</em>条评论，<i class="iconfont">&#xe632;</i></a></li>
+          <li class="col-md-12 col-sm-12 col-xs-12 pt-0 pb-0 hidden-xs"><span class="hidden-xs">详细介绍：</span> <span class="details-content-default">{$star_content|strip_tags|msubstr=0,70,true}</span> <span class="details-content-all collapse hidden-xs">{$star_content|strip_tags}</span> <a class="hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".details-content-all" data-default=".details-content-default" data-html="收起">详情</a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-3 col-xs-3 hidden-sm hidden-xs">
+    <div class="box-title"> {eq name="action" value="hz"}
+      <h3 class="m-0">本周热星</h3>
+      <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>"",'letter'=>'','order'=>'hits'))}" class="text-muted">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+      {else /}
+      <h3 class="m-0">{notempty name="hezuo"}{notempty name="star_guanxi"}明星关系{else /}合作明星{/notempty}{else /}本周热星{/notempty}</h3>
+      <div class="more pull-right"><a href="{:xianyu_data_url('home/star/hz',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" class="text-muted">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+      {/eq} </div>
+    <ul class="box-star-list" >
+      {eq name="action" value="hz"}
+      {php}$hot_star=xianyu_mysql_star('limit:3;field:star_id,star_cid,star_name,star_letters,star_pic;cahce_name:hot_star;cahce_time:86400;order:star_hits_day desc');{/php}
+      {volist name="hot_star" id="xianyu"}
+      <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_name}</span></a></li>
+      {/volist}
+      {else /}
+      {notempty name="star_guanxi"}
+      {volist name="star_guanxi" id="xianyu" offset="0" length='3'}
+      <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_gx}{$xianyu.star_name}</span></a></li>
+      {/volist}
+      {else /}
+      {notempty name="hezuo"}
+      {volist name="hezuo" id="xianyu" offset="0" length='3'}
+      <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">拍档{$xianyu.star_name}</span></a></li>
+      {/volist}
+      {else /}
+      {php}$hot_star=xianyu_mysql_star('limit:4;field:star_id,star_cid,star_name,star_letters,star_pic;cahce_name:hot_star;cahce_time:86400;order:star_hits_day desc');{/php}
+      {volist name="hot_star" id="xianyu" offset="0" length='3'}
+      <li class="col-md-4 col-sm-4 col-xs-4"> <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="{$xianyu.star_readurl}"><span class="text-overflow">{$xianyu.star_name}</span></a></li>
+      {/volist}   
+      {/notempty}
+      {/notempty}
+      {/eq}
+    </ul>
+    {php}$star_works = xianyu_mysql_vod('cid:1,2;actor:'.$star_name.';field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_pic,vod_actor,vod_director,vod_title;limit:2;order:vod_hits_day desc');
+    {/php}
+    <ul class="item">
+      {volist name="star_works" id="xianyu"}
+      <li class="col-md-6 col-sm-6 col-xs-6 {gt name="i" value="6"}hidden-xs{/gt}"> <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><span class="note text-bg-c text-overflow">{$xianyu.vod_name}</span> </a> </li>
+      {/volist}
+    </ul>
+  </div>
+  </div>
+  {else /}
+  {eq name="action" value="read"}
+  <div class="col-md-12 col-sm-12 col-xs-12 clearfix">
+      <div class="details-info p-0">
+        <ul class="info clearfix">
+          <li class="col-md-4 col-sm-6 col-xs-6 text"><span>别名：</span>{$star_bm|default='未知'}</li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>外文名：</span>{$star_wwm|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>性别：</span>{$star_xb|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>国籍：</span>{$star_gj|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>身高：</span>{$star_sg|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>体重：</span>{$star_tz|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>民族：</span>{$star_mz|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>星座：</span>{$star_xz|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>血型：</span>{$star_xx|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>出生日期：</span>{$star_cstime|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>出生地区：</span>{$star_csd|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>职业：</span>{$star_zy|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>毕业院校：</span>{$star_school|default='未知'} </li>
+          <li class="col-md-4 col-sm-6 col-xs-6 text"> <span>经纪公司：</span>{$star_gs|default='未知'} </li>
+          <li class="col-md-4 col-sm-12 col-xs-6 text pt-0"><span>明星/评论：</span><a rel="nofollow" href="#xianyu-cm">当前有<em id="commnum">0</em>条评论，<i class="iconfont">&#xe632;</i></a></li>
+          <li class="col-md-12 col-sm-12 col-xs-12 "><span class="hidden-xs">详细介绍：</span><span class="details-content-default">{$star_content|strip_tags|msubstr=0,80,true}</span> <span class="details-content-all collapse hidden-xs">{$star_content|strip_tags}</span> <a class="hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".details-content-all" data-default=".details-content-default" data-html="收起">详情</a> </li>
+        </ul>
+      </div>
+    </div> 
+    {/eq}
+  {/empty}
+</div>

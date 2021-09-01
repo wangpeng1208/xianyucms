@@ -1,0 +1,93 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+  <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+   <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">幻灯片分类:</label>
+                <div class="col-xs-12 col-sm-8">
+                  <select name="slide_cid" class="form-control selectpicker">
+                        <option value="">请选择</option>
+{volist name="list" id="vo"}<option value="{$vo.list_id}" {if isset($info['slide_cid'])} {eq name="vo.list_id" value="$info['slide_cid']"}selected{/eq}{/if}>{$vo.list_name}</option>{/volist}
+<option value="-1" {if isset($info['slide_cid'])} {eq name="info['slide_cid']" value="-1"}selected{/eq}{/if}>手机</option></select>
+                </div>
+            </div>     
+<div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">幻灯片名:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="slide_name" value="{$info.slide_name|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">视频ID:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="slide_vid" value="{$info['slide_vid']|default=''}" autocomplete="false" placeholder="填写视频ID后自动获取视频信息和连接地址">
+                </div>
+            </div>
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">连接地址:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="slide_url" value="{$info['slide_url']|default=''}" autocomplete="false" placeholder="填写视频ID后自动获取地址">
+                </div>
+            </div>               
+            <div class="form-group">
+            <label for="c-image" class="control-label col-xs-12 col-sm-2">幻灯片LOGO:</label>
+            <div class="col-xs-12 col-sm-8">
+            <div class="form-inline">
+                <input id="c-image" class="form-control" size="50" name="slide_logo" type="text" value="{$info['slide_logo']|default=''}">
+                <span><button type="button" id="plupload-image" class="btn btn-danger plupload" data-input-id="c-image" data-mimetype="image/*" data-multipart='{"sid":"slide"}' data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> 上传</button></span>
+                <ul class="row list-inline plupload-preview" id="p-image"></ul>
+            </div>
+            </div>
+          </div>
+         <div class="form-group">
+            <label for="c-image" class="control-label col-xs-12 col-sm-2">幻灯片大图:</label>
+            <div class="col-xs-12 col-sm-8">
+            <div class="form-inline">
+                <input id="c-images" class="form-control" size="50" name="slide_pic" type="text" value="{$info['slide_pic']|default=''}">
+                <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="c-images" data-mimetype="image/*" data-multipart='{"sid":"slide"}' data-multiple="false" data-preview-id="p-images"><i class="fa fa-upload"></i> 上传</button></span>
+                <ul class="row list-inline plupload-preview" id="p-images"></ul>
+            </div>
+            </div>
+          </div>  
+  <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">幻灯片简介:</label>
+                <div class="col-xs-12 col-sm-8">
+                 <textarea class="form-control" name="slide_content" style="height:100px">{$info.slide_content|default=''}</textarea>
+                </div>
+            </div>                 
+     <div class="form-group">
+      <label for="content" class="control-label col-xs-12 col-sm-2">幻灯片排序:</label>
+      <div class="col-xs-12 col-sm-2">
+        <input type="text" class="form-control" name="slide_oid" value="{$info.slide_oid|default=''}" autocomplete="false" placeholder="越小越前面" style="text-align:center">
+      </div>
+    </div>
+   <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select name="status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.slide_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div> 
+           {notempty name="info.slide_id"}
+            <input type="hidden" name="slide_id" value="{$info['slide_id']|default=''}">
+            {/notempty}
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

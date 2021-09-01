@@ -1,0 +1,329 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading" style=" padding-top:5px;">
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本设置</a></li>
+                   <li ><a href="#tab_2" data-toggle="tab">其他设置</a></li> 
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax ajax-no-close" role="form" data-toggle="validator" method="post">   
+<input type="hidden" name="star_caiji" value="" />   
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星名字:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" id="star_name" name="star_name" value="{$info.star_name|default=''}" class="form-control">
+         </div>
+          <label for="c-keywords" class="control-label col-xs-12" style="width:auto">明星别名:</label>
+       <div class="col-xs-12" style="width:auto">
+         <input type="text" id="star_bm" name="star_bm" value="{$info.star_bm|default=''}" class="form-control">
+        </div>
+  <label for="c-keywords" class="control-label col-xs-12" style="width:auto">英文名称:</label>
+       <div class="col-xs-12" style="width:auto">
+         <input type="text" id="star_wwm" name="star_wwm" value="{$info.star_wwm|default=''}" class="form-control">
+        </div>         
+         <div class="col-xs-12" style="width:auto">
+          <select name="star_cid" class="form-control selectpicker" style="width:auto">
+<option value="">选择分类</option> 
+{volist name="liststar" id="vo"}<option value="{$vo.list_id}" {if isset($info['star_cid'])} {eq name="vo.list_id" value="$info['star_cid']"}selected{/eq}{/if}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info['star_cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+</select>
+         </div> 
+         <span style="line-height:30px;">推送到百度：</span><input name="insertseo" type="checkbox" {empty name="info['star_id']"}checked{/empty} title="勾选推送到百度" style="border:none;width:auto; position:relative; top:2px;margin-bottom:3px;margin-right:8px;" >              
+    </div> 
+    
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星属性:</label>
+        <div class="col-xs-12 col-sm-6" style=" line-height:35px;">
+   {volist name=":config('document_position')" id="vo"}<input  style="border:none;width:auto; position:relative; top:2px;margin-bottom:3px;margin-right:8px;{if $key != 1}margin-left:10px;{/if}" type="checkbox" value="{$key}" name="star_prty[]"   {if  isset($info['star_prty_array']) && in_array($key,$info.star_prty_array)}checked="checked"{/if} />{$vo}
+            {/volist}         
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">资料采集:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="star_reurl" name="star_reurl" value="{$info.star_reurl|default=''}" class="form-control" placeholder="支持百度百科，360百科地址,TV2345明星地址" data-tip="支持百度百科，360百科地址,TV2345明星地址"><a href="javascript:;" id="getinfo" class="btn btn-success btn-add" style="cursor:pointer; position:absolute; right:15px;top:0">获取资料</a>
+        </div> 
+    </div>    
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星性别:</label>
+        <div class="col-xs-12" style="width:auto">
+         <select name="star_xb" id="star_xb" class="form-control" style="width:auto">
+         <option value="男" {eq name="info.star_xb" value="男"}selected{/eq}>男</option><option value="女" {eq name="info.star_xb" value="女"}selected{/eq}>女</option>
+         </select>
+        </div> 
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">血型:</label>
+        <div class="col-xs-12" style="width:auto">
+<select name="star_xx" id="star_xx" class="form-control" style="width:auto"><option value=''>血型</option><option value="A型" {eq name="info.star_xx" value="A型"}selected{/eq}>A型</option><option value="B型" {eq name="info.star_xx" value="B型"}selected{/eq}>B型</option><option value="AB型" {eq name="info.star_xx" value="AB型"}selected{/eq}>AB型</option><option value="O型" {eq name="info.star_xx" value="O型"}selected{/eq}>O型</option><option value="ABO型" {eq name="info.star_xx" value="ABO型"}selected{/eq}>ABO型</option><option value="Rh型" {eq name="info.star_xx" value="Rh型"}selected{/eq}>Rh型</option></select>
+        </div> 
+        {php}$xzarray=array('白羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天秤座','天蝎座','射手座','摩羯座','水瓶座','双鱼座');{/php}
+         <label for="c-keywords" class="control-label col-xs-12" style="width:auto">星座:</label>
+        <div class="col-xs-12" style="width:auto">
+<select name="star_xz" id="star_xz" class="form-control" style="width:auto"><option value=''>星座</option>
+{volist name="xzarray" id="xz"}
+<option value="{$xz}" {eq name="info.star_xz" value="$xz"}selected{/eq}>{$xz}</option>
+
+{/volist} 
+
+</select>
+        </div>        
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">职业:</label> 
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" id="star_zy" name="star_zy" value="{$info.star_zy|default=''}" class="form-control">
+        </div>
+        </div>
+        <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星身高:</label> 
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_sg" id="star_sg" value="{$info.star_sg|default=''}" class="form-control" style="width:80px">
+        </div>  
+         <label for="c-keywords" class="control-label col-xs-12" style="width:auto">体重:</label> 
+        <div class="col-xs-12" style="width:auto">
+         <input type="text"  name="star_tz" id="star_tz" value="{$info.star_tz|default=''}" class="form-control" style="width:80px">
+        </div> 
+           <label for="c-keywords" class="control-label col-xs-12" style="width:auto">民族:</label> 
+        <div class="col-xs-12" style="width:auto">
+         <input type="text"  name="star_mz" id="star_mz" value="{$info.star_mz|default=''}" class="form-control" style="width:80px">
+        </div>
+                <label for="c-keywords" class="control-label col-xs-12" style="width:auto">出生日:</label> 
+        <div class="col-xs-12" style="width:auto">
+        <input class="form-control datetimepicker" name="star_cstime" value="{$info.star_cstime|default=''}"  id="createtime"  data-date-format="YYYY年MM月DD日" type="datetime" style="width:auto">
+        </div>                                    
+    </div>       
+    
+       
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星国籍:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text"  id="star_gj" name="star_gj" value="{$info.star_gj|default=''}" class="form-control" style="width:80px">
+        </div> 
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">地区:</label>
+        <div class="col-xs-12" style="width:auto">
+        <input type="text"  id="star_area" name="star_area" value="{$info.star_area|default=''}" class="form-control">
+        </div> 
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">出生地:</label> 
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" id="star_csd" name="star_csd" value="{$info.star_csd|default=''}" class="form-control">
+        </div>                     
+    </div>  
+       <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">微博地址:</label>
+        <div class="col-xs-12 col-sm-3">
+         <input type="text"  id="star_weibo" name="star_weibo" value="{$info.star_weibo|default=''}" class="form-control">
+        </div> 
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">经纪公司:</label>
+        <div class="col-xs-12 col-sm-3">
+        <input type="text"  id="star_gs" name="star_gs" value="{$info.star_gs|default=''}" class="form-control">
+        </div> 
+        <label for="c-keywords" class="control-label col-xs-12" style="width:auto">毕业院校:</label> 
+        <div class="col-xs-12 col-sm-3">
+         <input type="text" id="star_school" name="star_school" value="{$info.star_school|default=''}" class="form-control">
+        </div>             
+    </div>  
+  <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">代表作品:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="star_work" name="star_work" value="{$info.star_work|default=''}" placeholder="多个视频请用逗号分开" class="form-control" data-tip="多个视频请用逗号分开">
+        </div>
+    </div>    
+  <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星关系:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="star_guanxi" name="star_guanxi" value="{$info.star_guanxi|default=''}" placeholder="格式：丈夫@刘德华,好友@郭富城,密友@张学友" class="form-control" data-tip="格式：丈夫@刘德华,好友@郭富城,密友@张学友">
+        </div>
+    </div>  
+       <div class="form-group">
+            <label for="c-image" class="control-label col-xs-12 col-sm-1">明星缩略:</label>
+            <div class="col-xs-12" style="width:auto">
+            <div class="form-inline">
+                <input id="star_pic" class="form-control" size="50" name="star_pic" type="text" value="{$info['star_pic']|default=''}">
+                <span><button type="button" id="plupload-image" class="btn btn-danger plupload" data-input-id="star_pic" data-mimetype="image/*" data-multipart='{"sid":"star"}' data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> 上传</button></span>
+                <ul class="row list-inline plupload-preview" id="p-image"></ul>
+            </div>
+            </div>
+          </div>
+         <div class="form-group">
+            <label for="c-image" class="control-label col-xs-12 col-sm-1">明星海报:</label>
+            <div class="col-xs-12" style="width:auto">
+            <div class="form-inline">
+                <input id="star_bigpic" class="form-control" size="50" name="star_bigpic" type="text" value="{$info['star_bigpic']|default=''}">
+                <span><button type="button" id="plupload-images" class="btn btn-danger plupload" data-input-id="star_bigpic" data-mimetype="image/*" data-multipart='{"sid":"star"}' data-multiple="false" data-preview-id="p-images"><i class="fa fa-upload"></i> 上传</button></span>
+                <ul class="row list-inline plupload-preview" id="p-images"></ul>
+            </div>
+            </div>
+            <label for="c-keywords" class="control-label col-xs-12" style="width:auto">背景颜色:</label>
+            <div class="col-xs-12" style="width:auto"> 
+            <input type="text" class="form-control" name="star_bgcolor" id="star_bgcolor"  value="{$info.star_bgcolor}" style="width:85px">
+            </div>
+             <label for="c-keywords" class="control-label col-xs-12" style="width:auto">颜色深浅:</label>
+            <div class="col-xs-12" style="width:auto"> 
+<select name="star_pig" id="star_pig" class="form-control selectpicker" style="width:auto"><option value=''>深浅</option><option value="1" {eq name="info.star_pig" value="1"}selected{/eq}>深色</option><option value="2" {eq name="info.star_pig" value="2"}selected{/eq}>浅色</option></select>
+            </div>
+          </div> 
+           
+  <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星标题:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="star_title"  name="star_title" value="{$info.star_title|default=''}" placeholder="用于前台明星页面的SEO标题" class="form-control" data-tip="用于前台明星页面的SEO标题">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1" style="padding-left:10px; padding-right:10px;">明星关键词:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="keywords"  name="star_keywords" value="{$info.star_keywords|default=''}" placeholder="用于前台明星页面的关键词" class="form-control" data-tip="用于前台明星页面的关键词"><a href="javascript:;" id="getkeywords" class="btn btn-success btn-add" style="cursor:pointer; position:absolute; right:15px;top:0">获取关键词</a>
+        </div>
+    </div>              
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星描述:</label>
+        <div class="col-xs-12 col-sm-8">
+         <textarea  class="form-control" name="star_description" id="star_description">{$info['actor_description']|default=''}</textarea>
+        </div>
+    </div>             
+   <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">TAG标签:</label>
+        <div class="col-xs-12 col-sm-8" style="position:relative">
+         <input type="text" id="star_tag"  name="star_tag" value="{$info.star_tag|default=''}" class="form-control tag" data-tip="明星TAG标签"><a href="javascript:;"  data-url="{:admin_url('admin/tag/showajax',array('sid'=>3))}" data-name="添加TAG标签到明星{$info.star_name}" class="btn btn-info btn-add btn-editone" style="cursor:pointer; position:absolute; right:15px;top:0"><i class="fa fa-plus"></i> 添加TAG</a>
+        </div>
+    </div>   
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星介绍:</label>
+        <div class="col-xs-12 col-sm-11">
+         <textarea class="summernote" id="star_content" name="star_content" style="height:200px;">{:xianyu_news_img_array($info['star_content'])}</textarea>
+        </div>
+    </div> 
+   <div class="form-group" id="stardata">
+    {volist name="data.star_data" id="data" key="key"}
+    <stardata id="data_{$key}">
+    <label for="c-keywords" class="control-label col-xs-12 col-sm-1">信息{$key}</label>
+    <div class="col-xs-12 col-sm-11">
+        <div class="col-xs-12 col-sm-11" style="padding-left:0px;">
+        <label for="c-keywords" class="control-label col-xs-12" style=" width:auto;padding-left:0px;">标题：</label>
+        <div class="col-xs-12" style=" width:auto">
+        <input class="form-control"  name="star_data_title[]" id="star_data_title" value="{$data.title}">
+        </div>
+        <a href="javascript:;"  class="btn btn-danger btn-del delinfo" id="{$key}"><i class="fa fa-minus"></i> 删除</a>
+         <div class="col-xs-12 col-sm-11" style=" margin-top:10px;padding-left:0px;">
+         <textarea name='star_data_info[]' id="star_data_info" class="form-control summernote">{$data.info}</textarea>
+        </div>       
+        </div>
+        </div>
+        </stardata>
+     {/volist}    
+    </div> 
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">添加板块:</label>
+        <div class="col-xs-12 col-sm-9">
+        <a href="javascript:;"  class="btn btn-success btn-add addstar"><i class="fa fa-plus"></i> 添加信息板块</a>
+        </div>
+    </div>    
+    
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星排序:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_oid"  value="{$info.star_oid|default=''}" class="form-control" data-tip="越小越前面" style="text-align:center;width:80px;">
+        </div>
+    </div>       
+       <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-1">明星状态:</label>
+                <div class="col-xs-12" style="width:auto">
+                    <select name="star_status" class="form-control selectpicker">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.star_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星时间:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_addtime" value="{notempty name="info.star_addtime"}{$info.star_addtime|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s',time())}{/notempty}" class="form-control">
+        </div>
+        <input name="checktime" type="checkbox" style="border:none;width:auto;position:relative; top:5px;" value="1" {notempty name="info.admin_time_edit"}checked{/notempty} title="勾选则使用系统当前时间">
+    </div>             
+            
+     </div>
+<div class="tab-pane fade" id="tab_2">
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星拼音:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_letters"  value="{$info.star_letters|default=''}" class="form-control" data-tip="留空自动获取">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">明星首字母:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_letter"  value="{$info.star_letter|default=''}" class="form-control" data-tip="留空自动获取">
+        </div>
+    </div>   
+     <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-1">推荐星级:</label>
+                <div class="col-xs-12 col-sm-6" style="position:relative; top:5px;">
+                 <input name="star_stars" id="star_stars" type="hidden" value="{$info.star_stars|default=''}">{volist name=":admin_star_arr($info.star_stars)" id="ajaxstar"}<img src="{$config.site.cdnurl}admin/xianyucms/img/star{$ajaxstar}.gif" id="star_{$i}" class="addstars">{/volist}
+                </div>
+            </div>          
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">标题颜色:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_color"  value="{$info.star_color|default=''}" class="form-control" data-tip="点击选色" style="width:80px;text-align:center" id="color">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">总人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_hits"  value="{$info.star_hits|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>    
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">月人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_hits_month"  value="{$info.star_hits_month|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+       <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">周人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_hits_week"  value="{$info.star_hits_week|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">日人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_hits_day"  value="{$info.star_hits_day|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>         
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">顶:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_up"  value="{$info.star_up|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">踩:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="star_down"  value="{$info.star_down|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">独立模版:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="star_skin"  value="{$info.star_skin|default=''}" class="form-control">
+        </div>
+    </div>          
+     </div>     
+</div>     
+{notempty name="info.star_id"} 
+<input type="hidden" name="star_id" value="{$info['star_id']|default=''}"> 
+{/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+  </form>      
+</div>
+</div>

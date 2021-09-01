@@ -1,0 +1,269 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading" style=" padding-top:5px;">
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本信息</a></li>
+                     <li ><a href="#tab_2" data-toggle="tab">其他信息</a></li>
+                     {notempty name="info.userid"}<li ><a href="#tab_3" data-toggle="tab">相关内容</a></li>{/notempty}    
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="post">      
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+          <div class="form-group">
+                <label for="username" class="control-label col-xs-12 col-sm-2">会员帐号:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="username" value="{$info.username|default=''}" autocomplete="false" {notempty name="info.userid"} disabled{/notempty}>
+                </div>
+            </div>
+                
+          <div class="form-group">
+                <label for="nickname" class="control-label col-xs-12 col-sm-2">会员昵称:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="nickname" value="{$info.nickname|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>
+                
+          <div class="form-group">
+                <label for="password" class="control-label col-xs-12 col-sm-2">会员密码:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="password" value=""  autocomplete="false">
+                </div>
+            </div>
+          {empty name="info.userid"}      
+          <div class="form-group">
+                <label for="repassword" class="control-label col-xs-12 col-sm-2">确认密码:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="repassword" value=""  autocomplete="false">
+                </div>
+            </div>
+  {/empty} 
+            <div class="form-group">
+                <label for="password" class="control-label col-xs-12 col-sm-2">用户影币:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" id="score" name="score" value="{$info.score|default='0'}"  disabled autocomplete="false">
+                     <a href="javascript:;" id="addscore"  class="btn btn-info btn-add" style="cursor:pointer; position:absolute; right:15px;top:0">增减影币</a> 
+                </div>
+                  <div class="col-xs-12 col-sm-4 addscore hidden">
+                  <input class="form-control" style="width:20%" name="add-score" value="" id="add-score" type="text">
+                  <a href="javascript:;" class="btn btn-danger ajax-add-score">提交</a> 增加5填+5,减少5填-5
+                </div>
+            </div>
+             <div class="form-group">
+                <label for="password" class="control-label col-xs-12 col-sm-2">VIP到期时间:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" name="viptime" id="viptime" value="{$info.viptime|default='0'|date='Y-m-d H:i:s',###}"  disabled autocomplete="false"><a href="javascript:;" id="addviptime" class="btn btn-success btn-add " style="cursor:pointer; position:absolute; right:15px;top:0">VIP续期</a>
+                </div>
+                   <div class="col-xs-12 col-sm-4 addvip hidden">
+                  <input class="form-control" style="width:20%" name="add-day" value="" id="add-day" type="text">
+                  <a href="javascript:;" class="btn btn-danger ajax-add-day">提交</a> 增加5天填+5,减少5天填-5
+                </div>
+            </div>           
+           <div class="form-group">
+                <label for="email" class="control-label col-xs-12 col-sm-2">注册邮箱:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="email" value="{$info.email|default=''}"  autocomplete="false">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="iemail" class="control-label col-xs-12 col-sm-2">订阅邮箱:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="iemail" value="{$info.iemail|default=''}"  autocomplete="false">
+                </div>
+            </div>
+
+             <div class="form-group">
+                <label for="isRemind" class="control-label col-xs-12 col-sm-2">开启订阅:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="isRemind" class="form-control selectpicker" style="width:65px;">
+                        <option value="0">关闭</option>
+                        <option value="1" {eq name="info.isRemind" value="1" }selected{/eq}>开启</option>
+                    </select>
+                </div>
+            </div>
+            
+     <div class="form-group">
+                <label for="groupid" class="control-label col-xs-12 col-sm-2">验证状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="groupid" class="form-control selectpicker">
+            <option value="2" {eq name="info.groupid" value="2"}selected{/eq}>邮箱验证成功</option>
+			<option value="5" {eq name="info.groupid" value="5"}selected{/eq} disabled>接口登录未认证</option>
+            <option value="7" {eq name="info.groupid" value="7"}selected{/eq}>新注册需邮箱认证</option>
+                    </select>
+                </div>
+            </div>
+          <div class="form-group">
+                <label for="signature" class="control-label col-xs-12 col-sm-2">个人签名：</label>
+                <div class="col-xs-12 col-sm-6">
+                   <textarea class="form-control" name="signature">{$info.signature|default=''}</textarea>
+                </div>
+            </div> 
+               <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="user_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="0">正常</option>
+                        <option value="1" {eq name="info.user_status" value="1" }selected{/eq}>锁定</option>
+                    </select>
+                </div>
+            </div> 
+           </div>
+        <div class="tab-pane fade " id="tab_2"> 
+        
+             <div class="form-group">
+                <label for="sex" class="control-label col-xs-12 col-sm-2">会员性别:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="sex" class="form-control selectpicker">
+                        <option value="1">男</option>
+                        <option value="2" {eq name="info.detail['sex']" value="2"}selected{/eq}>女</option>
+                    </select>
+                </div>
+            </div>
+            
+         <div class="form-group">
+                <label for="birthday" class="control-label col-xs-12 col-sm-2">出生日期:</label>
+                <div class="col-xs-12 col-sm-2">
+                   <input class="form-control datetimepicker" name="birthday" value="{$info.detail['birthday']|default=''}" placeholder="出生日期" id="createtime" data-date-format="YYYY-MM-DD" type="datetime" style="text-align:center">
+                </div>
+            </div>
+
+  <div class="form-group">
+                <label for="prov_id" class="control-label col-xs-12 col-sm-2">地区:</label>
+                <div class="col-xs-12 col-sm-6">  
+<!--由于在初始化中修改了默认值,所以这里需要修改-jsonSpace/jsonValue/jsonName的值-->
+<div class="form-inline" data-toggle="cxselect" data-url="{$config.site.cdnurl}admin/xianyucms/libs/jquery-cxselect/js/cityData.min.json" data-selects="province,city,area" data-json-space="" data-json-name="n" data-json-value="">
+<select class="province form-control" data-first-title="选择省" name="prov">
+<option value="">请选择</option>
+<option value="{$info.detail.prov|default=''}" selected="">{$info.detail.prov|default=''}</option>
+</select>
+<select class="city form-control" data-first-title="选择市" name="city">
+<option value="">请选择</option>
+<option value="{$info.detail.city|default=''}" selected="">{$info.detail.city|default=''}</option>
+</select>
+<select class="area form-control" data-first-title="选择地区" name="area">
+<option value="">请选择</option>
+<option value="{$info.detail.area|default=''}" selected="">{$info.detail.area|default=''}</option>
+</select>
+</div>
+                </div>
+            </div>
+      <div class="form-group">
+                <label for="edu" class="control-label col-xs-12 col-sm-2">学历:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="edu" class="form-control selectpicker">
+                  <option value="">选择学历</option>
+                  <option value="1" {eq name="info.detail.edu" value="1"}selected{/eq}>小学</option>
+                  <option value="2" {eq name="info.detail.edu" value="2"}selected{/eq}>初中</option>
+                  <option value="3" {eq name="info.detail.edu" value="3"}selected{/eq}>高中/中专</option>
+                  <option value="4" {eq name="info.detail.edu" value="4"}selected{/eq}>大专</option>
+                  <option value="5" {eq name="info.detail.edu" value="5"}selected{/eq}>本科</option>
+                  <option value="6" {eq name="info.detail.edu" value="6"}selected{/eq}>硕士及以上</option>
+                    </select>
+                </div>
+            </div>    
+       <div class="form-group">
+                <label for="industry" class="control-label col-xs-12 col-sm-2">职业:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="industry" class="form-control selectpicker">
+                  <option value="">选择行业</option>
+                  <option value="1"  {eq name="info.detail.industry" value="1"}selected{/eq} >教育/学生</option>
+                  <option value="2"  {eq name="info.detail.industry" value="2"}selected{/eq}>计算机/互联网</option>
+                  <option value="3"  {eq name="info.detail.industry" value="3"}selected{/eq}>建筑</option>
+                  <option value="4"  {eq name="info.detail.industry" value="4"}selected{/eq}>金融/房产</option>
+                  <option value="5"  {eq name="info.detail.industry" value="5"}selected{/eq}>政府/公共服务</option>
+                  <option value="6"  {eq name="info.detail.industry" value="6"}selected{/eq}>电信/网络</option>
+                  <option value="7"  {eq name="info.detail.industry" value="7"}selected{/eq}>服务</option>
+                  <option value="8"  {eq name="info.detail.industry" value="8"}selected{/eq}>传媒/娱乐</option>
+                  <option value="9"  {eq name="info.detail.industry" value="9"}selected{/eq}>农林/化工</option>
+                  <option value="10" {eq name="info.detail.industry" value="10"}selected{/eq}>旅游/交通</option>
+                  <option value="11" {eq name="info.detail.industry" value="11"}selected{/eq}>其他</option>
+                    </select>
+                </div>
+            </div>      
+     <div class="form-group">
+                <label for="regdate" class="control-label col-xs-12 col-sm-2">注册日期:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="regdate" value="{$info.regdate|default=''|date='Y-m-d H:i:s',###}" autocomplete="false" {notempty name="info.userid"} disabled{/notempty}>
+                </div>
+      </div>
+     <div class="form-group">
+                <label for="last_login_time" class="control-label col-xs-12 col-sm-2">登录日期:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="last_login_time" value="{$info.last_login_time|default=''|date='Y-m-d H:i:s',###}" autocomplete="false" {notempty name="info.userid"} disabled{/notempty}>
+                </div>
+      </div>
+     <div class="form-group">
+                <label for="regip" class="control-label col-xs-12 col-sm-2">注册IP:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="regip" value="{$info.regip|long2ip}" autocomplete="false" {notempty name="info.userid"} disabled{/notempty}>
+                </div>
+      </div>
+      
+     <div class="form-group">
+                <label for="last_login_ip" class="control-label col-xs-12 col-sm-2">登录IP:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="last_login_ip" value="{$info.last_login_ip|long2ip}" autocomplete="false" {notempty name="info.userid"} disabled{/notempty}>
+                </div>
+      </div>
+      <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">登录次数:</label>
+                <div class="col-xs-12 col-sm-1">
+                    <input type="text" class="form-control" name="loginnum" value="{$info.loginnum}" disabled autocomplete="false" style="text-align:center">
+                </div>
+      </div>     
+         </div>
+  {notempty name="info.userid"}        
+ <div class="tab-pane fade " id="tab_3">
+        <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">会员评论:</label>
+                <div class="col-xs-12 col-sm-6">共有({$info.comment_count})条评论
+                <a data-url="{:admin_url('admin/cm/index',array('uid'=> $info['userid'],'view'=>1))}" data-name="管理会员{$info.username}的评论" class="btn btn-default btn-detail"><i class="fa fa-commenting-o"></i> 管理评论</a>
+                </div>
+      </div>  
+         <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">会员订阅:</label>
+                <div class="col-xs-12 col-sm-6">共订阅({$info.remind_count})个视频
+                <a data-url="{:admin_url('admin/vod/index',array('uid'=> $info['userid'],'usid'=>'remind'))}" data-name="管理会员{$info.username}订阅的视频" class="btn btn-default btn-detail"><i class="fa fa-rss"></i> 管理订阅视频</a>
+                </div>
+      </div>   
+         <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">会员收藏:</label>
+                <div class="col-xs-12 col-sm-6">共收藏({$info.favorite_count})个视频
+                <a data-url="{:admin_url('admin/vod/index',array('uid'=> $info['userid'],'usid'=>'favorite'))}" data-name="管理会员{$info.username}收藏的视频" class="btn btn-default btn-detail"><i class="fa fa-eye"></i> 管理收藏的视频</a>
+                </div>
+      </div>
+          <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">播放记录:</label>
+                <div class="col-xs-12 col-sm-6">共({$info.playlog_count})条 
+               <a data-url="{:admin_url('admin/playlog/index',array('uid'=> $info['userid'],'view'=>1))}" data-name="管理会员{$info.username}播放记录" class="btn btn-default btn-detail"><i class="fa fa-cloud-upload"></i> 管理播放记录</a> 
+                </div>
+      </div> 
+          <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">会员留言:</label>
+                <div class="col-xs-12 col-sm-6">共({$info.gb_count})条 
+                <a data-url="{:admin_url('admin/gb/index',array('uid'=> $info['userid'],'view'=>1))}" data-name="管理会员{$info.username}播放留言" class="btn btn-default btn-detail"><i class="fa fa-file-text-o"></i> 管理留言</a> 
+                </div>
+      </div> 
+           <div class="form-group">
+                <label for="loginnum" class="control-label col-xs-12 col-sm-2">会员私信:</label>
+                <div class="col-xs-12 col-sm-6">共({$info.msg_count})条
+                </div>
+      </div>                 
+</div> 
+  {/notempty} 
+</div> 
+ {notempty name="info.userid"}
+ <input type="hidden" name="userid" id="userid" value="{$info['userid']|default=''}">
+{/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

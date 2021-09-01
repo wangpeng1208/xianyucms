@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$star_name}动态_{$star_name}最新剧照_{$star_name}最新电影电视剧_ - {$sitename}</title>
+<meta name="keywords" content="{$star_name}动态,{$star_name}最新剧照,{$star_name}图片,{$star_name}最新电影,{$star_name}最新电视剧">
+<meta name="description" content="{$sitename}为您第一时间收集整理{$star_name}相关动态，最新电影电视剧剧照花絮等,还包括了{$star_name}最近动态等娱乐八卦信息希望你能喜欢。">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$hezuo=xianyu_mysql_starhz('star:'.$star_name.';field:star_id,star_cid,star_name,star_letters,star_pic;limit:9;order:star_hits_day desc');
+$news_star=xianyu_mysql_news('news:'.$star_name.';did:'.$star_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:16;page:true;p:'.$page.';order:news_addtime desc');
+$actor_list=xianyu_mysql_role('starname:'.$star_name.';limit:4;order:role_addtime desc');
+$vod_list = xianyu_mysql_vod('actor:'.$star_name.';cid:1,2;field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_gold,vod_pic,vod_actor,vod_director,vod_title;limit:12;order:vod_addtime desc');
+{/php}
+{include file="star_detail_top" /}    
+<div class="container">
+<div class="row"> 
+<div class="clearfix"></div> 
+ {notempty name="news_star"} 
+  <!--明星作品模块开始-->   
+<div class="layout-box clearfix{notempty name="star_bigpicurl"} mt-0{/notempty}">
+  <div class="col-md-12 col-sm-12 col-xs-12 pg-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}资讯</h3>
+    <div class="more pull-right">共<span class="text-color">“{$news_star.0.page.pagecount}”</span>个视频</div>
+    </div>
+        <div class="clearfix star-video-list">
+          <ul class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+          {volist name="news_star" id="xianyu"}
+          <li class="news-box col-md-3 col-sm-4 col-xs-6"><a class="video-pic loading text-overflow" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:62.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span></a></li>
+          {/volist}
+         </ul>
+
+          </div>
+</div>
+{notempty name="news_star"}
+<div class="box-page clearfix m-0"><ul>{$news_star.0.page.pageurl}</ul></div>
+{/notempty}  
+</div>
+ <!--明星作品模块结束--> 
+{/notempty}
+</div>
+</div>
+{$vod_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

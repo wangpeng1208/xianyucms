@@ -1,0 +1,20 @@
+<div class="modal fade xianyu-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog clearfix">
+    <div class="modal-content clearfix">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h5 class="modal-title">积分充值</h5>
+    </div>
+   <div class="modal-body text-center">
+  <div class="form-group">
+    <h6>用户ID: <strong class="text-color">{$order_uid}</strong> 订单号：<strong class="text-color" id="order_sign">{$order_sign}</strong>   金额：<strong class="text-color">{$order_money}</strong> 元</h6>
+      <img src="http://paysdk.weixin.qq.com/example/qrcode.php?data={$order_code}" width="150" height="150"/>
+      <p id="success">打开微信，扫码支付</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+    <h6 class="text-center">本站VIP会员按天计算，买多少您说了算，售价为<span class="text-color">{$payconfig.user_pay_vip_day}</span>积分/天，最低购买<span class="text-color">{$payconfig.user_pay_small}</span>天。 </h6>
+    </div>
+</div>
+</div>
+</div>

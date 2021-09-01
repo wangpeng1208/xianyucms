@@ -1,0 +1,22 @@
+{php}$list = xianyu_mysql_news('wd:'.$search_wd.';limit:5;page:true;p:'.$search_page.';order:news_addtime desc');{/php}
+<div class="col-md-9 col-sm-12 box-main-content"> 
+      <div class="layout-box clearfix">
+          <div class="box-title">
+<div class="more pull-right" id="count">共找到<span class="text-color">“{$list.0.page.pagecount}”</span>个相关新闻</div>
+    </div>
+    <div class="clearfix" id="content"> 
+{volist name="list" id="xianyu"}
+        <div class="col-md-12 col-sm-12 col-xs-12 clearfix news-box-txt p-0">
+<div class="col-md-4 col-sm-4 col-xs-12 news-box-txt-l"><a class="video-pic loading" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:62.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span></a></div>
+<div class="col-md-8 col-sm-8 col-xs-12"><div class="news-info">
+<div class="news-info-top"><h3><a href="{$xianyu.news_readurl}" target="_blank">{$xianyu.news_name}</a></h3><span class="hidden-sm hidden-xs">{$xianyu.news_addtime|date='Y-m-d H:i:s',###}</span></div>
+<div class="news-info-txt">
+{$xianyu.news_remark|msubstr=0,100,'...'}
+</div>
+</div></div>
+</div>
+{/volist}
+</div>
+    </div>
+    {notempty name="list"}<div class="box-page clearfix ajax-page" id="long-page"><ul>{$list.0.page.pageurl}</ul></div>{/notempty}
+  </div>   

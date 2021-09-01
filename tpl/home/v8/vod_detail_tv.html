@@ -1,0 +1,30 @@
+
+{php}$vod_tv_data = xianyu_mysql_vod_tv('tv:'.$vod_diantai.';name:'.$vod_name.';id:'.$vod_id);{/php}
+{notempty name="vod_tv_data"}
+<div class="layout-box clearfix text-center details-tv">
+<div class="col-md-12 col-sm-12 box-main-content">
+{volist name="vod_tv_data" id="tv"}
+<div class="col-md-1 col-sm-1 col-xs-12 details-tv-title">
+<a title="{$tv.tv_name}节目表" href="{$tv.tv_readurl}"><!--<img class="hidden-xs hidden-sm" src="{$tv.tv_pic}" align="absmiddle"/>--><b>{$tv.tv_name}</b></a>
+</div>
+<div class="col-md-11 col-sm-11 col-xs-12">
+{volist name="tv.list" id="tvlist" offset="0" length='1'}
+<div class="col-md-12 col-sm-12 col-xs-12 details-tv-t">
+<div class="col-md-3 col-sm-3 col-xs-3 hidden-xs">
+<em class="date">{$tvlist.date|date='Y年m月d日',###}</em><em class="tvweek hidden-sm">{$tvlist.week}</em>
+</div>
+<div class="col-md-9 col-sm-9 col-xs-12">
+{volist name="tvlist.data" id="tvdata" offset="0" length='2'}
+<div class="col-md-6 col-sm-12 col-xs-12 details-tv-h">
+<em class="time pull-right">{$tvlist.date|date='m-d',###} {$tvdata.tvtime}</em><em class="name pull-left">{$tvdata.tvname}</em>
+{notempty name="tvdata.tvlive"}<span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>{/notempty}
+</div>
+{/volist}
+</div>
+</div>
+{/volist}
+</div>
+{/volist}
+</div>
+</div>  
+{/notempty}     

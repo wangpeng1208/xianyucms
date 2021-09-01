@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}最新{$list_name}-{$list_dir}{$list_name_big}{$list_name}-2015最新{$list_name}{/notempty}- {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}最新{$list_name}包含的影片有{volist name='vod_list' id='xianyu'}{$xianyu.vod_name|msubstr=0,10},{/volist}完全免费在线观看！{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}$tvlist = xianyu_mysql_tv('cid:'.$list_id.';stars:5;limit:5;data:true;page:true;p:'.$list_page.';order:tv_addtime desc');{/php}
+<div class="container">
+  <div class="row"> 
+      <div class="box-title">
+      <h3 class="m-0">热门{$list_name}{neq name="list_page" value="1"}第{$list_page}页{/neq}</h3>
+<div class="more pull-right">共<span class="text-color">“{$tvlist.0.page.pagecount}”</span>个电台节目</div>
+    </div> 
+  {php}$array_listid = getlistall($list_id);{/php}
+    <div class="layout-box clearfix">
+    <div class="box-title-nav pull-left">
+    <ul class="clearfix">
+    <li><a class="active text-overflow" href="#">全部分类</a></li>
+   {volist name="array_listid" id="zp_listid" offset="0" length='7'}
+    <li><a class="text-overflow {eq name="zp_listid.list_id" value="$list_id"}active{/eq}" href="{$zp_listid.list_url}">{$zp_listid.list_name}</a></li>
+{/volist}
+    </ul>
+    </div>    
+    </div>    
+  <!--左侧板块开始--> 
+  <div class="col-md-9 col-sm-12 box-main-content">
+  {volist name="tvlist" id="tv"}
+  <div class="layout-box clearfix">
+     <div class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+        <div class="box-switch-tabs active clearfix mb-0">
+        <ul class="nav nav-tabs">
+          <li><a href="{$tv.tv_readurl}">{$tv.tv_name}</a></li>
+          <div class="tv-more pull-right"><a href="{$tv.tv_readurl}" class="text-muted" title="详细">详细 <i class="icon iconfont">&#xe65e;</i></a></div>
+        </ul>
+        </div>
+<div class="col-md-4 col-sm-4 col-xs-12 news-box-txt-l">
+     <div class="tv_txt_list">
+      <ul class="clearfix">
+     {volist name="tv.tv_datalist.data" id="list"}
+      {php}$url=get_vod_url($list['keywords'],1,$xianyutv['tv_name']);{/php}
+      <li><span class="b"></span><i>{$list.time}</i>{notempty name="url"}<a href="{$url}" target="_blank">{$list.name|msubstr=0,14}</a>{else/}{$list.name|msubstr=0,14}{/notempty}{notempty name="list.live"}<span class="tv-live pull-left hidden-xs">直播中<em class="tv-live-l"></em></span>{/notempty}</li>
+      {/volist}
+      </ul>  
+        
+    </div>
+</div>
+
+{php}$tvs=xianyu_mysql_vod('diantai:'.$tv['tv_name'].';limit:4;field:vod_id,vod_cid,vod_name,vod_pic,vod_letters,vod_title,vod_continu,vod_filmtime,vod_actor,vod_mcid,vod_director;order:vod_addtime desc');{/php}
+<div class="col-md-8 col-sm-8 col-xs-12">
+<ul>
+            {volist name="tvs" id="xianyu"}
+            <li class="col-md-3 col-sm-3 col-xs-4 {gt name="i" value="3"}hidden-xs{/gt}">
+            <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" >
+            <span class="note text-bg-r">{$xianyu.vod_name}</span>
+            </a>
+            </li>
+            {/volist}
+
+</ul>
+</div>
+
+</div>
+ </div>
+   {/volist}   
+       {notempty name="tvlist"}<div class="box-page clearfix" id="long-page"><ul>{$tvlist.0.page.pageurl}</ul></div>{/notempty}
+    </div>  
+
+
+  
+ <!--左侧板块结束--> 
+
+ <!--右侧板块结束--> 
+  <div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+{include file="vod_detail_right" /} 
+</div> 
+ <!--右侧板块结束-->  
+</div>
+</div>
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

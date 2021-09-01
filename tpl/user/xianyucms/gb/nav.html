@@ -1,0 +1,4 @@
+<li class="active" data-url="{:zp_url('user/center/gb',array('op'=>1))}">全部留言</li>
+{volist name="catalogs" id="catalog"}
+<li data-url="{:zp_url('user/center/gb',array('op'=>1,'pid'=>$catalog.list_id,'p'=>1))}">{$catalog.list_name}<span>{$catalog.count}</span></li>
+{/volist}

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$vod_name}{$role_name},{$role_name}扮演者,{$role_name}谁演的-{$sitename}</title>
+<meta name="keywords" content="{$vod_name}{$role_name},{$role_name}扮演着,{$vod_name}{$role_name}谁演的,{$vod_name}{$role_name}结局,{$role_name}剧照">
+<meta name="description" content="{$vod_name}{$role_name}扮演者是演员{$star_name},{$role_name}{$role_content|h|msubstr=0,20,'...'}"> 
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$ji= preg_replace('/\D/s', '', $vod_lastname);
+$vod_news=xianyu_mysql_news('news:'.$vod_name.';did:'.$vod_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:8;cahce_name:default;cahce_time:3600;order:news_addtime desc');
+$vod_pid=getlistname($vod_cid,'list_pid');
+{/php}{if condition="($vod_pid eq $tpl_id[2]) OR ($vod_cid eq $tpl_id[4])"}{php}$tvtitle="播出";{/php}{else /}{php}$tvtitle="上映";{/php}{/if}
+<!--盒子开始--> 
+<div class="container">
+  <div class="row">
+  <!--左侧板块开始--> 
+    <div class="details-nav">
+<ul>
+<li><a href="{$vod_readurl}" target="_self"><span class="hidden-xs">视频</span>详细</a></li>
+{notempty name="story_id"}
+<li><a href="{$story_readurl}" title="{$vod_name}分集剧情" target="_self"><span class="hidden-xs">分集</span>剧情</a></li>
+{/notempty}
+<li class="active"><a href="{$actor_readurl}" title="{$vod_name}演员表" target="_self">演员<span class="hidden-xs">角色</span></a></li>
+{notempty name="vod_news"}<li><a href="{:xianyu_data_url('home/vod/news',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>getlistname($vod_cid,'list_dir'),'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}花絮新闻" target="_self"><span class="hidden-xs">新闻</span>花絮</a></li>
+{/notempty}
+<li><a href="{:xianyu_data_url('home/vod/filmtime',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>getlistname($vod_cid,'list_dir'),'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}{$tvtitle}" target="_self">{$tvtitle}<span class="hidden-xs">时间</span></a></li>
+</ul></div>
+<div class="col-md-9 col-sm-12 box-main-content">
+  <div class="layout-box clearfix mt-0"> 
+{include file="vod_detail_min_info" /}  
+<div class="details-title text-center"><h1 class="m-0">{$vod_name}{$role_name}<span>扮演者：</span><a href="{$star_readurl}" target="_blank">{$role_star|default='未知'}</a></h1></div>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div class="col-md-2 col-sm-2 col-xs-6 hidden-xs"></div>
+<div class="col-md-3 col-sm-3 col-xs-6 actor-main">
+<a class="video-pic loading" href="{$role_picurl}" title="{$vod_name}{$role_name}剧照" data-original="{$role_picurl}"></a><div class="title"><h5 class="text-center subtitle text-muted text-overflow"><a href="{$role_picurl}" title="{$vod_name}{$role_name}剧照">{$vod_name}{$role_name}剧照</a></h5></div>
+</div>
+<div class="col-md-2 col-sm-2 col-xs-6 hidden-xs"></div>
+<div class="col-md-3 col-sm-3 col-xs-6 actor-main">
+<a class="video-pic loading" href="{$star_readurl}" title="{$vod_name}{$role_star}扮演{$role_name}" data-original="{$star_picurl}"></a>
+<div class="title"><h5 class="text-center subtitle text-muted text-overflow"><a href="{$star_readurl}" title="{$vod_name}{$role_star}扮演{$role_name}">饰演{$role_star|default='未知'}</a></h5></div>
+</div>
+<div class="col-md-2 col-sm-2 col-xs-6 hidden-xs"></div>
+</div>
+<div class="details-content">
+<strong>{$role_name}介绍：</strong>{$role_content}
+</div>
+</div>
+
+<!--角色列表开始--> 
+{empty name="role_list"}
+{php}$role_list=xianyu_mysql_role('vid:'.$vod_id.';order:role_oid asc');{/php}
+{/empty}
+{php}$role_count=count($role_list);{/php}
+<div class="layout-box clearfix p-0"> 
+<ul class="col-md-12 col-sm-12 more-box clearfix" style="padding:15px 5px 5px 5px">
+{volist name="role_list" id="role" key="iii"}
+   <li class="col-md-3 col-sm-3 col-xs-6 actor-box" {gt name="iii" value="4"}rel="h" style="display:none;"{/gt}>
+   <div class="col-md-12 actor-title clearfix">
+   <div class="col-md-6 col-sm-6 col-xs-6" style="padding:0 1px 0 0;"><div class="text-center subtitle text-overflow">饰演角色</div></div>
+   <div class="col-md-6 col-sm-6 col-xs-6" style="padding:0 1px 0 0;"><div class="text-center subtitle  text-overflow">演员名字</div></div>
+   </div>
+   <div class="col-md-12 actor-main clearfix">
+   <div class="col-md-6 col-sm-6 col-xs-6" style="padding:0 1px 0 0;"><a class="video-pic loading text-overflow" href="{$role.role_readurl}" title="{$role.role_name}" data-original="{$role.role_picurl}"></a><div class="title"><h5 class="text-center subtitle text-muted text-overflow"><a href="{$role.role_readurl}" title="{$role.role_name}">{$role.role_name}</a></h5></div></div>
+   <div class="col-md-6 col-sm-6 col-xs-6" style="padding:0 0 0 1px;"><a class="video-pic loading text-overflow" href="{$role.star_readurl}" title="{$role.role_star|default='未知'}" data-original="{$role.star_picurl}"></a><div class="title"><h5 class="text-center text-overflow"><a href="{$role.star_readurl}" title="{$role.role_name}">{$role.role_star|default='未知'}</a></h5></div></div>
+   </div>
+ </li>
+{/volist}
+</ul>
+ {gt name="role_list" value="4"}
+ <div class="col-md-12" style="padding:0px 5px 15px 5px;"><div class="more-click text-center" data-box="more-box" data-count="{$role_count}" data-limit="4" data-sta="0"><span class="count">查看全部{$role_count}</span>个角色</div></div>
+ {/gt}  
+</div>
+<!--角色列表结束-->  
+
+<!--明星介绍开始--> 
+{notempty name="star_id"}
+<div class="layout-box clearfix">   
+<div class="col-md-12 col-sm-12 col-xs-12 clearfix news-box-txt p-0">
+<div class="col-md-2 col-sm-3 col-xs-3 news-box-txt-l"><a class="video-pic loading" href="{$star_readurl}" title="{$star_name|default='未知'}" data-original="{$star_picurl}"><span class="note text-bg-c">{$star_name|default='未知'}</span></a></div>
+<div class="col-md-10 col-sm-9 col-xs-9"><div class="news-info">
+<div class="actor-role-top"><strong><a class="text-color" href="{$star_readurl}" target="_blank">{$star_name|default='未知'}</a></strong><div class="more pull-right hidden-xs"><a href="{$star_readurl}" class="text-muted" title="详细">详细 <i class="icon iconfont">&#xe65e;</i></a></div></div>
+<div class="details-info p-0" style="width:100%">
+<ul class="info clearfix">
+<li class="col-md-12 col-sm-12 col-xs-12 pg-0 hidden-sm hidden-md hidden-lg"><span>{$star_bm} {$star_xb} / {$star_gj} / {$star_zy}</span></li>
+<li class="col-md-12 col-sm-12 col-xs-12 p-0 hidden-sm hidden-md hidden-lg"><span>{$star_sg} / {$star_tz} / {$star_xz}</span></li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>中文名：</span>{$star_name}</li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>别名：</span>{$star_bm}</li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>身高：</span>{$star_sg}</li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>体重：</span>{$star_tz}</li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>国籍：</span>{$star_gj}</li>
+<li class="col-md-6 col-sm-6 col-xs-6 pg-0 hidden-xs"><span>星座：</span>{$star_xz}</li>
+<li class="col-md-12 col-sm-12 col-xs-12 pg-0 text-overflow"><span class="hidden-xs">详细介绍：</span>{$star_content|msubstr=0,40,'…'}
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+{php}$news_star=xianyu_mysql_news('news:'.$star_name.';did:'.$star_id.';type:2;group:news_id;field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:4;order:news_id desc');$countnewsstar=count($news_star);{/php}
+{notempty name="news_star"}
+<div class="col-md-12 col-sm-12 col-xs-12 clearfix news-box-txt" style="margin-top:10px;">
+   <ul class="clearfix p-0">
+          {volist name="news_star" id="xianyu"}
+          <li class="news-box col-md-3 col-sm-3 col-xs-6 {gt name="i" value="4"}hidden-sm hidden-md hidden-lg{/gt}" ><a class="video-pic loading text-overflow" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:62.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span></a></li>
+          {/volist}
+         </ul>  
+</div>
+{/notempty}
+{php}$year_vodlist=xianyu_mysql_role('starname:'.$star_name.';limit:16;order:vod_year desc');{/php}
+{notempty name="year_vodlist"}
+<div class="col-md-12 col-sm-12 col-xs-12 box-video-text-list clearfix actor-main">
+<ul>
+{volist name="year_vodlist" id="xianyu"}
+<li class="list2 text-overflow"><em class="key">{$xianyu.vod_year}</em>年<a href="{$xianyu.vod_readurl}" target="_blank">《{$xianyu.vod_name}》</a>饰演：<a class="text-color" href="{$xianyu.role_readurl}" target="_blank">{$xianyu.role_name}</a></li>
+{/volist}
+</ul>
+</div>
+{/notempty}
+</div>
+<!--明星介绍结束--> 
+{else /}
+{include file="vod_detail_tab" /}
+{/notempty} 
+</div>
+
+
+<div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+<div class="layout-box clearfix mt-0">
+<div class="col-md-12 p-0">
+<div class="col-md-6 col-sm-12 col-xs-12 p-0">
+<a class="video-pic" href="{$vod_readurl}" title="{$vod_name}"  style="background: url({$vod_picurl}) no-repeat top center;background-size:cover;"><span class="note text-bg-r">{notempty name="vod_continu"}{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}{/notempty}</span></a>
+</div>
+<div class="col-md-6 col-sm-12 col-xs-12" style=" padding-top:0px; padding-right:0px;">
+<div class="col-md-12 p-0 text-overflow"><strong>{$vod_name}</strong></div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_mcid|mcat_url=$vod_cid}</div>
+<div class="col-md-12 p-0 text-overflow">{$vod_actor}</div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_year|default='未录入'} / {$vod_area|default='其他'}</div>
+<div class="col-md-12 p-0 text-overflow">{notempty name="vod_continu"}{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}{/notempty}</div>
+<div class="col-md-12 pg-0 text-overflow"><span>评分：</span><span class="hits text-color" style="font-size:20px"><em>{$vod_gold}</em></span></div>
+</div>
+</div>
+</div>
+{include file="vod_detail_right" /}     
+</div>
+</div>
+</div>
+{$role_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

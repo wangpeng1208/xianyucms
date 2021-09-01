@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{if condition="$list_pid eq $tpl_id[1]"}《{$vod_name}》{$vod_title}{$play_title}在线观看{elseif condition="$list_pid eq $tpl_id[2]" /}{$vod_name}第{:str_replace(array('第','集','DVD','HDTV'),array('','','',''),$play_jiname)}集{$play_title}在线观看{elseif condition="$list_id eq $tpl_id[4]" /}{$vod_name}{$play_jiname}{$play_title}在线观看{elseif condition="$list_id eq $tpl_id[3]" /}{$vod_name}{notempty name="play_jiname"}{$play_jiname}{/notempty}{$play_title}在线观看{else/}《{$vod_name}》{$play_title}在线观看{/if}-{$sitename}</title>
+{if condition="$list_pid eq $tpl_id[2]"}
+<meta name="keywords" content="{$vod_name}{$play_jiname},{$vod_name}{$play_jiname}在线观看,{$vod_name}全集,电视剧{$vod_name}{$play_jiname},
+{notempty name="vod_title"}{$vod_title}{/notempty}在线观看,{$vod_name}{$play_jiname}
+{$play_title},{$vod_name}{$play_title}在线观看">
+<meta name="description" content="{notempty name="vod_thisjqinfo"}{$vod_name}{$vod_thisjqtitle}剧情介绍{$vod_thisjqinfo|msubstr=0,150}...{else/}{$list_name}{$vod_name}全集由{$title}为您提供,正在为您播放{$vod_name}{$play_jiname}
+{notempty name="vod_title"}{$vod_title}{/notempty}{$play_title}在线观看{$vod_name}是{$vod_area}地区电视剧由{$vod_director}执导{$vod_actor}等主演参演的一部{$vod_mcid|mcat_name=$vod_cid,2}电视剧上映时间为{$vod_year}年主要剧情：{$vod_content|h|msubstr=0,100}。{/notempty}">
+{elseif condition="$list_pid eq $tpl_id[1]" /}
+<meta name="keywords" content="{$vod_name}{notempty name="vod_title"}{$vod_title}{/notempty},{$vod_name},{$vod_name}在线观看,{$vod_name}{$play_title},{$vod_name}下载,{$list_name}{$vod_name},{$vod_name}电影,{$vod_name}{notempty name="vod_title"}{$vod_title}{/notempty}在线观看,{$vod_name}{$play_title}在线观看.">
+<meta name="description" content="{$list_name}{$vod_name}由{$title}为您提供,正在为您播放{$vod_name}{notempty name="vod_title"}{$vod_title}{/notempty}{$play_title}在线观看{$vod_name}是{$vod_area}地区{$list_name}电影由{$vod_director}执导{$vod_actor}等参演的一部{$vod_mcid|mcat_name=$vod_cid,2}电影上映时间为{$vod_year}年主要剧情：{$vod_content|h|msubstr=0,100}。">
+{elseif condition="$list_id eq $tpl_id[4]" /}
+<meta name="keywords" content="{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}画,{$vod_name}{:str_replace(array('第','集'),array('',''),$play_jiname)}集,{$vod_name}{$play_jiname}
+在线观看,{$vod_name}全集,动画{$vod_name}{$play_jiname}
+,{$vod_name}{$play_jiname}
+{notempty name="vod_title"}{$vod_title}{/notempty}在线观看,{$vod_name}{$play_jiname}
+{$play_title},{$vod_name}{$play_title}在线观看">
+<meta name="description" content="{$list_name}{$vod_name}全集由{$title}为您提供,正在为您播放{$vod_name}{$play_jiname}
+{notempty name="vod_title"}{$vod_title}{/notempty}{$play_title}在线观看,{$vod_name}是{$vod_area}制作,配音以及演员包括{$vod_actor}等属于{$vod_mcid|mcat_name=$vod_cid,2}动画出品时间为{$vod_year}年主要剧情：{$vod_content|h|msubstr=0,100}。">
+{elseif condition="$list_id eq $tpl_id[3]" /}
+<meta name="keywords" content="{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期,{$vod_name}{:str_replace(array('第','集'),array('',''),$play_jiname)}期,{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期在线观看,{$vod_name}全集,综艺节目{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期,{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期{notempty name="vod_title"}{$vod_title}{/notempty}在线观看,{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期{$play_title},{$vod_name}{$play_title}在线观看">
+<meta name="description" content="综艺节目{$vod_name}由{$title}为您提供,正在为您播放{$vod_name}第{:str_replace(array('第','集'),array('',''),$play_jiname)}期{notempty name="vod_title"}{$vod_title}{/notempty}{$play_title}在线观看{$vod_name}是{$vod_area}地区综艺节目由{$vod_director}制作主持人{$vod_actor}等的{$vod_mcid|mcat_name=$vod_cid,2}电视节目节目详细：{$vod_content|h|msubstr=0,100}。">
+{else/}
+<meta name="keywords" content="{$vod_name}下载,{$vod_name}在线观看,{$vod_name}高清下载,{$vod_name}qvod,{$vod_name}高清">
+<meta name="description" content="{notempty name="vod_thisjqinfo"}{$vod_name}{$vod_thisjqtitle}剧情介绍{$vod_thisjqinfo|msubstr=0,150}...{else/}{$vod_name}高清在线观看 {$vod_name}电影 {$vod_name}下载 {$vod_name}演员表 {$vod_name}上映时间：{$vod_year} {$vod_name}剧情：{$vod_content|h|msubstr=0,100}{/notempty}">
+{/if}
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<!--盒子开始-->
+<div class="container">
+  <div class="row">
+   <div class="layout-box clearfix p-0 m-0">
+   <div class="col-md-9 col-sm-12 col-xs-12 player_left">
+   <div class="player_title"><div class="play_nav hidden-xs"><a href="{$root}">首页</a>{eq name="list_pid" value="0"}<i class="icon iconfont">&#xe65e;</i><a href="{$list_url}"  title="{$list_name}" target="_blank">{$list_name}</a>{else/}<i class="icon iconfont">&#xe65e;</i><a href="{:getlistname($list_pid,'list_url')}" title="{:getlistname($list_pid,'list_name')}" target="_blank">{:getlistname($list_pid,'list_name')}</a><i class="icon iconfont">&#xe65e;</i><a href="{$list_url}">{$list_name}</a>{/eq}<i class="icon iconfont">&#xe65e;</i><a href="{$vod_readurl}">{$vod_name}</a><i class="icon iconfont">&#xe65e;</i></div><h1>{$vod_name}{$play_jiname}在线观看</h1><div class="player-tool hidden-xs"><i class="iconfont">&#xe63c;</i><em>关灯</em></span></div></div>
+   <div id="xianyucms_player">
+   {eq name="vod_copyright" value="1"}
+    <div class="layout-box clearfix text-center">
+    {$video_copyright}
+   </div>
+   {else /}
+   <div class="embed-responsive embed-responsive-16by9" id="cms_play">
+<!--<iframe src="{php}if (strpos($play_path,'~') !== false) {{/php}-->
+<!--{$play_apiurl}{$play_path}-->
+<!--{php}}else{{/php}-->
+<!--{$play_apiurl}{$play_path}-->
+<!--{php}}{/php}" scrolling="no" frameborder="0" height="100%" width="100%" allowfullscreen="true"></iframe>-->
+<!--{$vod_player}-->
+   </div>
+   </div>{/eq}
+   <div class="player-shrink hidden-xs hidden-sm icon iconfont" id="player-shrink"></div>
+   {include file="barrage" /}
+   <div class="player_bottom">
+   <div class="col-md-8 col-sm-8 col-xs-12 p-0">
+   <div class="details-tool" id="xianyu-score">
+<div class="vod-sect user-bt">
+<a rel="nofollow" id="love" class="sect-btn b-r"  href="javascript:void(0);" data-type="love" data-id="{$vod_id}" data-cid="{$vod_cid}"><i class="iconfont">&#xe626;</i>收藏</a>
+<div class="sect-show">
+<a rel="nofollow" id="yeslove" class="cancel active b-r"  href="javascript:void(0);" data-type="love" data-id="{$vod_id}" data-cid="{$vod_cid}"><i class="iconfont">&#xe626;</i>已收</a>
+</div></div>
+<div class="vod-rss user-bt">
+<a rel="nofollow" id="remind" class="sect-btn b-l b-r" href="javascript:void(0);" data-type="remind" data-id="{$vod_id}" data-cid="{$vod_cid}"><i class="iconfont">&#xe601;</i>订阅</a>
+<div class="sect-show">
+<a rel="nofollow" id="yesremind" class="sect-show cancel active b-l b-r" href="javascript:void(0);" data-type="remind" data-id="{$vod_cid}" data-cid="{$vod_id}"><i class="iconfont">&#xe601;</i>已订</a>
+</div></div>
+<div id="updown">
+<a rel="nofollow" id="up" class="b-l b-r hidden-xs"  href="javascript:void(0);" data-type="up" data-id="{$vod_id}" data-sid="{$list_sid}"><i class="iconfont hidden-xs hidden-sm">&#xe607;</i>顶<strong id="count">({$vod_up})</strong></a>
+<a rel="nofollow" id="down" class="b-l b-r hidden-xs" href="javascript:void(0);" data-type="down" data-id="{$vod_id}" data-sid="{$list_sid}"><i class="iconfont hidden-xs hidden-sm">&#xe606;</i>踩<strong id="count">({$vod_down})</strong></a>
+</div>
+<a rel="nofollow" class="b-l b-r hidden-xs" id="qrcode" data-toggle="popover" data-trigger="hover" data-placement="top" data-container="body" data-title="手机浏览请扫瞄二维码"  href="javascript:void(0);"><i class="iconfont hidden-sm">&#xe62d;</i>手机</a>
+</div></div>
+<div class="col-md-4 col-sm-4 col-xs-12 p-0 prevnext hidden-xs">
+{notempty name="play_prevurl"}
+<a rel="nofollow" class="b-l b-r" href="{$play_prevurl}" id="pre" target="_self"><i class="iconfont hidden-xs hidden-sm">&#xe8ff;</i>上一集</a>
+{else /}
+<a rel="nofollow" class="b-l b-r" href="" target="_self"><i class="iconfont hidden-xs hidden-sm">&#xe8ff;</i>没有了</a>
+{/notempty}
+{notempty name="play_nexturl"}
+<a href="{$play_nexturl}" class="b-l" id="next"  target="_self">下一集<i class="iconfont hidden-xs hidden-sm">&#xe65e;</i></a>
+{else /}
+<a rel="nofollow" class="b-l" href="" target="_self">没有了<i class="iconfont hidden-xs hidden-sm">&#xe65e;</i></a>
+{/notempty}
+</div>
+</div>
+
+</div>
+<!--       {$Think.session.token|print_r}-->
+       <link rel="stylesheet" href="{$apicss}cms/css/chat.css">
+       <div class="col-md-3 col-sm-12 col-xs-12  player_right pg-0 app-containers">
+           <div class="vodRoomJoin">
+               <h5 class="m-0  col-md-offset-4 col-lg-offset-1 col-xl-offset-4">
+                   <span class="btn btn-info" id="vodRoomJoin">({$vod_name})聊天房-登录后自动进入</span>
+                   <div style="padding: 5px;color: #fff"><span id="vodRoomJoinStatus">状态：未进入房间</span> | 在线人数：<span id="onLineNumber">0人</span></div>
+               </h5>
+           <div id="vodRoomTip"></div>
+           <div class="app-container">
+               <div class="app-main">
+                   <div class="chat-wrapper">
+                       <div id="notice" style="height:500px;overflow:auto">
+
+
+
+                       </div>
+                   </div>
+                   <div id="onlineList">
+
+                   </div>
+
+                   <div class="chat-input-wrapper" id="sendMsgWrapper">
+                       <button class="chat-attachment-btn">
+                           设置
+                       </button>
+                       <div class="input-wrapper">
+                           <input type="text" class="chat-input msgContent" placeholder="我也来说说" >
+                           <button class="emoji-btn emotion">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-smile" viewBox="0 0 24 24">
+                                   <defs></defs>
+                                   <circle cx="12" cy="12" r="10"></circle>
+                                   <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"></path>
+                               </svg>
+                           </button>
+                       </div>
+                       <button class="chat-send-btn"  id="sendMsg">发送</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+   <div class="player-open"></div>
+   </div>
+
+      <div class="col-md-12 col-sm-12 box-main-content" style="position:static">
+          <div class="details-play-title">
+              <ul class="nav nav-tabs">
+                  <li class="dropdown mplayer active">
+                      <a href="#" id="myTabDrop2" class="gico {$play_name}" data-toggle="dropdown"><span class="name">{$play_title|msubstr=0,2}</span><b class="caret"></b></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2">
+                          {volist name="vod_playlist" id="xianyu"}
+                          <li><a class="gico {$xianyu.player_name}" href="#con_playlist_{$i}" tabindex="-1" data-toggle="tab">{$xianyu.player_title|msubstr=0,2}</a></li>
+                          {/volist}
+                      </ul>
+                  </li>
+<!--                  <li class="title">{$play_title}{$play_jiname}</li>-->
+              </ul>
+          </div>
+          {notempty name="vod_tvcont"}
+          <div class="player_prompt text-overflow text-muted">{$vod_tvcont}</div>
+          {/notempty}
+          <div class="playlist">
+              {volist name="vod_playlist" id="xianyu"}
+              <ul class="clearfix fade {eq name="xianyu['server_id']" value="$play_sid"}in active{/eq}"  id="con_playlist_{$i}">
+              {php}$countjii=count($xianyu['son'])-1;if($xianyu['son']>40){krsort($xianyu['son']);}{/php}
+              {volist name="xianyu['son']" id="xianyuson" key="iii"}
+              <li {eq name="list_id" value="$tpl_id[1]"}class="list4"{else/}{/eq}><a {eq name="xianyu['server_id']" value="$play_sid"}{eq name="xianyuson['playkey']" value="$play_pid"}class="active"{/eq}{/eq} target="_self" href="{$xianyuson.playurl}">{$xianyuson.playname}</a></li>
+              {/volist}
+              </ul>
+              {/volist}
+          </div>
+      </div>
+          <!--左侧模块开始-->
+   <div class="col-md-9 col-sm-12 box-main-content" style="position:static">
+ <!--视频同主演同类型开始-->
+ {include file="vod_detail_tab" /}
+  <!--视频同主演同类型结束-->
+   <!--视频评论开始-->
+ {include file="vod_detail_cm" /}
+  <!--视频评论结束-->
+</div>
+  <!--左侧模块结束-->
+    <!--右侧模块开始-->
+<div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+{php}$vod_hits =xianyu_mysql_vod('limit:9;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_letters,vod_gold,vod_color,vod_hits_day,vod_hits;cahce_name:vod_hits;cahce_time:86400;order:vod_hits desc');{/php}
+    {notempty name="vod_hits"}
+      <div class="layout-box clearfix">
+    <div class="box-title " style="padding:0px 0px 10px 0">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>热门视频</h3>
+    </div>
+     <div class="box-video-text-list">
+      {volist name="vod_hits" id="xianyu" offset="0" length='1'}
+<div class="col-md-6 col-sm-12 col-xs-12 p-0">
+<a class="video-pic" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"  style="background: url({$xianyu.vod_picurl}) no-repeat top center;background-size:cover;"><span class="note text-bg-r">{notempty name="xianyu.vod_continu"}第{:preg_replace('/\D/s', '', $xianyu.vod_continu)}集{else /}{$xianyu.vod_title}{/notempty}</span><span class="num">{$i}</span></a>
+</div>
+<div class="col-md-6 col-sm-12 col-xs-12" style=" padding-top:0px; padding-right:0px;">
+<div class="col-md-12 p-0 text-overflow"><strong>{$xianyu.vod_name}</strong></div>
+<div class="col-md-12 pg-0 text-overflow">{$xianyu.vod_mcid|mcat_url=$vod_cid}</div>
+<div class="col-md-12 p-0 text-overflow">{$xianyu.vod_actor}</div>
+<div class="col-md-12 pg-0 text-overflow">{$xianyu.vod_year|default='未录入'} / {$vod_area|default='其他'}</div>
+<div class="col-md-12 p-0 text-overflow">{notempty name="xianyu.vod_continu"}第{:preg_replace('/\D/s', '', $xianyu.vod_continu)}集{else /}{$xianyu.vod_title}{/notempty}</div>
+<div class="col-md-12 pg-0 text-overflow"><span>人气：</span><span class="hits text-color"><em>{$xianyu.vod_hits}</em></span></div>
+</div>
+{/volist}
+        <ul class="clearfix mg-0">
+         {volist name="vod_hits" id="xianyu" offset="1"}
+              <li class="list p-0"><a class="pull-left" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i+1}</em>{$xianyu.vod_name|msubstr=0,10,'...'}</a><span class="hits text-color">{$xianyu.vod_hits}</span>
+              </li>
+         {/volist}
+       </ul>
+     </div>
+      </div>
+      {/notempty}
+ <!--右侧模块结束-->
+</div>
+</div>
+<span class="playlog-set hidden" data-id="{$vod_id}" data-pid="{$play_pid}" data-sid="{$play_sid}" data-name="{$play_jiname}" data-count="{$play_count}">观看记录</span>
+{$vod_hits_insert}
+<!--盒子结束-->
+{include file="zp_footer" /}
+</body>
+</html>

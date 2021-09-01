@@ -1,0 +1,70 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+<div class="panel-body is-dialog">   
+<form id="edit-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="POST" action=""> 
+<div class="form-group">
+ {notempty name="info.userid"} 
+                <label for="gb_uid" class="control-label col-xs-12 col-sm-2">用户ID:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" name="gb_uid" value="{$info.gb_uid|default=''}" readonly >
+                </div>
+                <label for="name" class="control-label col-xs-12 col-sm-2">用户昵称：</label>
+                <div class="col-xs-12 col-sm-3">
+               <input type="text" class="form-control" name="gb_nickname" value="{$info['gb_nickname']|default=''}" readonly>
+                </div> 
+                {else/} 
+  <label for="gb_uid" class="control-label col-xs-12 col-sm-2">游客昵称:</label>
+                  <div class="col-xs-12 col-sm-2">
+               <input type="text" class="form-control" name="gb_nickname" value="{$info['gb_nickname']|default=''}">
+                </div>             
+{/notempty}
+</div> 
+            <div class="form-group">
+            <label for="gb_content" class="control-label col-xs-12 col-sm-2">留言内容：</label>
+            <div class="col-xs-12 col-sm-8">
+             <textarea name="gb_content"  class="form-control">{$info['gb_content']|default=''}</textarea>
+                </div>
+             </div>    
+                        
+             <div class="form-group">
+            <label for="gb_content" class="control-label col-xs-12 col-sm-2">回复内容：</label>
+            <div class="col-xs-12 col-sm-8">
+             <textarea name="gb_intro" class="form-control">{$info['gb_intro']|default=''}</textarea>
+                </div>
+             </div>                       
+          <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">评论IP：</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="gb_ip" value="{$info.gb_ip|long2ip}" disabled>
+                </div>
+            </div>
+               <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">留言状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select name="gb_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.gb_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div> 
+                 {notempty name="info.gb_id"} 
+                 <input type="hidden" name="gb_id" value="{$info['gb_id']|default=''}"> 
+                 {/notempty}             
+   <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

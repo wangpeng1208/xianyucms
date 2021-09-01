@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/thinkphp/vendor/topthink/think-worker" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/topthink/think-helper" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/topthink/think-installer" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/sebastian/phpcpd" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/sebastian/finder-facade" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/workerman/workerman" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/workerman/gateway-worker" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/karsonzhang/fastadmin-addons" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/composer" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/theseer/fdomdocument" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/topthink/think-captcha" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/nelexa/zip" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/thinkphp/vendor/electrolinux/phpquery" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
+</project>

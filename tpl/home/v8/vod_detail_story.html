@@ -1,0 +1,20 @@
+
+{notempty name="story_id"}
+{php}$story=xianyu_mysql_vod_story($vod_id,$vod_letters);{/php}
+<div class="layout-box clearfix details-story">
+    <div class="box-title">
+    <h3 class="m-0">{$vod_name}分集剧情</h3>
+    <div class="more pull-right"><a href="{$story_readurl}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+<div class="item">
+{php}krsort($story['story_list']);{/php}
+{volist name="story.story_list" id="xianyu" key="ii" offset="0" length='2'}
+<h4 class="text-overflow"><a class="pull-left" href="{$xianyu.story_url}" target="_blank">{$vod_name}<em>{$xianyu.story_name}剧情</em><span class="hidden-xs">{$xianyu.story_title}</span></a><a class="pull-right" href="{$xianyu.story_url}" title="{$vod_name}{$xianyu.story_title}剧情" target="_blank">查看详细 <i class="icon iconfont">&#xe65e;</i></a></h4>
+<div class="details-content">
+{$xianyu.story_info|h|msubstr=0,100,'...'}
+</div>
+
+{/volist}    
+  </div>  
+</div>   
+{/notempty}

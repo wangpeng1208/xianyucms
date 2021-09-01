@@ -1,0 +1,689 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">静态设置</a></li>
+                     <li><a href="#tab_2" data-toggle="tab">视频相关</a></li>
+                     <li><a href="#tab_3" data-toggle="tab">文章相关</a></li>
+                     <li><a href="#tab_4" data-toggle="tab">明星相关</a></li>
+                     <li><a href="#tab_6" data-toggle="tab">剧情相关</a></li>
+                     <li><a href="#tab_7" data-toggle="tab">演员角色</a></li>
+                     <li><a href="#tab_8" data-toggle="tab">专题相关</a></li>
+                     <li><a href="#tab_9" data-toggle="tab">单页相关</a></li>
+                          
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax" role="form"  data-toggle="validator" method="post" action="{:admin_url('admin/html/up')}">      
+<div id="myTabContent" class="tab-content">
+
+<div class="tab-pane fade active in" id="tab_1">
+  <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">网站运行模式：</label>
+             <div class="col-xs-12 col-sm-3">
+              <select  name="config[url_html]" id="config[url_html]" class="form-control" data-tip="">
+						<option value="0" >动态运行</option>
+						<option value="1" {eq name="url_html" value="1"}selected{/eq}>静态运行</option>
+			</select>      
+              </div>
+              </div>
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">每页生成网页数量：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="config[url_number]" id="url_number"  value="{$url_number|default='10'}" class="form-control" data-tip="每次生成数量,不要设置太多容易造成服务器处理超时">
+              </div>
+              </div>  
+             <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">生成每页间隔(秒)：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="config[url_time]" id="url_time"  value="{$url_time|default='5'}" class="form-control" data-tip="请设置至少5秒以上否则容易出现服务器超时">
+              </div>
+              </div>
+              
+             <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">栏目分类页是否生成：</label>
+             <div class="col-xs-12 col-sm-3">
+			<select  name="config[url_html_list]" id="config[url_html_list]" class="form-control" data-tip="">
+			<option value="0" >动态不生成</option>
+			<option value="1" {eq name="url_html_list" value="1"}selected{/eq}>生成静态网页</option>
+			</select>              
+            </div>
+            </div>  
+            <div class="form-group">  
+             <div class="col-xs-12 col-sm-12">
+             说明： 1.静态后缀，请在系统设置-URL后缀后选择。  如果不需要生成静态规则留空即可-留空将使用-动态地址（如果开启了伪静态将使用伪静态地址）。<br />
+             标签说明： {listid}栏目ID {listdir}栏目拼音  {pinyin}内容拼音（如果存在）<br />
+{vodid}视频ID {sid}播放组ID {pid}播放集数ID (SID必须在PID之前) {md5}如果栏目规则为栏目IDMD5值如果是内容就为内容IDMD5值<br />
+ {page}分页标签 注意分页标签必须在最后
+
+
+            
+             </div> 
+            </div>                                               
+          </div>
+      <div class="tab-pane fade " id="tab_2">   
+             <div class="form-group" id="list_div_vod">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">视频栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_vod_list]" id="url_vod_list"  value="{$url_vod_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_vod_list" class="form-control">
+              <option>常用结构</option>
+              <option value="list/{listid}/index-{page}">1.list/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{listid}/{page}">2.list/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="list/{listid}-{page}">3.list/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}/index-{page}">6.list/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}/{page}">7.list/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}-{page}">8.list/listdir-page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}/index-{page}">9.list/md5/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}/{page}">10.list/md5/page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}-{page}">11.list/md5.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">视频内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_vod_data]" id="url_vod_data"  value="{$url_vod_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_vod_data" class="form-control">
+              <option>常用结构</option>
+              <option value="vod/{id}">1.vod/id.{:config('url_html_suffix')}</option>
+              <option value="vod/{id}/">2.vod/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}">3.listid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/">4.listid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}">5.listdir/pinyin.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/">6.listdir/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="vod/{pinyin}">7.vod/pinyin.{:config('url_html_suffix')}</option>
+              <option value="vod/{pinyin}/">8.vod/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="vod/{md5}">9.vod/md5.{:config('url_html_suffix')}</option>
+              <option value="vod/{md5}/">10.vod/md5/index.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_data" data-id="{id}" title="视频ID">{id}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_data" data-id="{pinyin}" title="视频拼音">{pinyin}</a>             
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_data" data-id="{md5}" title="影片md5(id)">{md5}</a>
+             </div>
+              </div>
+              </div> 
+        <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">视频播放页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_vod_play]" id="url_vod_play"  value="{$url_vod_play|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_vod_play" class="form-control">
+              <option>常用结构</option>
+              <option value="vod/{id}/{sid}-{pid}">1.vod/id/sid-pid.{:config('url_html_suffix')}</option>
+              <option value="vod/{md5}/{sid}-{pid}">2.vod/md5/sid-pid.{:config('url_html_suffix')}</option>
+              <option value="vod/{pinyin}/{sid}-{pid}">3.vod/pinyin/sid-pid.{:config('url_html_suffix')}</option>
+              <option value="vod/{id}-{sid}-{pid}">4.vod/id-sid-pid.{:config('url_html_suffix')}</option>
+              <option value="vod/{md5}-{sid}-{pid}">5.vod/md5-sid-pid.{:config('url_html_suffix')}</option>
+              <option value="vod/{pinyin}-{sid}-{pid}">6.vod/pinyin-{sid}-{pid}.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/{sid}-{pid}">7.listid/id/sid-pid.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}/{sid}-{pid}">8.listdir/id/sid-pid.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/{sid}-{pid}">9.listdir/pinyin/sid-pid.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{id}" title="视频ID">{id}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{pinyin}" title="视频拼音">{pinyin}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{sid}" title="播放组SID">{sid}</a>            
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_play" data-id="{pid}" title="播放地址PID">{pid}</a>
+             </div>
+              </div>
+        </div>
+             <div class="form-group">
+              <label for="c-content" class="control-label col-xs-12 col-sm-2">生成播放地址数：</label>
+             <div class="col-xs-12 col-sm-2">
+              <input type="text" name="config[url_play_number]" id="url_play_number"  value="{$url_play_number|default='50'}" class="form-control" data-tip="每次生成播放地址数量,不要设置太多容易造成服务器处理超时">
+              </div>
+              </div>        
+        <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">视频上映页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_vod_filmtime]" id="url_vod_filmtime"  value="{$url_vod_filmtime|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_vod_filmtime" class="form-control">
+              <option>常用结构</option>
+              <option value="filmtime/{id}">1.filmtime/id.{:config('url_html_suffix')}</option>
+              <option value="filmtime/{id}/">2.filmtime/id/index.{:config('url_html_suffix')}</option>
+              <option value="filmtime/{pinyin}">3.filmtime/pinyin.{:config('url_html_suffix')}</option>
+              <option value="filmtime/{pinyin}/">4.filmtime/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="vod/filmtime/{id}">5.vod/filmtime/id.{:config('url_html_suffix')}</option>
+              <option value="vod/filmtime/{id}/">6.vod/filmtime/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}_filmtime">7.listid/id_filmtime.{:config('url_html_suffix')}</option>
+              <option value="{listid}/filmtime_{id}">8.listid/filmtime_id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}/filmtime">8.listdir/id/filmtime.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/filmtime">9.listdir/pinyin/filmtime.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{id}" title="视频ID">{id}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{pinyin}" title="视频拼音">{pinyin}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{sid}" title="播放组SID">{sid}</a>            
+            <a href="javascript:" id="dir_html_add" data-name="url_vod_filmtime" data-id="{pid}" title="播放地址PID">{pid}</a>
+             </div>
+              </div>
+        </div>                                                     
+      
+         <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">生成演员角色：</label>
+             <div class="col-xs-12 col-sm-2">
+              <select  name="config[url_vod_actor]" id="config[url_vod_actor]" class="form-control" data-tip="生成内容页面同时生成演员表角色">
+						<option value="0" >关闭</option>
+						<option value="1" {eq name="url_vod_actor" value="1"}selected{/eq}>开启</option>
+			</select>      
+              </div>
+         </div>
+         
+          <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">生成剧情页面：</label>
+             <div class="col-xs-12 col-sm-2">
+              <select  name="config[url_vod_story]" id="config[url_vod_story]" class="form-control" data-tip="生成内容页面同时生成剧情页面">
+						<option value="0" >关闭</option>
+						<option value="1" {eq name="url_vod_story" value="1"}selected{/eq}>开启</option>
+			</select>      
+              </div>
+         </div>               
+      </div>  
+      
+   <div class="tab-pane fade " id="tab_3">    
+             <div class="form-group" id="list_div_news">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">新闻栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_news_list]" id="url_news_list"  value="{$url_news_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_news_list" class="form-control">
+              <option>常用结构</option>
+              <option value="list/{listid}/index-{page}">1.list/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{listid}/{page}">2.list/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="list/{listid}-{page}">3.list/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}/index-{page}">6.list/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}/{page}">7.list/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="list/{listdir}-{page}">8.list/listdir-page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}/index-{page}">9.list/md5/index-page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}/{page}">10.list/md5/page.{:config('url_html_suffix')}</option>
+              <option value="list/{md5}-{page}">11.list/md5.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_news_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_news_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_news_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_news_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">新闻内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_news_data]" id="url_news_data"  value="{$url_news_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_news_data" class="form-control">
+              <option>常用结构</option>
+              <option value="news/{id}-{page}">1.news/id-page.{:config('url_html_suffix')}</option>
+              <option value="news/{id}/index-{page}">2.news/id/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}-{page}">3.listid/id-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/index-{page}">4.listid/id/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}-{page}">5.listdir/id-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}/index-{page}">6.listdir/id/index-page.{:config('url_html_suffix')}</option>
+              <option value="news/{md5}-{page}">9.news/md5-page.{:config('url_html_suffix')}</option>
+              <option value="news/{md5}/index-{page}">10.news/md5/index-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_news_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_news_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_news_data" data-id="{id}" title="新闻ID">{id}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_news_data" data-id="{page}" title="新闻分页">{page}</a>            
+            <a href="javascript:" id="dir_html_add" data-name="url_news_data" data-id="{md5}" title="新闻IDmd5(id)">{md5}</a>
+             </div>
+              </div>
+              </div>               
+ </div> 
+ 
+ 
+ <div class="tab-pane fade " id="tab_4">    
+             <div class="form-group" id="list_div_star">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">明星栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_star_list]" id="url_star_list"  value="{$url_star_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_star_list" class="form-control">
+              <option>常用结构</option>
+              <option value="star/index-{page}">1.star/index-page.{:config('url_html_suffix')}</option>
+              <option value="star/{page}">2.star/page.{:config('url_html_suffix')}</option>            
+              <option value="star/{listid}-{page}">3.star/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="star/{listdir}/index-{page}">6.star/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="star/{listdir}/{page}">7.star/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="star/{listdir}-{page}">8.star/listdir-page.{:config('url_html_suffix')}</option>
+              <option value="star/{md5}/index-{page}">9.star/md5/index-page.{:config('url_html_suffix')}</option>
+              <option value="star/{md5}/{page}">10.star/md5/page.{:config('url_html_suffix')}</option>
+              <option value="star/{md5}-{page}">11.star/md5.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_star_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_star_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_star_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_star_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">明星内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_star_data]" id="url_star_data"  value="{$url_star_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_star_data" class="form-control">
+              <option>常用结构</option>
+              <option value="star/{id}">1.star/id.{:config('url_html_suffix')}</option>
+              <option value="star/{id}/">2.star/id/</option>
+              <option value="star/{pinyin}">3.star/pinyin.{:config('url_html_suffix')}</option>
+              <option value="star/{pinyin}/">4.star/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}">5.listid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/">6.listid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}">7.listdir/pinyin.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/">8.listdir/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="star/{md5}">9.star/md5.{:config('url_html_suffix')}</option>
+              <option value="star/{md5}/">10.star/md5/index.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_star_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_star_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_star_data" data-id="{id}" title="明星ID">{id}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_star_data" data-id="{pinyin}" title="明星拼音">{pinyin}</a>             
+            <a href="javascript:" id="dir_html_add" data-name="url_star_data" data-id="{md5}" title="明星IDmd5(id)">{md5}</a>
+             </div>
+              </div>
+              </div>               
+ </div>
+ 
+ <div class="tab-pane fade " id="tab_6">    
+             <div class="form-group" id="list_div_story">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">剧情栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_story_list]" id="url_story_list"  value="{$url_story_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_story_list" class="form-control">
+              <option>常用结构</option>
+              <option value="juqing/{listid}/index-{page}">1.juqing/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{listid}/{page}">2.juqing/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="juqing/{listid}-{page}">3.juqing/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{listdir}/index-{page}">6.juqing/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{listdir}/{page}">7.juqing/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{listdir}-{page}">8.juqing/listdir-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_story_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_story_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_story_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_story_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">剧情内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_story_data]" id="url_story_data"  value="{$url_story_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_story_data" class="form-control">
+              <option>常用结构</option>
+              <option value="juqing/{id}-{page}">1.juqing/id-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{id}/index-{page}">2.juqing/id/index-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{vodid}-{page}">3.juqing/vodid-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{vodid}/index-{page}">4.juqing/vodid/index-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{pinyin}-{page}">5.juqing/pinyin-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{pinyin}/index-{page}">6.juqing/pinyin/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}-{page}">7.listid/id-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/index-{page}">8.listid/id/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}-{page}">9.listid/vodid-page.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}/index-{page}">10.listid/vodid/index-page.{:config('url_html_suffix')}</option>              
+              <option value="{listdir}/{pinyin}-{page}">11.listdir/pinyin-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/index-{page}">12.listdir/pinyin/index-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{md5}-{page}">13.juqing/md5-page.{:config('url_html_suffix')}</option>
+              <option value="juqing/{md5}/index-{page}">14.juqing/md5/index-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{id}" title="剧情ID">{id}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{vodid}" title="视频ID">{vodid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{pinyin}" title="视频拼音">{pinyin}</a>             
+            <a href="javascript:" id="dir_html_add" data-name="url_story_data" data-id="{md5}" title="剧情IDmd5(id)">{md5}</a>
+             </div>
+              </div>
+              </div>               
+ </div>     
+ 
+ 
+ <div class="tab-pane fade " id="tab_7">    
+             <div class="form-group" id="list_div_actor">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">演员表栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_actor_list]" id="url_actor_list"  value="{$url_actor_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_actor_list" class="form-control">
+              <option>常用结构</option>
+              <option value="actor/{listid}/index-{page}">1.actor/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="actor/{listid}/{page}">2.actor/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="actor/{listid}-{page}">3.actor/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="actor/{listdir}/index-{page}">6.actor/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="actor/{listdir}/{page}">7.actor/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="actor/{listdir}-{page}">8.actor/listdir-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">演员表内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_actor_data]" id="url_actor_data"  value="{$url_actor_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_actor_data" class="form-control">
+              <option>常用结构</option>
+              <option value="actor/{id}">1.actor/id.{:config('url_html_suffix')}</option>
+              <option value="actor/{id}/">2.actor/id/index.{:config('url_html_suffix')}</option>
+              <option value="actor/{vodid}">3.actor/vodid.{:config('url_html_suffix')}</option>
+              <option value="actor/{vodid}/">4.actor/vodid/index.{:config('url_html_suffix')}</option>
+              <option value="actor/{pinyin}">5.actor/pinyin.{:config('url_html_suffix')}</option>
+              <option value="actor/{pinyin}/">6.actor/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}">7.listid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/">8.listid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}">9.listid/pinyin.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}/">10.listid/pinyin/index.{:config('url_html_suffix')}</option>             
+              <option value="{listid}/{vodid}_{id}">11.listid/vodid_id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}/{id}/">12.listid/vodid/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}_{id}">13.listid/pinyin_id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}/{id}/">14.listid/pinyin/index.{:config('url_html_suffix')}</option>              
+              <option value="{listdir}/{id}">15.listdir/id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}/">16.listdir/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}">17.listdir/pinyin.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/">18.listdir/pinyin/index.{:config('url_html_suffix')}</option>             
+              <option value="{listdir}/{vodid}_{id}">19.listdir/vodid_id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{vodid}/{id}/">20.listdir/vodid/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}_{id}">21.listdir/pinyin_id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/{id}/">22.listdir/pinyin/index.{:config('url_html_suffix')}</option>    
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_data" data-id="{id}" title="演员表ID">{id}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_data" data-id="{vodid}" title="视频ID">{vodid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_actor_data" data-id="{pinyin}" title="视频拼音">{pinyin}</a>             
+             </div>
+              </div>
+              </div> 
+              
+             <div class="form-group" id="list_div_role">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">角色栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_role_list]" id="url_role_list"  value="{$url_role_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_role_list" class="form-control">
+              <option>常用结构</option>
+              <option value="role/{listid}/index-{page}">1.role/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="role/{listid}/{page}">2.role/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="role/{listid}-{page}">3.role/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="role/{listdir}/index-{page}">6.list/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="role/{listdir}/{page}">7.role/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="role/{listdir}-{page}">8.role/listdir-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_role_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_role_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_role_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_role_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">角色内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_role_data]" id="url_role_data"  value="{$url_role_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_role_data" class="form-control">
+              <option>常用结构</option>
+              <option value="role/{id}">1.role/id.{:config('url_html_suffix')}</option>
+              <option value="role/{id}/">2.role/id/index.{:config('url_html_suffix')}</option>
+              <option value="role/{vodid}-{id}">3.role/vodid-id.{:config('url_html_suffix')}</option>
+              <option value="role/{vodid}/{id}">4.role/vodid/id.{:config('url_html_suffix')}</option>
+              <option value="role/{vodid}/{id}/">5.role/vodid/id/index.{:config('url_html_suffix')}</option>
+              <option value="role/{pinyin}-{id}">6.role/pinyin-id.{:config('url_html_suffix')}</option>
+               <option value="role/{pinyin}/{id}">7.role/pinyin/id.{:config('url_html_suffix')}</option>
+              <option value="role/{pinyin}/{id}/">8.role/pinyin/id/index.{:config('url_html_suffix')}</option>
+              
+              <option value="{listid}/{id}">9.listid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/">10.listid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}-{id}">11.listid/vodid-id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}/{id}">12.listid/vodid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{vodid}/{id}/">13.listid/vodid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}-{id}">14.listid/pinyin-id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}/{id}">15.listid/pinyin/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{pinyin}/{id}/">16.listid/pinyin/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}">17.listdir/id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{id}/">18.listdir/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{vodid}-{id}">19.listdir/vodid-id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{vodid}/{id}">20.listdir/vodid/id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{vodid}/{id}/">21.listdir/vodid/id/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}-{id}">22.listdir/pinyin-id.{:config('url_html_suffix')}</option>
+               <option value="{listdir}/{pinyin}/{id}">23.listdir/pinyin/id.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/{id}/">24.listdir/pinyin/id/index.{:config('url_html_suffix')}</option>              
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_role_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_role_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_role_data" data-id="{id}" title="演员表ID">{id}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_role_data" data-id="{vodid}" title="视频ID">{vodid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_role_data" data-id="{pinyin}" title="视频拼音">{pinyin}</a>             
+             注意如果使用{vodid}或{pinyin}时必须加入{id}参数
+             </div>
+              </div>
+              </div>                   
+              
+                         
+ </div>   
+ 
+  <div class="tab-pane fade " id="tab_8">    
+             <div class="form-group" id="list_div_special">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">专题栏目页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_special_list]" id="url_special_list"  value="{$url_special_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_special_list" class="form-control">
+              <option>常用结构</option>
+              <option value="special/{listid}/index-{page}">1.special/listid/index-page.{:config('url_html_suffix')}</option>
+              <option value="special/{listid}/{page}">2.special/listid/page.{:config('url_html_suffix')}</option>            
+              <option value="special/{listid}-{page}">3.special/listid-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/index-{page}">4.listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{page}">5.listdir/page.{:config('url_html_suffix')}</option>
+              <option value="special/{listdir}/index-{page}">6.special/listdir/index-page.{:config('url_html_suffix')}</option>
+              <option value="special/{listdir}/{page}">7.special/listdir/page.{:config('url_html_suffix')}</option>
+              <option value="special/{listdir}-{page}">8.special/listdir-page.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_tv_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_tv_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_tv_list" data-id="{md5}" title="md5(id)">{md5}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_tv_list" data-id="{page}" title="分页标签">{page}</a>  
+             </div>
+              </div>
+              </div> 
+              
+              
+   <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">专题内容页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_special_data]" id="url_special_data"  value="{$url_special_data|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-3 col-xs-6">
+              <select name="dir_html" data-id="url_special_data" class="form-control">
+              <option>常用结构</option>
+              <option value="special/{id}">1.special/id.{:config('url_html_suffix')}</option>
+              <option value="special/{id}/">2.special/id/index.{:config('url_html_suffix')}</option>
+              <option value="special/{pinyin}">3.special/pinyin.{:config('url_html_suffix')}</option>
+              <option value="special/{pinyin}/">4.special/pinyin/index.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}">5.listid/id.{:config('url_html_suffix')}</option>
+              <option value="{listid}/{id}/">6.listid/id/index.{:config('url_html_suffix')}</option>           
+              <option value="{listdir}/{pinyin}">7.listdir/pinyin.{:config('url_html_suffix')}</option>
+              <option value="{listdir}/{pinyin}/">8.listdir/pinyin/index.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-4 col-xs-12 control-label" style="text-align:left">
+            变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_special_data" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_special_data" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_special_data" data-id="{id}" title="专题ID">{id}</a>
+            <a href="javascript:" id="dir_html_add" data-name="url_special_data" data-id="{pinyin}" title="专题拼音">{pinyin}</a>           
+             </div>
+              </div>
+              </div> 
+              
+               
+              
+                         
+ </div>           
+  
+ 
+ <div class="tab-pane fade " id="tab_9">    
+             <div class="form-group" id="list_div_tv">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">单页路径：</label>
+             <div class="col-md-10 col-sm-10 col-xs-12" style="padding:0px;">
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <input type="text" name="config[url_my_list]" id="url_my_list"  value="{$url_my_list|default=''}" class="form-control">
+              </div>
+              <div class="col-md-3 col-sm-5 col-xs-6">
+              <select name="dir_html" data-id="url_my_list" class="form-control">
+              <option>常用结构</option>
+              <option value="my/{listid}">1.my/listid.{:config('url_html_suffix')}</option>        
+              <option value="my/{listid}/">3.my/listid/index.{:config('url_html_suffix')}</option>
+              <option value="my/{listdir}">4.my/listdir.{:config('url_html_suffix')}</option>
+              <option value="my/{listdir}/">5.my/listdir/index.{:config('url_html_suffix')}</option>
+              <option value="{listdir}">6.listdir.{:config('url_html_suffix')}</option>
+              <option value="{listid}">6.listid.{:config('url_html_suffix')}</option>
+			  </select> 
+            </div> 
+            <div class="col-md-5 col-sm-2 col-xs-12 control-label" style="text-align:left">变量：
+            <a href="javascript:" id="dir_html_add" data-name="url_my_list" data-id="{listid}" title="分类ID">{listid}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_my_list" data-id="{listdir}" title="分类拼音">{listdir}</a> 
+            <a href="javascript:" id="dir_html_add" data-name="url_my_list" data-id="{md5}" title="md5(id)">{md5}</a> 
+             </div>
+              </div>
+              </div> 
+              
+   
+              
+               
+              
+                         
+ </div> 
+ 
+
+ 
+ 
+         
+</div>     
+</div>
+<div class="layui-layer-btn layui-layer-footer">
+<div class="row"><div class="col-xs-2"></div><div class="col-xs-12 col-sm-6">
+            <button type="submit" class="btn btn-success btn-embossed">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button onClick="javascript:history.back(-1);return false;" class="btn btn-danger">返回</button>
+        </div></div>
+        </div>
+  </form>      
+</div>

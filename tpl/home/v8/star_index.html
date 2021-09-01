@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}_娱乐明星_明星大全{$page}{/notempty}{neq name="list_page" value="1"}第{$list_page}页{/neq} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}{$list_name},娱乐明星,电影明星,电视剧明星,明星大全{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$sitename}为您提供各国男女明星的详细资料、近况已经最新电影，电视剧在线观看。{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+
+    
+<div class="layout-box clearfix"> 
+ <div class="box-title">
+      <h3 class="m-0"><i class="icon iconfont text-color">&#xe66d;</i>荧幕热星</h3>
+      <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>'','letter'=>'','order'=>'hits'))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+{php}$star_hits=xianyu_mysql_star('limit:12;field:star_id,star_cid,star_name,star_letters,star_content,star_pic,star_pic,star_zy,star_area;stars:5;cahce_name:default;cahce_time:86400;order:star_hits_day desc');{/php}
+    <!--小分类模块结束-->
+    <div class="clearfix" id="myTab">
+      <ul class="box-star-list" >
+        {volist name="star_hits" id="xianyu"}
+        <li class="col-md-1 col-sm-2 col-xs-4 {eq name="i" value="1"}active{/eq}  {gt name="i" value="3"} hidden-xs{/gt} {gt name="i" value="6"} hidden-sm{/gt}">
+        <a class="star-pic loading img-circle" data-original="{$xianyu.star_picurl}" style="padding-top:100%;" href="#hot_star_{$i}" data-toggle="tab"><span>{$xianyu.star_name}</span></a>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+    <div class="clearfix star-video-list" >
+    {volist name="star_hits" id="xianyu" key="k"}
+      <ul class="box-star-list fade {eq name="k" value="1"}in active{/eq}" id="hot_star_{$k}">
+      {php}$hot_star_vod = xianyu_mysql_vod('actor:'.$xianyu['star_name'].';cid:1,2;field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_gold,vod_pic,vod_actor,vod_director,vod_title;limit:6;cahce_name:default;cahce_time:86400;order:vod_addtime desc');{/php}
+        {volist name="hot_star_vod" id="xianyu" key="key"}
+        <li class="col-md-2 col-sm-3 col-xs-4 {gt name="key" value="3"} hidden-xs{/gt}{gt name="key" value="4"} hidden-sm{/gt}"><a  href="{$xianyu.vod_readurl}" target="_blank" class="video-pic" style="background: url({$xianyu.vod_picurl})  no-repeat;background-size:cover;" title="{$xianyu.vod_name}" > <span class="note text-bg-c">{$xianyu.vod_name}</span> </a> </li>
+        {/volist}
+        </ul>
+      {/volist}  
+</div>
+</div>     
+ {php}$star_list_dl = xianyu_mysql_star('limit:12;stararea:大陆,中国,内地;field:star_id,star_cid,star_name,star_letters,star_pic,star_work,star_zy,star_xb,star_gj,star_flower,star_bm,star_area,star_cstime,star_hits_day;cahce_name:default;cahce_time:3600;order:star_hits_day desc');{/php}
+{notempty name="star_list_dl"} 
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">内地热星</h3>
+    <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('中国,内地,大陆'),'letter'=>'','order'=>''))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>  
+
+        <div class="swiper-container vod-swiper-6">
+            <ul class="swiper-wrapper">
+            {volist name="star_list_dl" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.star_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.star_picurl}"><span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span><div class="swiper-lazy-preloader"></div></a>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+                <div class="box-video-footer visible-xs clearfix"><a href="{:getlistname($tpl_id[11],'list_url')}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+
+ </div> 
+{/notempty} 
+ {php}$star_list_gt = xianyu_mysql_star('limit:12;stararea:中国香港,中国台湾,香港,台湾;field:star_id,star_cid,star_name,star_flower,star_letters,star_pic,star_work,star_zy,star_xb,star_gj,star_bm,star_area,star_cstime,star_hits_day;cahce_name:default;cahce_time:3600;order:star_hits_day desc');{/php}
+{notempty name="star_list_gt"} 
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">港台热星</h3>
+    <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('香港,台湾,中国香港,中国台湾'),'letter'=>'','order'=>''))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>  
+        <div class="swiper-container vod-swiper-6">
+            <ul class="swiper-wrapper">
+            {volist name="star_list_gt" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.star_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.star_picurl}"><span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span><div class="swiper-lazy-preloader"></div></a>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+                <div class="box-video-footer visible-xs clearfix"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('香港,台湾,中国香港,中国台湾'),'letter'=>'','order'=>''))}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+
+ </div> 
+{/notempty}
+
+ {php}$star_list_rg = xianyu_mysql_star('limit:12;stararea:韩国,日本;field:star_id,star_cid,star_name,star_flower,star_letters,star_pic,star_work,star_zy,star_xb,star_gj,star_bm,star_area,star_cstime,star_hits_day;cahce_name:default;cahce_time:3600;order:star_hits_day desc');{/php}
+{notempty name="star_list_rg"} 
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">韩日热星</h3>
+    <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('韩国,日本'),'letter'=>'','order'=>''))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>  
+        <div class="swiper-container vod-swiper-6">
+            <ul class="swiper-wrapper">
+            {volist name="star_list_rg" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.star_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.star_picurl}"><span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span><div class="swiper-lazy-preloader"></div></a>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+                <div class="box-video-footer visible-xs clearfix"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('韩国,日本'),'letter'=>'','order'=>''))}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+
+ </div> 
+{/notempty} 
+ 
+ {php}$star_list_om = xianyu_mysql_star('limit:12;stararea:美国,加拿大,德国,法国,英国,西班牙,瑞典,瑞士,挪威,奥地利,意大利,芬兰;field:star_id,star_cid,star_name,star_flower,star_letters,star_pic,star_work,star_zy,star_xb,star_gj,star_bm,star_area,star_cstime,star_hits_day;cahce_name:default;cahce_time:3600;order:star_hits_day desc');{/php}
+{notempty name="star_list_om"} 
+    <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0">欧美热星</h3>
+    <div class="more pull-right"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('美国,加拿大,德国,法国,英国,西班牙,瑞典,瑞士,挪威,奥地利,意大利,芬兰'),'letter'=>'','order'=>''))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>  
+        <div class="swiper-container vod-swiper-6">
+            <ul class="swiper-wrapper">
+            {volist name="star_list_om" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.star_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.star_picurl}"><span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span><div class="swiper-lazy-preloader"></div></a>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+                <div class="box-video-footer visible-xs clearfix"><a href="{:xianyu_type_url('home/star/type',array('id'=>$list_id,'dir'=>$list_dir,'sex'=>"",'zy'=>"",'area'=>urlencode('美国,加拿大,德国,法国,英国,西班牙,瑞典,瑞士,挪威,奥地利,意大利,芬兰'),'letter'=>'','order'=>''))}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+
+ </div> 
+{/notempty}
+
+
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

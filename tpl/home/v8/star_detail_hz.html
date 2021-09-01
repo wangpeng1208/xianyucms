@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$star_name}人物关系_{$star_name}合作过的明星-{$sitename}</title>
+<meta name="keywords" content="{$star_name}合作过的明星,{$star_name}合作过的演员,{$star_name}人物关系">
+<meta name="description" content="{$sitename}为您收集了包括{$star_name}的人物关系以及{$star_name}和谁演过电影电视剧等信息等希望你能喜欢。"> 
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$hezuo=xianyu_mysql_starhz('star:'.$star_name.';guanxi:'.$star_xi.';field:star_id,star_cid,star_name,star_letters,star_pic,star_flower;limit:18;page:true;p:'.$page.';order:star_hits_day desc');
+$news_star=xianyu_mysql_news('news:'.$star_name.';did:'.$star_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:10;order:news_id desc');
+$actor_list=xianyu_mysql_role('starname:'.$star_name.';limit:4;order:role_addtime desc');
+$vod_list = xianyu_mysql_vod('actor:'.$star_name.';cid:1,2;field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_gold,vod_pic,vod_actor,vod_director,vod_title;limit:12;order:vod_addtime desc');
+{/php}
+{include file="star_detail_top" /}    
+<div class="container">
+<div class="row"> 
+<div class="clearfix"></div> 
+ {notempty name="hezuo"} 
+  <!--明星作品模块开始-->   
+<div class="layout-box clearfix{notempty name="star_bigpicurl"} mt-0{/notempty}">
+  <div class="col-md-12 col-sm-12 col-xs-12 pg-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}合作明星</h3>
+    <div class="more pull-right">共<span class="text-color">“{$hezuo.0.page.pagecount}”</span>个明星</div>
+    </div>
+     <div class="box-topic-list clearfix">
+        <ul class="item">
+             {volist name="hezuo" id="xianyu"}
+            <li class="col-md-2 col-sm-4 col-xs-4">
+            <a class="video-pic loading" data-original="{$xianyu.star_picurl}" href="{$xianyu.star_readurl}" title="{$xianyu.star_name}">
+            <span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span>
+            </a>
+            </li>
+            {/volist}
+
+        </ul>
+                <div class="box-video-footer visible-xs clearfix"><a href="{:getlistname($tpl_id[11],'list_url')}" class="text-more" title="查看更多">查看更多 <i class="icon iconfont icon-right pull-right"></i></a></div>
+      </div>
+</div>
+{notempty name="hezuo"}
+<div class="box-page clearfix m-0"><ul>{$hezuo.0.page.pageurl}</ul></div>
+{/notempty}  
+</div>
+ <!--明星作品模块结束--> 
+{/notempty}
+</div>
+</div>
+{$vod_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

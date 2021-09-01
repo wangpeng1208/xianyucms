@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>我的充值记录 - 会员中心 -{$sitename}</title>
+{include file="user_include" /}
+</head>
+<body class="center_body">
+{include file="center_header" /}
+<div class="container">
+<div class="row">
+<div class="col-md-3 col-sm-4 col-xs-12 box-main-content"> 
+{include file="center_info_min" /}
+{include file="center_left" /}
+</div>
+<div class="col-md-9 col-sm-8 col-xs-12 xs-bt-20 box-main-side">
+<div class="user-box clearfix">
+<div class="user-center-title pt-0 pl-0"><h2 class="text-color">消费记录</h2><div class="more pull-right">共<span class="text-color">“<span id="total"></span>”</span>条数据</div></div>
+  <div class="comment-focus m-0">
+    <ul class="order-list" id="datalist">
+      <div class="loading text-center">记录加载中...</div>
+    </ul>
+  </div>
+  <div class="box-page clearfix ajax-page" id="long-page">
+    <ul id="pages">
+    </ul>
+  </div>
+</div>
+</div>
+</div>      
+</div> 
+<script type="text/javascript"> 
+var geturl=cms.root + "index.php?s=user-center-score";
+xianyu.user.get(geturl);
+</script> 
+{include file="user_footer" /}
+</body>
+</html>

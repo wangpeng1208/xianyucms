@@ -1,0 +1,32 @@
+
+{php}$ii=0;
+    if($param['order'])
+    $s_order=$param['order']." desc";
+    else
+    $s_order="addtime desc";  
+	$list = xianyu_mysql_star('limit:30;field:star_id,star_cid,star_name,star_flower,star_letters,star_pic,star_gj,star_zy,star_area,star_hits;letter:'.$param[letter].';sex:'.$param[sex].';zy:'.$param[zy].';area:'.$param[area].';page:true;p:'.$list_page.';order:star_'.$s_order.';');
+	{/php} 
+    <div class="layout-box clearfix">
+    <div class="box-switch-tabs active clearfix">
+    <span class="text-muted pull-right hidden-xs" id="count">共有<span class="text-color">“{$list.0.page.pagecount|default='0'}”</span>位明星,当前第<span class="text-color">“{$list_page}”</span>页</span>
+    </div>
+    <div class="box-video-list">
+     <div class="item">
+          <ul class="clearfix" id="content">
+           {notempty name="list"}
+           {volist name="list" id="xianyu"}
+            <li class="col-md-2 col-sm-3 col-xs-4">
+            <a class="video-pic loading" data-original="{$xianyu.star_picurl}" href="{$xianyu.star_readurl}" title="{$xianyu.star_name}" >
+            <span class="flower hidden-xs"></span><span class="fnum hidden-xs">{$xianyu.star_flower}</span><span class="note text-bg-c">{$xianyu.star_name}</span>
+            </a>
+            
+            
+            </li>
+            {/volist}
+            {else/}<div class="kong">抱歉，没有找到相关内容！</div>
+            {/notempty}     
+  </ul>
+  </div>
+   </div>
+    <div class="box-page clearfix ajax-page" id="long-page"><ul>{$list.0.page.pageurl}</ul></div>
+   </div>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   {include file="public/meta" /}
+    </head>
+    <body class="inside-header inside-aside {:defined('IS_DIALOG') && IS_DIALOG ? 'is-dialog' : ''}">
+        <div id="main" role="main">
+            <div class="tab-content tab-addtabs">
+                <div id="content">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <!-- END RIBBON -->
+                        <div class="content">
+ <div class="panel panel-default panel-intro" id="contents">
+   <div class="panel-heading">
+    <div class="panel-lead" style="overflow:hidden"><em style="float:left">共{:count($url)}个定时任务</em><span style="float:right"><a href="{:admin_url('admin/collect/win')}" class="btn-link">返回定时列表</a></span></div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding"> 
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body" >
+            <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%" height='100%'>
+            <tbody>                    
+             <tr><td valign='top' id='caiji' style="height:100%;text-align:center; overflow:hidden"><h2>共{:count($url)}个定时采集任务等侍中...</h2></td></tr>
+             <tr><td valign='top' height='1' style="background:#e8e8e8"></td></tr>
+ {notempty name="url_html"}            
+<tr><td valign='top' id='create' style="height:100%;text-align:center; overflow:hidden"><h2>静态页面生成等待中...</h2></td></tr>    
+{/notempty}         
+                    
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+var $time = new Array();
+$time['caiji'] = {$caiji};
+ {notempty name="create"} 
+$time['create'] = {$create};
+if($time['create'] > $time['caiji']){
+	setInterval('$create()',1000*60*{$create});
+}
+function $create(){
+	document.getElementById("create").innerHTML = "<iframe  frameborder='0' width='100%' height='400' src='{:admin_url('admin/html/create_time')}' scrolling='auto'></iframe>";
+}
+{/notempty}
+if($time['caiji'] > 0){
+	setInterval('$caiji()',1000*60*{$caiji});
+}
+var urln = 0;
+var array_url = new Array();{volist name="url" id="xianyu"}array_url[{$key}]='{$xianyu}';{/volist}
+function $caiji(){
+	if(urln < array_url.length-1){
+		urln++;
+	}else{
+		urln = 0;
+	}
+	if(array_url[urln]){
+		document.getElementById("caiji").innerHTML = "<iframe  frameborder='0' width='100%' height='400' src='"+array_url[urln]+"' scrolling='auto'></iframe>";
+	}
+}
+
+</script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>

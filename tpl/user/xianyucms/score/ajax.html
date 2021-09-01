@@ -1,0 +1,3 @@
+<li class="hover"><span class="score">单号</span><span class="score">操作类型</span><span class="score">积分增减</span><span class="score">操作时间</span></li>
+
+{volist name="list" id="xianyu"}<li><span class="score">{$xianyu.score_id}</span><span class="score">{$xianyu.type_text}</span><span class="score {gt name="xianyu.score_ext" value="0"}text-color{/gt}">{$xianyu.score_ext}</span><span class="score">{$xianyu.score_addtime}</span></li>{/volist}

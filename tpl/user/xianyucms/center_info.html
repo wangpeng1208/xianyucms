@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>同步登录 - 会员中心 -{$sitename}</title>
+{include file="user_include" /}
+<script src="{$apicss}admin/xianyucms/libs/jquery-cxselect/js/jquery.cxselect.js"></script>
+</head>
+<body class="center_body">
+{include file="center_header" /}
+<div class="container">
+<div class="row">
+<div class="col-md-3 col-sm-4 col-xs-12 box-main-content">
+{include file="center_info_min" /}
+{include file="center_left" /}
+</div>
+<div class="col-md-9 col-sm-8 col-xs-12 xs-bt-20 box-main-side">
+<div class="user-box clearfix">
+<div class="user-infos">
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#tab_1" data-toggle="tab">基本资料</a></li>
+  <li><a href="#tab_2" data-toggle="tab">订阅设置</a></li>
+  <li><a href="#tab_3" data-toggle="tab">头像修改</a></li>
+  <li><a href="#tab_4" data-toggle="tab">同步绑定</a></li>
+  <li><a href="#tab_5" data-toggle="tab">密码修改</a></li>
+</ul>
+<div class="tab-pane active in" id="tab_1">
+<form class="form-horizontal"  method="post" role="form" action="{:zp_url('user/center/infoSetting')}" onSubmit="return false;">
+           <div class="form-group">
+                <label for="sex" class="control-label col-xs-12 col-sm-3">性别：</label>
+                <div class="col-xs-12 col-sm-6">
+                   <select name="info[sex]" class="form-control selectpicker">
+                        <option value="1">男</option>
+                        <option value="2" {eq name="userinfo.detail['sex']" value="2"}selected{/eq}>女</option>
+                    </select>
+                </div>
+           </div>
+            <div class="form-group">
+                <label for="birthday" class="control-label col-xs-12 col-sm-3">出生年月日：</label>
+                <div class="col-xs-12 col-sm-6">
+                <input class="form-control" name="info[birthday]" value="{$userinfo.detail.birthday}" placeholder="出生日期格式2018-01-01" type="date" style="text-align:center">
+                </div>
+           </div>
+            <div class="form-group">
+                <label for="dq" class="control-label col-xs-12 col-sm-3">出生年月日：</label>
+                <div class="col-xs-12 col-sm-6">
+<div class="form-inline" id="cxselect">
+<select class="province form-control" data-first-title="选择省" name="info[prov]">
+<option value="">请选择</option>
+<option value="{$userinfo.detail.prov|default=''}" selected="">{$userinfo.detail.prov|default=''}</option>
+</select>
+<select class="city form-control" data-first-title="选择市" name="info[city]">
+<option value="">请选择</option>
+<option value="{$userinfo.detail.city|default=''}" selected="">{$userinfo.detail.city|default=''}</option>
+</select>
+<select class="area form-control" data-first-title="选择地区" name="info[area]">
+<option value="">请选择</option>
+<option value="{$userinfo.detail.area|default=''}" selected="">{$userinfo.detail.area|default=''}</option>
+</select>
+</div>
+                </div>
+           </div>
+           <div class="form-group">
+                <label for="edu" class="control-label col-xs-12 col-sm-3">学历：</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="info[edu]" class="form-control selectpicker">
+                  <option value="">选择学历</option>
+                  <option value="1" {eq name="userinfo.detail.edu" value="1"}selected{/eq}>小学</option>
+                  <option value="2" {eq name="userinfo.detail.edu" value="2"}selected{/eq}>初中</option>
+                  <option value="3" {eq name="userinfo.detail.edu" value="3"}selected{/eq}>高中/中专</option>
+                  <option value="4" {eq name="userinfo.detail.edu" value="4"}selected{/eq}>大专</option>
+                  <option value="5" {eq name="userinfo.detail.edu" value="5"}selected{/eq}>本科</option>
+                  <option value="6" {eq name="userinfo.detail.edu" value="6"}selected{/eq}>硕士及以上</option>
+                    </select>
+                </div>
+           </div>
+           <div class="form-group">
+                <label for="industry" class="control-label col-xs-12 col-sm-3">行业：</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="info[industry]" class="form-control selectpicker">
+                  <option value="">选择行业</option>
+                  <option value="1"  {eq name="userinfo.detail.industry" value="1"}selected{/eq} >教育/学生</option>
+                  <option value="2"  {eq name="userinfo.detail.industry" value="2"}selected{/eq}>计算机/互联网</option>
+                  <option value="3"  {eq name="userinfo.detail.industry" value="3"}selected{/eq}>建筑</option>
+                  <option value="4"  {eq name="userinfo.detail.industry" value="4"}selected{/eq}>金融/房产</option>
+                  <option value="5"  {eq name="userinfo.detail.industry" value="5"}selected{/eq}>政府/公共服务</option>
+                  <option value="6"  {eq name="userinfo.detail.industry" value="6"}selected{/eq}>电信/网络</option>
+                  <option value="7"  {eq name="userinfo.detail.industry" value="7"}selected{/eq}>服务</option>
+                  <option value="8"  {eq name="userinfo.detail.industry" value="8"}selected{/eq}>传媒/娱乐</option>
+                  <option value="9"  {eq name="userinfo.detail.industry" value="9"}selected{/eq}>农林/化工</option>
+                  <option value="10" {eq name="userinfo.detail.industry" value="10"}selected{/eq}>旅游/交通</option>
+                  <option value="11" {eq name="userinfo.detail.industry" value="11"}selected{/eq}>其他</option>
+                    </select>
+                </div>
+           </div>
+
+           <div class="form-group">
+                <label for="signature" class="control-label col-xs-12 col-sm-3">个性签名：</label>
+                <div class="col-xs-12 col-sm-6">
+                 <textarea cols="40" class="form-control txt" name="info[signature]" id="signature" rows="5" placeholder="输入个性签名">{$userinfo.detail.signature}</textarea>
+                </div>
+           </div>
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3"></label>
+                <div class="col-xs-12 col-sm-6 text-center">
+                 <button type="submit" class="btn btn-success btn-block" id="submit" from="form-info">提交</button>
+                </div>
+           </div>
+
+    </form>
+
+</div>
+<div class="tab-pane fade" id="tab_2">
+<form class="form-horizontal"  method="post" role="form" action="{:zp_url('user/center/subscriptionSetting')}" onSubmit="return false;">
+<div class="remind-notice"> 友情提示：订阅提示有2种提示方式，站内提示和邮件提示。您能可以根据自己的习惯选择，或者一起选择。 </div>
+
+           <div class="form-group">
+                <label for="nickname" class="control-label col-xs-12 col-sm-3">站内提醒：</label>
+                <div class="col-xs-12 col-sm-6">
+                   <label class="label-checkbox" for="if_email" hidefocus>
+                    <input type="checkbox" value="1" name="info[isstation]" id="if_email" {if condition="$userinfo.isstation eq 1"} checked="checked"{/if}/>
+                   开通站内订阅提醒功能</label>
+
+                </div>
+           </div>
+
+           <div class="form-group">
+                <label for="nickname" class="control-label col-xs-12 col-sm-3">邮件提醒：</label>
+                <div class="col-xs-12 col-sm-6">
+                    <label class="label-checkbox" for="if_inter" hidefocus="" >
+    <input type="checkbox" name="info[isRemind]" value="1" id="if_inter" {if condition="$userinfo.isRemind eq 1"} checked="checked"{/if}>开通邮件订阅提醒功能</label>
+                </div>
+           </div>
+           <div class="form-group">
+                <label for="nickname" class="control-label col-xs-12 col-sm-3">订阅邮箱：</label>
+                <div class="col-xs-12 col-sm-6">
+<input type="text" class="form-control" value="{$userinfo['iemail']}" name="info[iemail]" autocomplete="false">
+<span>推荐使用QQ邮箱，订阅有更新时，发送至您的指定邮箱。</span>
+                </div>
+           </div>
+             <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3"></label>
+                <div class="col-xs-12 col-sm-6 text-center">
+                 <button type="submit" class="btn btn-success btn-block" id="submit" from="form-remind">提交</button>
+                </div>
+           </div>
+    </form>
+</div>
+
+
+<div class="tab-pane fade" id="tab_3">
+    <style type="text/css">
+        .tab-content {
+            overflow: visible;
+        }
+
+        .uploaded_avatar_area {
+            margin-top: 20px;
+        }
+
+        .uploaded_avatar_btns {
+            margin-top: 20px;
+        }
+
+        .uploaded_avatar_area .uploaded_avatar_btns {
+            display: none;
+        }
+
+        /* avatarCropper */
+        .avatarwrap, .avatar-Tools {
+            width: 475px;
+            height: 310px;
+            margin: 20px 0 0 0;
+        }
+
+        .avatarwrap .avatar-cropper {
+            float: left;
+            width: 300px;
+            height: 300px;
+            border: 1px solid #3e4664;
+            display: block;
+            overflow: hidden;
+        }
+
+        .avatar-cropper img {
+            max-width: 100%;
+        }
+
+        .avatarwrap .avatar-preview {
+            float: left;
+            width: 150px;
+            margin: 0 0 0 22px;
+        }
+
+        .avatar-preview .UserPreview {
+            width: 100%;
+            margin: 0;
+        }
+
+        .UserPreview .img-preview {
+            width: 150px;
+            height: 150px;
+            border: 1px solid #3e4664;
+            margin: 0 0 20px 0;
+            padding: 0;
+            display: block;
+            overflow: hidden;
+        }
+
+        .UserPreview .preview-md {
+            width: 80px;
+            height: 80px;
+        }
+
+        .UserPreview .preview-sm {
+            width: 30px;
+            height: 30px;
+            margin: 0;
+        }
+
+        .avatar-Tools {
+            margin: 0;
+            height: auto;
+        }
+
+        .avatar-Tools .btn-group {
+            margin: 0 0 5px 0;
+        }
+
+        .avatar-Tools .btnsave {
+            margin: 1px 0 0 0;
+        }
+
+        .avatar-Tools>.btn-group>.btn {
+            width: 75.5px;
+        }
+    </style>
+    <link href="{$apicss}cms/js/cropper/cropper.css" rel="stylesheet" type="text/css" />
+    <script src="{$apicss}cms/js/cropper/cropper.js"></script>
+    <script src="{$apicss}cms/js/cropper/jquery-cropper.min.js"></script>
+    <script src="{$apicss}cms/js/canvas-to-blob/canvas-to-blob.min.js"></script>
+<div class="form-group">
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="one">
+            <div class="avatarwrap">
+                <div id="jqueryCropper" class="avatar-cropper">
+                    <img id="userAvatarImage" src="{$userinfo.avatar}">
+                </div>
+                <div class="avatar-preview">
+                    <div class="UserPreview">
+                        <div class="img-preview preview-lg"></div>
+                        <div class="img-preview preview-md"></div>
+                        <div class="img-preview preview-sm"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="avatar-Tools">
+                <div class="btn-group">
+                    <button type="button" class="btn eventBtn" role="group" data-method="setDragMode" data-option="move" title="移动图片"><span class="fa fa-arrows"></span> 移动</button>
+                    <button type="button" class="btn eventBtn" role="group" data-method="setDragMode" data-option="crop" title="裁剪图片"><span class="fa fa-crop"></span> 裁剪</button>
+                    <button type="button" class="btn eventBtn" role="group" data-method="rotate" data-option="-10" title="向左旋转图片"><span class="fa fa-rotate-left"></span> 左旋</button>
+                    <button type="button" class="btn eventBtn" role="group" data-method="rotate" data-option="10" title="向又旋转图片"><span class="fa fa-rotate-right"></span> 右旋</button>
+                </div>
+                <div class="btn-group">
+                    <label class="btn btn-primary eventBtn" for="inputImage" title="打开图片">
+                        <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png">
+                        <span class="fa fa-upload"></span> 上传
+                    </label>
+                    <button type="button" class="btn btn-primary eventBtn" role="group" data-method="reset" title="重置图片"><span class="fa fa-refresh"></span> 重置</button>
+                </div>
+                <button id="saveavatar" type="button" class="btn btn-success btn-lg btn-block btnsave eventBtn"><i class="fa fa-save"></i> 确认保存</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 初始化变量
+        var nzc = $("#jqueryCropper");
+        var nzi = $('#userAvatarImage');
+        var n2i = $('#inputImage');
+        var originalImageURL = n2i.attr('src');
+        var uploadedImageName = "{$userinfo['avatar']}";
+        var uploadedImageType = 'image/jpeg';
+        var uploadedImageURL = '';
+        var uploadedParams = {};
+        var options = {
+            aspectRatio: 1 / 1,
+            preview: '.img-preview',
+            viewMode: 2
+        };
+        // ready事件
+        $(function(){
+            // 监听工具栏按钮
+            $('button[data-method]').on('click',function(){
+                nzi.cropper($(this).data('method'), $(this).data('option'))
+            })
+            // 监听上传控件内容变更
+            n2i.change(function () {
+                var files = this.files;
+                var file;
+                if (!nzi.data('cropper')) {
+                    return;
+                }
+                if (files && files.length) {
+                    file = files[0];
+                    if (/^image\/\w+$/.test(file.type)) {
+                        uploadedImageName = file.name;
+                        uploadedImageType = file.type;
+                        if (uploadedImageURL) {
+                            URL.revokeObjectURL(uploadedImageURL);
+                        }
+                        uploadedImageURL = URL.createObjectURL(file);
+                        nzi.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
+                        n2i.val('');
+                    } else {
+                        window.alert('Please choose an image file.');
+                    }
+                }
+            })
+            // 监听保存
+            $('#saveavatar').on('click',function (){
+                // 禁用所有控件
+                $('.eventBtn').prop('disabled', true);
+                $('.btnsave').html('<i class="fa fa-spinner fa-pulse fa-fw"></i> 上传中');
+                // 判断是否有数据
+                let tmp_img = nzi.cropper('getCroppedCanvas',{width: 512,height: 512})
+                if(!tmp_img) alert('请上传图片。');
+                // 转blob上传
+                tmp_img.toBlob(function (blob){
+                    // 创建form
+                    var formData = new FormData();
+                    formData.append('file', blob, uploadedImageName);
+                    // 禁用cropper
+                    nzi.cropper('disable')
+                    // ajax 上传
+                        $.ajax("{:xianyu_user_url('user/center/avatarUpload')}", {
+                            method: "POST",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (e) {
+                                alert(e.msg)
+                                window.location.reload();
+                            }
+                        })
+                }, "image/jpeg", 0.85);
+            });
+            // 初始化裁剪窗口
+            nzi.cropper(options);
+        })
+    </script>
+</div>
+</div>
+
+
+
+<div class="tab-pane fade" id="tab_4">
+{if condition="(!empty($snsconfig['api_qq_key'])) and (!empty($snsconfig['api_qq_secret']))"}
+<div class="col-md-12 sns-list">
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="login-ico">
+                <a rel="nofollow" class="qq text-center"><i class="icon iconfont">&#xe73e;</i></a>
+                </div>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                <strong>腾讯QQ</strong>
+                <span>绑定腾讯QQ帐号后，您便可使用腾讯QQ帐号登录网站</span>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+            <a class="btn btn-success" id="delsns" data-id="qq" {empty name="syncs['qq']"}style="display:none"{/empty}>取消绑定</a>
+			<a class="btn btn-default"  href="{:xianyu_user_url('user/snslogin/qq')}" target="_self" {notempty name="syncs['qq']"}style="display:none"{/notempty}>立即绑定</a>
+                </div>
+</div>
+{/if}
+ {if condition="(!empty($snsconfig['api_weibo_key'])) and (!empty($snsconfig['api_weibo_secret']))"}
+            <div class="col-md-12 sns-list">
+                <div class="col-md-2 col-sm-2 col-xs-12">
+                <div class="login-ico">
+                <a rel="nofollow" class="weibo text-center"><i class="icon iconfont">&#xe73c;</i></a>
+                </div>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                <strong>新浪微博</strong>
+                <span>绑定新浪微博帐号后，您便可使用新浪微博帐号登录网站</span>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-12 text-center">
+            <a class="btn btn-success" id="delsns" data-id="weibo" {empty name="syncs['weibo']"}style="display:none"{/empty}>取消绑定</a>
+			<a class="btn btn-default" href="{:xianyu_user_url('user/snslogin/weibo')}" target="_self" {notempty name="syncs['weibo']"}style="display:none"{/notempty}>立即绑定</a>
+                </div>
+           </div>
+{/if}
+
+</div>
+<div class="tab-pane fade" id="tab_5">
+<form class="form-horizontal"  method="post" role="form" action="{:zp_url('user/center/passwordSetting')}" onSubmit="return false;">
+
+           <div class="form-group">
+                <label for="old_password" class="control-label col-xs-12 col-sm-3">原密码：</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input class="form-control" id="old_password" name="info[old_password]" type="text" placeholder="您的原密码" required>
+                </div>
+           </div>
+           <div class="form-group">
+                <label for="password" class="control-label col-xs-12 col-sm-3">新密码：</label>
+                <div class="col-xs-12 col-sm-6">
+             <input class="form-control" id="password" name="info[password]" type="password" placeholder="新密码" required>
+                </div>
+           </div>
+           <div class="form-group">
+                <label for="repassword" class="control-label col-xs-12 col-sm-3">重复密码：</label>
+                <div class="col-xs-12 col-sm-6">
+             <input class="form-control" id="repassword" name="info[repassword]" type="password" placeholder="重复密码" required>
+                </div>
+           </div>
+             <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-3"></label>
+                <div class="col-xs-12 col-sm-6 text-center">
+                 <button type="submit" class="btn btn-success btn-block" id="submit" from="form-pwd">提交</button>
+                </div>
+           </div>
+
+    </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+		function updateavatar() {
+			$("#avatar").attr('src', $("#avatar").attr('src') + "&r=" + Math.random());
+			$("#userlogo1").attr('src', $("#userlogo1").attr('src') + "&r=" + Math.random());
+			$("#userlogo2").attr('src', $("#userlogo2").attr('src') + "&r=" + Math.random());
+		}
+	</script>
+{include file="user_footer" /}
+</body>
+</html>

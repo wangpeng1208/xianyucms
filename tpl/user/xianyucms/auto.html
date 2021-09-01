@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$sitename} - 邮箱认证</title>
+{include file="user_include" /}
+</head>
+<body class="user_body">
+<div class="container">
+  <div class="row">
+    <!--模块开始-->
+    <div class="user-form modal-dialog clearfix">
+    <div class="user_title"><h2 class="text-color">邮箱认证</h2><span class="pull-right">切换其他账户登录，<a href="{:xianyu_user_url('user/login/index')}" target="_self">点击登录</a></span></div>
+      <div class="col-md-9 col-md-offset-1">
+        <div class="col-md-12">
+          <h5 class="text-center mt20">亲爱的会员：{$username}</h5>
+          <h5 class="text-center">为了订阅网站内容网站需要进行邮箱认证</h5>
+          <p class="text-center">认证激活链接已发送至：{$email}</p><p class="text-center"> 有效期1小时,请尽快验证</p>
+            {php}
+            	$emailurl = $email ? str_replace('@', '',strstr($email, '@')) : '';
+				$str = 'http' ;
+				if(strcasecmp($emailurl,"gmail.com") == 0){
+					$str = 'https' ;
+				}
+            {/php}
+          <p><button id="send_newemail" class="btn btn-success btn-block" href="javascript:send_newmail();">重新发送认证邮件</button></p>
+        </div>
+    </div>
+      <div class="clearfix"></div>
+     <h5 class="col-md-12 text-center mt20 mb20"><a class="text-color" href="{$root}" target="_self">返回首页</a><a class="text-color" href="{:xianyu_user_url('user/login/forgetpwd')}" target="_self">忘记密码</a><a class="text-color" href="{:xianyu_user_url('user/reg/index')}" target="_self">帐号注册</a> </h5>
+  </div>
+</div>
+</div>
+{include file="user_footer" /}
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <title>我的首页 - 会员中心 - {$sitename}</title>
+    {include file="user_include" /}
+</head>
+<body class="center_body">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12 box-main-content mb20">
+            <div class="clearfix mb20">
+                <div class="col-md-3 col-sm-4 col-xs-12 user-center-avatar p-0">
+                    <h2 class="text-center mt-0">
+                        <img class="img-circle face jQuery-image-upload mt-0" src="{$userinfo['avatar']} "
+                             align="{$userinfo.nickname}">
+                    </h2>
+                </div>
+                <div class="col-md-9 col-sm-8 col-xs-12  user-center-info">
+                    <div class="user-home-nav">
+                        <ul>
+                            <li class="active"><a class="pl-0"
+                                                  data-url="{:xianyu_user_url('user/home/remind',array('id'=>$userinfo['userid']))}"
+                                                  data-id="remind">Ta的订阅</a></li>
+                            <li><a data-url="{:xianyu_user_url('user/home/love',array('id'=>$userinfo['userid']))}"
+                                   data-id="love" rel="nofollow">Ta的收藏</a></li>
+                            <li><a data-url="{:xianyu_user_url('user/home/comm',array('id'=>$userinfo['userid']))}"
+                                   data-id="comm">Ta的评论</a></li>
+                            <li><a href="{:xianyu_user_url('user/center/index')}" target="_blank">会员中心</a></li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p class="clearfix"><strong class="mr10">{$userinfo.nickname}</strong>
+                        <a class="text-color"
+                           href="{:xianyu_user_url('user/home/index',array('id'=>$userinfo['userid']),true,true)}">{:xianyu_user_url('user/home/index',array('id'=>$userinfo['userid']),true,true)}</a></p>
+                    <div class="col-md-7 col-sm-6 col-xs-12  user-center-info pl-0">
+                        <p><span>性别：</span>
+                            {switch name="userinfo.detail.sex" }{case value="1"}男{/case}{case value="2"}女{/case}{default
+                            /}未知{/switch}</p>
+                        <p><span>生日：</span>{$userinfo.detail.birthday|default='未知'}</p>
+                        <p><span>地区：</span>{$userinfo.detail.prov|default='未知'}{$userinfo.detail.city}</p>
+                        <p><span>注册时间：</span>{$userinfo.regdate|date='Y-m-d H:i:s',###}</p>
+                        <p><span>最后登录：</span>{$userinfo.last_login_time|date='Y-m-d H:i:s',###}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {php}$visitors_list = xianyu_mysql_visitors('uid:'.$userinfo['userid'].';limit:8;order:visitors_addtime
+    desc');{/php}
+    <div class="col-md-3 col-sm-4 col-xs-12 box-main-content">
+        <div class="user-center-title pt-0"><h2 class="text-color">{notempty name="visitors_list"}最近访客{else
+            /}最近用户{/notempty}</h2></div>
+        <div class="user-box clearfix {neq name=" 'action'
+        " value="index"} hidden-xs{/neq}">
+        {notempty name="visitors_list"}
+        <ul class="box-star-list clearfix">
+            {volist name="visitors_list" id="fk"}
+            <li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$fk.visitors_userid|cmf_get_user_avatar}" style="padding-top:100%;" href="{:xianyu_user_url('user/home/index',array('id'=>$fk['visitors_userid']))}"><span class="text-overflow">{$fk.nickname}</span></a>
+            </li>
+            {/volist}
+        </ul>
+        {else /}
+        {php}$user_list = xianyu_mysql_user('limit:9;order:last_login_time desc');{/php}
+        <ul class="box-star-list clearfix">
+            {volist name="user_list" id="r"}
+            <li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$r.avatar}" style="padding-top:100%;" href="{:xianyu_user_url('user/home/index',array('id'=>$r['userid']))}">
+                <span class="text-overflow">{$r.nickname}</span></a>
+            </li>
+            {/volist}
+        </ul>
+        {/notempty}
+    </div>
+</div>
+<div class="col-md-9 col-sm-8 col-xs-12 xs-bt-20 box-main-side">
+    <div class="user-center-title pt-0 pl-0"><h2 class="text-color" id="tab_title">Ta的订阅</h2></div>
+    <div class="user-box clearfix">
+        <div class="user-home m-0" id="datalist">
+            <div class="loading text-center">动态加载中...</div>
+        </div>
+    </div>
+</div>
+</div>
+<div id="emots"></div>
+</div>
+<script type="text/javascript">
+    xianyu.user.get("{:xianyu_user_url('user/home/remind',array('id'=>$userinfo['userid']))}");
+</script>
+{include file="user_footer" /}
+</body>
+</html>

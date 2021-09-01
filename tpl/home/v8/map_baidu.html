@@ -1,0 +1,13 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset>
+{php}$vod_new = xianyu_mysql_vod('field:vod_id,vod_name,vod_mcid,vod_cid,vod_letters,vod_pic,vod_content,vod_actor,vod_title,vod_color,vod_addtime,vod_actor;limit:100;page:true;p:'.$page.';order:vod_id desc'); {/php}
+{volist name="vod_new" id="xianyu"}
+<url>
+<loc>{:rtrim($siteurl,'/')}{$xianyu['vod_readurl']}</loc>
+<lastmod>{$xianyu.vod_addtime|date='Y-m-d H:i:s',###}</lastmod>
+<changefreq>always</changefreq>
+<priority>1.0</priority>
+</url>
+{/volist}
+</urlset>

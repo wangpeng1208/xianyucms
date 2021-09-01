@@ -1,0 +1,55 @@
+{php}$list = xianyu_mysql_vod('wd:'.$search_wd.';limit:5;field:vod_id,vod_cid,vod_actor,vod_director,vod_content,vod_mcid,vod_title,vod_name,vod_aliases,vod_year,vod_tvcont,vod_total,vod_diantai,vod_area,vod_length,vod_language,vod_filmtime,vod_pic,vod_letters,vod_content,vod_gold,vod_color,vod_addtime;page:true;p:'.$search_page.';order:vod_addtime desc');
+{/php}
+<div class="col-md-9 col-sm-12 box-main-content"> 
+      <div class="layout-box clearfix">
+          <div class="box-title">
+<div class="more pull-right" id="count">共找到<span class="text-color">“{$list.0.page.pagecount}”</span>个相关视频</div>
+    </div>
+    <div class="clearfix" id="content"> 
+  {volist name="list" id="xianyu"}
+<div class="details-info-min col-md-12 col-sm-12 col-xs-12 clearfix news-box-txt p-0"> 
+<div class="col-md-3 col-sm-4 col-xs-3 news-box-txt-l clearfix"><a class="video-pic loading" href="{$xianyu['vod_readurl']}" title="{$xianyu['vod_name']}" data-original="{$xianyu['vod_picurl']}" style="padding-top:150%;"><span class="note text-bg-c">{$xianyu['vod_name']}</span></a></div>
+<div class="col-md-9 col-sm-8 col-xs-9 clearfix pb-0">
+<div class="details-info p-0">
+<ul class="info clearfix">
+ <li class="col-md-6 col-sm-6 col-xs-12"><a href="{$xianyu['vod_readurl']}" title="{$xianyu['vod_name']}">{$xianyu['vod_name']|get_hilight_ex=$search_wd,'font','#09BB07'}</a><span class="hidden-sm hidden-md hidden-lg">{$xianyu['vod_title']}</span></li>
+ <li class="col-md-6 text hidden-xs">{notempty name="vod_info[0]['vod_aliases']"}<span>别名：</span>{$xianyu['vod_aliases']}{/notempty}</li>
+ <li class="col-md-12 col-sm-12 col-xs-12 hidden-xs"><span>状态：</span>{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</li>
+ <li class="col-md-12 col-sm-12 col-xs-12 text"><span class="hidden-xs">类型：</span>{$xianyu['vod_mcid']|mcat_url=$xianyu['vod_cid']}</li>
+ <li class="col-md-12 col-sm-12 col-xs-12 text"><span class="hidden-xs">{eq name="vod_info[0]['vod_cid']" value="$tpl_id[4]"}主持：{else /}主演：{/eq}</span>{$xianyu['vod_actor']|get_star_url='no',10|get_hilight_ex=$search_wd,'font','#09BB07'}</li>
+ <li class="col-xs-12 text hidden-sm hidden-md hidden-lg"><span class="hidden-xs">年代：</span>{$xianyu['vod_year']|default='未录入'} / {$xianyu['vod_area']|default='其他'} / {notempty name="vod_info[0]['vod_diantai']"}{$xianyu['vod_diantai']|get_tv_url=###,'storng'}{else /}{$xianyu['vod_director']|get_star_url='no'}{/notempty}</li>
+  <li class="col-md-6 col-sm-6 col-xs-12 text hidden-xs"><span>导演：</span>{$xianyu['vod_director']|get_star_url='no'|get_hilight_ex=$search_wd,'font','#09BB07'}</li>
+  <li class="col-md-6 col-sm-12 col-xs-4 text hidden-xs"><span>国家/地区：</span>{$xianyu['vod_area']|default='其他'}</li>
+<li class="col-md-6 col-sm-6 col-xs-12  text hidden-xs">
+{if condition="(getlistpid($xianyu['vod_cid']) eq $tpl_id[2]) OR ($xianyu['vod_cid'] eq $tpl_id[3])"}
+<span>集数：</span>
+{notempty name="vod_info[0]['vod_total']"}共{php}echo preg_replace('/\D/s', '', $xianyu['vod_total']);{/php}集&nbsp;&nbsp;|&nbsp;&nbsp;{/notempty}每集{$xianyu['vod_length']|default='45'}分钟
+{elseif condition="(getlistpid($xianyu['vod_cid']) eq $tpl_id[1]) OR ($xianyu['vod_cid'] eq $tpl_id[5])" /}
+<span>时长：</span>{$xianyu['vod_length']|default='120'}分钟
+{elseif condition="$xianyu['vod_cid'] eq $tpl_id[4]" /}
+<span>时长：</span>每期{$xianyu['vod_length']|default='90'}分钟
+{/if}
+</li>
+  <li class="col-md-6 col-sm-12 col-xs-6 text hidden-xs"><span>语言/字幕：</span>{$xianyu['vod_language']|default='国语对白 中文字幕'}</li>
+  <li class="col-md-6 col-sm-6 col-xs-6 text hidden-xs">
+{if condition="(getlistpid($xianyu['vod_cid']) eq $tpl_id[2]) OR ($xianyu['vod_cid'] eq $tpl_id[3]) OR ($xianyu['vod_cid'] eq $tpl_id[4])"}
+{notempty name="vod_info[0]['vod_filmtime']"}<span>首播时间：</span>{$xianyu['vod_filmtime']|date='Y-m-d',###}{else /}<span>年代：</span>{$xianyu['vod_year']|default='未录入'}{/notempty}
+{elseif condition="(getlistpid($xianyu['vod_cid']) eq $tpl_id[1]) OR ($xianyu['vod_cid'] eq $tpl_id[5])" /}
+{notempty name="vod_info[0]['vod_filmtime']"}<span>上映时间：</span>{$xianyu['vod_filmtime']|date='Y-m-d',###}{else /}<span>年代：</span>{$xianyu['vod_year']|default='未录入'}{/notempty}
+{/if}
+</li>
+{notempty name="vod_info[0]['vod_diantai']"}
+<li class="col-md-6 col-sm-12 col-xs-6 text hidden-xs"><span>首播/卫视：</span>{$xianyu['vod_diantai']|get_tv_url=###,'storng'}</li>
+{/notempty}
+  <li class="col-md-6 col-sm-12 col-xs-12 text hidden-xs"><span>更新时间：</span>{$xianyu['vod_addtime']|date='Y-m-d H:i:s',###}</li>
+  <li class="col-md-12 col-sm-12 col-xs-12 hidden-xs"><span>详细介绍：</span><span class="details-content-default">{$xianyu['vod_content']|strip_tags|msubstr=0,70,true|get_hilight_ex=$search_wd,'font','#09BB07'}</span>
+  </li>
+  </ul>
+  </div>
+</div>
+</div>
+{/volist}
+</div>
+    </div>
+    {notempty name="list"}<div class="box-page clearfix ajax-page" id="long-page"><ul>{$list.0.page.pageurl}</ul></div>{/notempty}
+  </div>   

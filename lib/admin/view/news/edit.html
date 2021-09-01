@@ -1,0 +1,233 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading" style=" padding-top:5px;">
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本设置</a></li>
+                   <li ><a href="#tab_2" data-toggle="tab">其他设置</a></li> 
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax ajax-no-close" role="form" data-toggle="validator" method="post">      
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻标题:</label>
+        <div class="col-xs-12 col-sm-10" style="line-height:30px;">
+        <div class="col-xs-12 col-sm-8" style="padding-left:0px;">
+         <input type="text" name="news_name" id="news_name" value="{$info.news_name|default=''}" class="form-control">
+         </div>        
+        <div class="form-inline">
+         <div class="col-xs-12" style="width:auto">
+ <select name="news_cid" class="form-control selectpicker">
+ <option value="">选择分类</option>
+{volist name=":F('_data/listnews')" id="vo"}<option value="{$vo.list_id}" {if isset($info['news_cid'])} {eq name="vo.list_id" value="$info['news_cid']"}selected{/eq}{/if}>{$vo.list_name}</option>
+{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info['news_cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}
+{/volist}
+</select>
+</div>
+ </div> 
+<span>推送到百度：</span><input name="insertseo" type="checkbox" {empty name="info['news_id']"}checked{/empty} title="勾选推送到百度" style="border:none;width:auto; position:relative; top:2px;margin-bottom:3px;margin-right:8px;" >       
+        </div>
+        </div>
+ {notempty name="info.news_id"}   
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">数据关联:</label>
+        <div class="col-xs-12 col-sm-6" style="line-height:30px;">
+<a href="javascript:;" id="{$info.news_id}" class="btn-link btn-editone" data-url="{:admin_url('admin/vod/index',array('nid'=> $info['news_id']))}" data-name="添加视频到新闻{$info.news_name}">关联视频({$info.countvod})个</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" id="{$info.news_id}" class="btn-link btn-editone" data-url="{:admin_url('admin/star/index',array('nid'=> $info['news_id']))}" data-name="添加明星到新闻{$info.news_name}">关联明星({$info.countstar})位</a>
+        </div>
+    </div> 
+ {/notempty} 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻属性:</label>
+        <div class="col-xs-12 col-sm-10" style=" line-height:35px;">
+            {volist name=":config('document_position')" id="vo"}<input  style="border:none;width:auto; position:relative; top:1px;margin-bottom:3px;margin-right:8px;{if $key != 1}margin-left:10px;{/if}" type="checkbox" value="{$key}" name="news_prty[]"   {if  isset($info['news_prty_array']) && in_array($key,$info.news_prty_array)}checked="checked"{/if} />{$vo}
+            {/volist}
+        </div>
+    </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻属性:</label>
+        <div class="col-xs-12 col-sm-4" style=" line-height:35px;">
+            <input name="news_mid" type="radio" value="0" style="border:none;width:auto; position:relative; top:1px;margin-right:8px;" {eq name="info.news_mid" value="0"}checked="true"{/eq}{empty name="info.news_id"}checked="true"{/empty}/>默认<input name="news_mid" type="radio" value="1" style="border:none;width:auto; position:relative; top:1px;margin-left:10px;margin-right:8px;" {eq name="info.news_mid" value="1"}checked="true"{/eq}{empty name="info.news_id"}checked="true"{/empty}/>图片幻灯<input name="news_mid" type="radio" value="2" style=" margin-left:10px;border:none;width:auto; position:relative; top:1px;margin-left:10px;margin-right:8px;" {eq name="info.news_mid" value="2"}checked="true"{/eq}/>图片分页
+        </div>
+    </div>    
+            <div class="form-group">
+            <label for="c-image" class="control-label col-xs-12 col-sm-2">新闻缩略图:</label>
+            <div class="col-xs-12 col-sm-8">
+            <div class="form-inline">
+                <input id="c-image" class="form-control" size="90" name="news_pic" type="text" value="{$info['news_pic']|default=''}">
+                <span style="margin-left:8px;"><button type="button" id="plupload-image" class="btn btn-danger plupload" data-input-id="c-image" data-mimetype="image/*" data-multipart='{"sid":"news"}' data-multiple="false" data-preview-id="p-image"><i class="fa fa-upload"></i> 上传</button></span>
+                <ul class="row list-inline plupload-preview" id="p-image"></ul>
+            </div>
+            </div>
+          </div> 
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">视频关联词:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" id="news_vod"  name="news_vod" value="{$info.news_vod|default=''}" class="form-control">
+                 <a href="javascript:;"  style="cursor:pointer; position:absolute; right:15px;top:0" class="btn btn-info btn-add btn-editone" title="点击添加关联的视频" data-url="{:admin_url('admin/vod/index',array('view'=>1,'sid'=>1))}" data-name="关联视频到新闻{$info.news_name}"><i class="fa fa-plus"></i> 添加</a>
+        </div>
+    </div>                
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">明星关联词:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" id="news_star"  name="news_star" value="{$info.news_star|default=''}" class="form-control" >
+           <a href="javascript:;"  style="cursor:pointer; position:absolute; right:15px;top:0" class="btn btn-info btn-add btn-editone" title="点击添加关联的明星"  data-url="{:admin_url('admin/star/index',array('view'=>1,'sid'=>2))}" data-name="关联明星到新闻{$info.news_name}"><i class="fa fa-plus"></i> 添加</a>
+        </div>
+        </div>
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻关键词:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" id="news_keywords"  name="news_keywords" value="{$info.news_keywords|default=''}"  class="form-control tag" data-tip="用于前台新闻页面的描述"><a href="javascript:;"  data-url="{:admin_url('admin/tag/showajax',array('sid'=>2))}" data-name="添加TAG标签到新闻{$info.news_name}" class="btn btn-info btn-add btn-editone" style="cursor:pointer; position:absolute; right:15px;top:0"><i class="fa fa-plus"></i> 添加TAG</a>
+        </div>
+    </div>  
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻简介:</label>
+        <div class="col-xs-12 col-sm-6">
+        <textarea  class="form-control" name="news_remark" id="news_remark"  data-tip="留空自动提取">{$info.news_remark|default=''}</textarea>
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">播放器:</label>
+        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12" style="padding-left:0px; width:auto">
+<select name="news_playname" id="news_playname" class="form-control selectpicker" style="width:auto">
+<option value="">选择播放器</option>
+{volist name=":F('_data/player')" id="play"}
+<option value="{$play['play_name']}" {eq name="info.news_playname" value="$play['play_name']"}selected{/eq}>{$play['play_title']}</option>
+{/volist}
+</select>
+</div>
+<label for="c-keywords" class="control-label col-xs-12" style="width:auto">播放地址:</label>
+<div class="col-xs-12 col-sm-6">
+<input type="text" name="news_playurl" id="news_playurl" value="{$info.news_playurl|default=''}" class="form-control" placeholder="支持优酷,芒果TV,土豆,乐视,腾讯,搜狐,PPTV.网址与ID格式">
+</div>
+        </div>
+    </div>     
+       
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻内容:</label>
+        <div class="col-xs-12 col-sm-10">
+         <textarea class="summernote" name="news_content" style="height:500px;">{:xianyu_news_img_array($info['news_content'])}</textarea>
+        </div>
+    </div> 
+    
+       <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">新闻状态:</label>
+                <div class="col-xs-12" style="width:auto">
+                    <select name="news_status" class="form-control selectpicker">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.news_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻时间:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="news_addtime" value="{notempty name="info.news_addtime"}{$info.news_addtime|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s',time())}{/notempty}" class="form-control">
+        </div>
+        <input name="checktime" type="checkbox" style="border:none;width:auto;position:relative; top:5px;" value="1" {notempty name="info.admin_time_edit"}checked{/notempty} title="勾选则使用系统当前时间">
+    </div>             
+            
+     </div>
+<div class="tab-pane fade" id="tab_2">
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">新闻首字母:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="news_letter"  value="{$info.news_letter|default=''}" class="form-control" data-tip="留空自动获取" style="width:80px;text-align:center">
+        </div>
+    </div>   
+     <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">推荐星级:</label>
+                <div class="col-xs-12 col-sm-6" style="position:relative; top:5px;">
+                 <input name="news_stars" id="news_stars" type="hidden" value="{$info.news_stars|default=''}">{volist name=":admin_star_arr($info.news_stars)" id="ajaxstar"}<img src="{$config.site.cdnurl}admin/xianyucms/img/star{$ajaxstar}.gif" id="news_{$i}" class="addstars">{/volist}
+                </div>
+            </div>          
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">标题颜色:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_color"  value="{$info.news_color|default=''}" class="form-control" data-tip="点击选色" style="width:80px;text-align:center" id="color">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">总人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_hits"  value="{$info.news_hits|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>    
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">月人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_hits_week"  value="{$info.news_hits_week|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">日人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_hits_day"  value="{$info.news_hits_day|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>         
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评分值:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_gold"  value="{$info.news_gold|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">评分人数:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_golder"  value="{$info.news_golder|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>        
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">顶:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_up"  value="{$info.news_up|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">踩:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="news_down"  value="{$info.news_down|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+  <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">录入编辑:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="news_inputer" id="news_inputer"  value="{$info.news_inputer}" class="form-control" style="width:150px;">
+        </div>
+    </div>   
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">独立模版:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="news_skin"  value="{$info.news_skin|default=''}" class="form-control" style="width:150px;">
+        </div>
+    </div> 
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">来源地址:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="news_reurl" id="news_reurl" value="{$info.news_reurl|default=''}" class="form-control">
+        </div>
+    </div>
+       <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">跳转地址:</label>
+        <div class="col-xs-12 col-sm-6">
+         <input type="text" name="news_jumpurl" id="news_jumpurl" value="{$info.news_jumpurl|default=''}" class="form-control" >
+        </div>
+    </div>          
+     </div>     
+</div>     
+     {notempty name="info.news_id"} 
+    <input type="hidden" name="news_id" value="{$info['news_id']|default=''}"> 
+    {/notempty} 
+ <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+  </form>      
+</div>
+</div>

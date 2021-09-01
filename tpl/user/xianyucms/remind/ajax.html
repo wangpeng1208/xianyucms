@@ -1,0 +1,14 @@
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+<li><div class="i-rss-list"><a target="_blank" class="play-pic play-img boxpic" href="{:xianyu_data_url('home/vod/read',array('id'=>$xianyu['vod_id'],'pinyin'=>$xianyu['vod_letters'],'cid'=>$xianyu['vod_cid'],'dir'=>getlistname($xianyu['vod_cid'],'list_dir'),'jumpurl'=>$xianyu['vod_jumpurl']))}" data="{$xianyu.vod_id}">
+{if condition="(time()-$value['vod_addtime']) < 86400 "}<span class="new-tip">new</span>{/if}
+<img src="{:xianyu_img_url($xianyu['vod_pic'])}" alt="射天狼"/><label class="mask">&nbsp;</label>{neq name="xianyu.vod_continu" value="0"}<label class="text">第{$xianyu.vod_continu}集</label>{else/}{empty name="xianyu.vod_title"}<label class='text'>完整高清</label>{else/}<label class='text'>{$xianyu.vod_title}</label>{/empty}{/neq}</a><div class="i-rss-box fn-clear"><p class="play-list fn-clear" id="play{$xianyu.vod_id}" data=""><img src="{$apicss}/admin/loading.gif" /></p></div>
+</div><h5><a target="_blank" href="{:xianyu_data_url('home/vod/read',array('id'=>$xianyu['vod_id'],'pinyin'=>$xianyu['vod_letters'],'cid'=>$xianyu['vod_cid'],'dir'=>getlistname($xianyu['vod_cid'],'list_dir'),'jumpurl'=>$xianyu['vod_jumpurl']))}" title="{$xianyu['vod_name']}">{$xianyu['vod_name']}</a></h5>
+{if condition="$xianyu['remind_uptime'] != 0 && $xianyu['vod_addtime']!= $xianyu['remind_uptime'] "}
+<p class="time">{$xianyu.vod_addtime|date='Y-m-d H:i:s',###}</p>
+{else /}
+<p class="time">暂时无更新</p>
+{/if}
+<div class="user-todo user-todo-check fn-clear"><label class="label-checkbox" for="checkbox{$xianyu['remind_id']}" hidefocus><input type="checkbox" name="ids[]" value="{$xianyu['remind_id']}" id="checkbox{$xianyu['remind_id']}" /></label><a class="ui-del fav-cancel" href="javascript:void(0);" data="{:xianyu_user_url('user/center/delremind',array('id'=>$xianyu['remind_id']))}">删除</a></div></li>
+{/volist}
+{/notempty}

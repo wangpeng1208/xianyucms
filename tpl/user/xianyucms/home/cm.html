@@ -1,0 +1,60 @@
+{notempty name="list"}
+<ul class="ui-comment fn-clear">
+{volist name="list" id="xianyu"}
+{php}
+           $type=getmodeid($xianyu['cm_sid'],'title');
+		    if($xianyu['cm_sid']==1){
+			$cminfo=get_vod_find($xianyu['cm_vid'],'vod_id','vod_id,vod_letters,vod_name,vod_cid,vod_jumpurl');
+			$name=$cminfo['vod_name'];
+			$url=xianyu_data_url('home/vod/read',array('id'=>$cminfo['vod_id'],'pinyin'=>$cminfo['vod_letters'],'cid'=>$cminfo['vod_cid'],'dir'=>getlistname($cminfo['vod_cid'],'list_dir'),'jumpurl'=>$cminfo['vod_jumpurl']));
+			}elseif($xianyu['cm_sid']==2){
+			$cminfo=get_news_find($xianyu['cm_vid'],'news_id','news_id,news_name,news_cid,news_jumpurl');
+			$name=$cminfo['news_name'];
+			$url=xianyu_data_url('home/news/read',array('id'=>$cminfo['news_id'],'cid'=>$cminfo['news_cid'],'dir'=>getlistname($cminfo['news_cid'],'list_dir'),'jumpurl'=>$cminfo['news_jumpurl']));
+			}elseif($xianyu['cm_sid']==3){
+			$cminfo=get_star_find($xianyu['cm_vid'],'star_id','star_id,star_letters,star_name,star_cid,star_jumpurl');
+			$name=$cminfo['star_name'];
+			$url=xianyu_data_url('home/star/read',array('id'=>$cminfo['star_id'],'pinyin'=>$cminfo['star_letters'],'cid'=>$cminfo['star_cid'],'dir'=>getlistname($cminfo['star_cid'],'list_dir'),'jumpurl'=>$cminfo['star_jumpurl']));
+			}
+		   $type=getmodeid($xianyu['cm_sid'],'title');
+		   $avatar = ps_getavatar($xianyu['cm_uid'],$xianyu['api'][0]['avatar']);
+{/php}
+<li><div class="comment-avatar"><a href="javascript:void(0);"> <img src="{$avatar['small']}" alt="{$xianyu.nickname}"></a></div><div class="comment-post-self"><div class="comment-post-arrow"></div> <div class="comment-post-cnt"> <div class="comment-body"> <div class="comment-top"><span class="user"><a href="{:xianyu_user_url("user/home/index",array("id"=>$xianyu['cm_uid']))}" target="_blank">{$xianyu.nickname}</a></span>&nbsp;&nbsp;&nbsp;
+{eq name="xianyu.cm_pid" xianyu="0"}
+评论了<span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span>
+{else/}
+ 回复了<span style="color:#90\">&nbsp;<a href="{:xianyu_user_url('user/home/index',array('id'=>$xianyu['cm_tuid']))}" target='_blank'>{:get_user_info($xianyu['cm_tuid'])}</a>&nbsp;</span>在 <span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span><span>的评论</span>
+{/eq}
+<span class="time">{$xianyu['cm_addtime']|date='Y-m-d H:i:s',###}</span></div><div class="comment-text"><p>{$xianyu['cm_content']|strip_tags|remove_xss|get_emots}</p>
+</div><div class="comment-assist fn-clear"> <p class="fn-left"><span class="digg"><a href="javascript:void(0)" class="sup" data="{:xianyu_user_url("user/comm/digg",array("id"=>$xianyu["cm_id"],"type"=>"sup"))}">支持(<strong>{$xianyu["cm_support"]}</strong>)</a></span><span class="digg"><a href="javascript:void(0)" class="opp" data="{:xianyu_user_url("user/comm/digg",array("id"=>$xianyu["cm_id"],"type"=>"opp"))}">反对(<strong>{$xianyu["cm_oppose"]}</strong>)</a></span></p> <p class="fn-right"><a href="javascript:void(0)" data-id="{$xianyu["cm_id"]}" data-pid="{$xianyu["cm_pid"]}"  data-vid="{$xianyu["cm_vid"]}" data-sid="{$xianyu["cm_sid"]}" data-tuid="{$xianyu["cm_uid"]}" class="reply">回复</a></p> </div> <div id="rep{$xianyu["cm_id"]}" class="comms"></div></div>
+{notempty name="xianyu.cm_sub"}
+{volist name="xianyu.cm_sub" id="sub" key="kk"}
+<div class="comment-sub">
+<div class='comment-top'><span class='sublou'>{:count($xianyu['cm_sub'])-$kk+1}楼</span><span class="user"><a href="{:xianyu_user_url('user/home/index',array('id'=>$sub['cm_uid']))}" target="_blank">{$sub['nickname']}</a></span>:{:gettan($sub['cm_tid'])}<span class="time">{$sub['cm_addtime']|date='Y-m-d H:i:s',###}</span></div>
+<div class="comment-text">{$sub['cm_content']|strip_tags|remove_xss|get_emots}</div>
+<div class='comment-assist fn-clear'>
+
+<p class='fn-left'><span class='digg'><a href='javascript:void(0)' class='sup' data="{:zp_url('user/comm/digg',array('id'=>$sub['cm_id'],'type'=>"sup"))}">支持(<strong>{$sub['cm_support']}</strong>)</a></span><span class='digg'><a href='javascript:void(0)' class='opp' data="{:zp_url('user/comm/digg',array('id'=>$sub['cm_id'],'type'=>"opp"))}">反对(<strong>{$sub['cm_oppose']}</strong>)</a></span></p>
+<p class='fn-right'><a href='javascript:void(0)' data-id="{$sub['cm_id']}" data-pid="{$xianyu['cm_id']}" data-vid="{$xianyu['cm_vid']}" data-sid="{$xianyu['cm_sid']}"  data-tuid="{$sub['cm_uid']}" class='reply'>回复</a></p>
+</div>
+<div id="rep{$sub['cm_id']}" class="comms"></div>
+</div>
+{/volist}
+{/notempty}
+{notempty name="xianyu.cm_tub"}
+{volist name="xianyu.cm_tub" id="tub" key="kkk"}
+<div class="comment-sub">
+<div class="comment-top"><span class="sublou">{:count($xianyu['cm_tub'])-$kkk}楼</span><span class="user"><a href="{:xianyu_user_url("user/home/index",array("id"=>$tub["cm_uid"]))}" target="_blank">{$tub["nickname"]}</a></span>:{:gettan($tub["cm_tid"])}<span class="time">{$tub['cm_addtime']|date='Y-m-d H:i:s',###}</span></div>
+<div class="comment-text">{$tub['cm_content']|strip_tags|remove_xss|get_emots}</div>
+<div class='comment-assist fn-clear'>
+<p class="fn-left"><span class="digg"><a href="javascript:void(0)" class="sup" data="{:zp_url("user/comm/digg",array("id"=>$tub["cm_id"],"type"=>"sup"))}">支持(<strong>{$tub["cm_support"]}</strong>)</a></span><span class="digg"><a href="javascript:void(0)" class="opp" data="{:zp_url("user/comm/digg",array("id"=>$tub["cm_id"],"type"=>"opp"))}">反对(<strong>{$tub["cm_oppose"]}</strong>)</a></span></p>
+<p class="fn-right"><a href="javascript:void(0)" data-id="{$sup["cm_id"]}" data-pid="{$xianyu["cm_id"]}" data-vid="{$xianyu["cm_vid"]}" data-sid="{$xianyu["cm_sid"]}"  data-tuid="{$sup["cm_uid"]}" class="reply">回复</a></p>
+</div>
+<div id="rep{$sup['cm_id']}" class="comms"></div>
+</div>
+{/volist}
+{/notempty}
+</div> </div></li>
+{/volist}
+</ul>	
+{/notempty}  

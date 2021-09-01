@@ -1,0 +1,24 @@
+
+{notempty name="actor_id"}
+{php}$role_list=xianyu_mysql_role('vid:'.$vod_id.';limit:12;order:role_oid asc');
+{/php}
+<div class="layout-box clearfix details-story">
+    <div class="box-title">
+    <h3 class="m-0">{$vod_name}角色剧照</h3>
+    <div class="more pull-right"><a href="{$actor_readurl}" class="text-muted" title="更多" target="_blank">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+    <div class="swiper-container vod-swiper-6">
+    <ul class="swiper-wrapper">
+     {volist name="role_list" id="xianyu"}
+    <li class="swiper-slide news-box p-0"> 
+    <a href="{$xianyu.role_readurl}" class="video-pic swiper-lazy" data-original="{$xianyu.vod_readurl}" title="{$xianyu.role_name}" data-background="{$xianyu.role_picurl}" target="_blank"><div class="swiper-lazy-preloader"></div></a>
+            <div class="title"><h5 class="text-center text-overflow"><a href="{$xianyu.role_readurl}" title="{$xianyu.role_name}">{$xianyu.role_name}</a></h5></div>
+            <div class="text-center subtitle text-muted text-overflow">&nbsp;{$xianyu.role_star|default='未知'}&nbsp;饰</div>
+    </li>
+    {/volist}
+    </ul> 
+     <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+     <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+    </div>   
+</div>   
+{/notempty}

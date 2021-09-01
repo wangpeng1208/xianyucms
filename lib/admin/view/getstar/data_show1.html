@@ -1,0 +1,74 @@
+{extend name="public/header"/}
+{block name="body"}
+
+<script language="javascript">
+function getjumpurl($action,$sex){
+	return '{:admin_url('admin/getstar/index','','')}-type-{$type}-action-'+$action+'-sex-{$sex}.{$Think.config.url_html_suffix}';
+}
+//表单提交
+function post($url){
+	$('#myform').attr('action',$url);
+	$('#myform').submit();
+}
+</script>
+<div id="setbind" style="position:absolute;display:none;background:#0072C6;padding:4px 5px 5px 5px;z-index:9;"></div>
+<!--背景灰色变暗-->
+<div id="showbg" style="position:absolute;left:0px;top:0px;filter:Alpha(Opacity=0);opacity:0.0;background-color:#fff;z-index:8;"></div>
+<div id="mainajax">
+  <div class="mainBox">
+       <div class="list" id="contents">
+                 <table width="100%" border="0" cellpadding="7" cellspacing="0" class="collecttab">
+          <tbody>
+         <tr style="height:45px;">
+            <th colspan="6" class="r"><span style="float:left">分类</span><span style="float:right"><a href="{:admin_url('admin/star/index')}">返回明星列表</a></span></th></tr>
+            </tr>
+<tr style="height:45px;">
+  <td align="center"><a href="{:admin_url('admin/getstar/index',array('type'=>1))}">{empty name="sex"}<b>男明星</b>{else/}男明星{/empty}</a></td>
+    <td align="center"><a href="{:admin_url('admin/getstar/index',array('type'=>1,'sex'=>1))}">{notempty name="sex"}<b>女明星</b>{else/}女明星{/notempty}</a></td>
+  </tr> 
+        </tbody>
+        </table>
+        
+        <form method="post" name="myform" id="myform">
+      <div class="do-action" style="margin-bottom:10px;">
+      <button class="btnn btn-primary confirm" onClick="post(getjumpurl('ids',''));" >采集选择</button>
+      <button class="btnn btn-warning confirm" onClick="post(getjumpurl('sex','{$sex}'));">采集{$xb}明星</button>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="selectedChks" style="display:none">已选择<strong>5</strong>记录</span>
+      <span style="margin-left:20px; line-height:30px;">{notempty name="jumpurl"}<a href="{$jumpurl}" style="font-weight:bold; color:#F00">上次有采集任务没有完成，是否接着采集?</a>{/notempty}</span>
+        </div>
+		<!-- /分页 -->  
+      
+        <table width="100%" border="0" cellpadding="7" cellspacing="0" class="tableBasic default-list-table colorfl">
+          <tbody>
+            <tr style="height:45px;">
+              <th class="col col_checkbox"><input onclick="selectcheckbox(this.form)" class="check-all select-item" name="ids" id="chkall" type="checkbox"></th>
+              <th class="col col_id col_number" >编号</th>
+              <th class="col" style="text-align:left;">明星名字</th>
+              <th class="col" style="text-align:left;">明星性别</th>
+            </tr>
+               {volist name="star_data" id="vo"}
+                <tr style="height:45px;">
+                <td align="center" class="checkbox_td" ><input type="checkbox" name="ids[]" class="ids row-selected select-item" value="{$vo['star_id']}" title="{$vo['star_id']}"></td>
+                <td align="center">{$vo.star_id}</td>
+                <td align="left">{$vo.star_name}</td>
+                <td align="left">{$vo.star_sex}</td>
+              {/volist}             
+          </tbody>
+        </table>
+        
+        <div class="do-action" id="action-div">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="selectedChks" style="display:none">已选择<strong>5</strong>记录</span>
+        		<!-- 分页 -->
+        {notempty name="pagelist"}         
+        <div class="pager-area">
+		{$pagelist}
+        </div>
+         {/notempty}
+        </div>
+		<!-- /分页 -->
+
+    </div>
+      </div>
+</div>
+</form>
+{/block}

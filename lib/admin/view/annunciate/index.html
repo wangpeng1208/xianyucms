@@ -1,0 +1,87 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+              <div class="pull-right search" style=" padding-right:10px; padding-left:10px;">
+                <select name="status" class="form-control" type="get-select" style="margin:0 10px 0 10px;">
+                  <option value="{:admin_url('admin/annunciate/index')}">状态</option>
+                  <option value="{:admin_url('admin/annunciate/index',array('status'=>1,'type'=>$type,'order'=>$order))}" {eq name="status" value="1"}selected{/eq}>
+                  显示
+                  </option>
+                  <option value="{:admin_url('admin/annunciate/index',array('status'=>2,'type'=>$type,'order'=>$order))}" {eq name="status" value="2"}selected{/eq}>
+                  隐藏
+                  </option>
+                </select></div>
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar"><a href="{:admin_url('admin/annunciate/index')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="javascript:;" data-name="添加广告" data-url="{:admin_url('admin/annunciate/add')}" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a> <a  url="{:admin_url('admin/annunciate/status',array('status'=>1))}" target-form="ids" class="confirm btn btn-info btn-disabled btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 显示</a> <a  url="{:admin_url('admin/annunciate/status',array('status'=>0))}" target-form="ids" class="confirm btn btn-warning btn-disabled btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 隐藏</a> <a  url="{:admin_url('admin/annunciate/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;" id="contents">
+            <div class="fixed-table-body">
+            <form class="ids">
+            <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+            <thead>
+            <tr style="height:45px;">
+              <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+              <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="ads_id desc"}<a href="{:admin_url('admin/annunciate/index',array('status'=>$status,'type'=>'ads_id','order'=>'asc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/annunciate/index',array('status'=>$status,'type'=>'ads_id','order'=>'desc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">广告名称</th>
+              <th style="text-align:center;vertical-align: middle;">广告标识</th>
+              <th style="text-align:center;vertical-align: middle;">调用代码</th>
+              <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="update_time desc"}<a href="{:admin_url('admin/annunciate/index',array('status'=>$status,'type'=>'update_time','order'=>'asc'))}" class="btn-link sort ajax-url">更新时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/annunciate/index',array('status'=>$status,'type'=>'update_time','order'=>'desc'))}" class="btn-link sort ajax-url">更新时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">状态</th>
+              <th style="text-align:center;vertical-align: middle;">操作</th>
+            </tr>
+         </thead>
+            <tbody>
+                  {notempty name="list"}
+                  {volist name="list" id="vo"}
+                <tr>
+                 <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$vo['ads_id']}" id="checkbox"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.ads_id}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.ads_title}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.ads_name}</td>
+                <td style="text-align:center;vertical-align: middle;"><input type="text" class="form-control input-sm" style="text-align: center" value="{literal}{:{/literal}getadsurl('{$vo.ads_name}')}" onclick="select();"></td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.update_time|date='Y-m-d H:i:s',###}</td>
+                <td style="text-align:center;vertical-align: middle;">{eq name="vo.ads_status" value="1"}
+				<a href="{:admin_url('admin/annunciate/status',array('id'=> $vo['ads_id'],'status'=>0))}" class="btn btn-info btn-xs btn-success ajax-get">隐藏</a>{else/}<a href="{:admin_url('admin/annunciate/status',array('id'=> $vo['ads_id'],'status'=>1))}" class="btn btn-info btn-xs btn-danger ajax-get">显示</a>{/eq}</td>
+                <td style="text-align:center;vertical-align: middle;">
+                <a href="javascript:;" data-url="{:admin_url('admin/annunciate/view',array('id'=>$vo['ads_id']))}"  data-name="广告预览" class="btn btn-success btn-edit btn-detail btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-paste"></i> 预览</a>
+                <a href="javascript:;" data-name="编辑广告" data-url="{:admin_url('admin/annunciate/edit',array('id'=>$vo['ads_id']))}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a>
+                <a url="{:admin_url('admin/annunciate/del',array('id'=>$vo['ads_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></td>
+              </tr>
+                 {/volist}  
+ {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="8" >抱歉，没有找到相关内容！</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+                </table>
+              </form>
+            </div>
+            {gt name="list->lastPage()" value="1"}
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info">共{$list->total()}条 {$list->currentPage()}/{$list->lastPage()} </span><span class="page-list">每页显示 {$list->listRows()} 条</span></div>
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+          {/gt}  
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

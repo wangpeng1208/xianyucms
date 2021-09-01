@@ -1,0 +1,183 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#basic" data-toggle="tab">基础设置</a></li>
+            <li class=""><a href="#gao" data-toggle="tab">高级设置</a></li>
+            <li class=""><a href="#moban" data-toggle="tab">模版设置</a></li>
+        </ul>
+    </div>
+ <div class="panel-body is-dialog">   
+<form id="edit-form" class="edit-form form-horizontal" role="form" data-toggle="validator" method="post" action="{:admin_url('admin/model/update')}">
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="basic">
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">模型标识:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="name" value="{$info.name|default=''}" data-rule="required" placeholder="请输入文档模型标识">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">模型名称:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="title" value="{$info['title']|default=''}" data-rule="required" placeholder="请输入模型的名称">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">模型类型:</label>
+        <div class="col-xs-12 col-sm-8">
+          <select name="extend" class="form-control selectpicker" readonly disabled>
+			<option value="0" {if condition="$info['extend'] eq '0'"}selected{/if}>--请选择--</option>
+			<option value="1" {if condition="$info['extend'] eq '1'"}selected{/if}>文档模型</option>
+			<option value="2" {if condition="$info['extend'] eq '2'"}selected{/if}>独立模型</option>
+			</select>
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">是否会员显示:</label>
+        <div class="col-xs-12 col-sm-8">
+			<select name="is_user_show" class="form-control selectpicker">
+			<option value="1" {if $info['is_user_show'] ==1}selected="selected"{/if}>是</option>
+			<option value="0" {if $info['is_user_show'] ==0}selected="selected"{/if}>否</option>
+			</select>
+        </div>
+    </div>   
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">模型图标:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="icon" value="{$info['icon']|default=''}"  placeholder="模型图标">
+        </div>
+    </div>    
+</div>
+
+<div class="tab-pane fade" id="gao">
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">字段别名定义:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="attribute_alias" class="form-control">{$info.attribute_alias}</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">表单显示分组:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="field_group" value="{$info.field_group}" placeholder="用于表单显示的分组，以及设置该模型表单排序的显示">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="pid" class="control-label col-xs-12 col-sm-2">表单显示排序:</label>
+        <div class="col-xs-12 col-sm-10">
+        <span class="help-block">（直接拖动进行排序）</span>
+         <div class="form-group">
+							<div class="col-xs-12 boards" id="field_group_sort">
+							{volist name=":parse_field_attr($info['field_group'])" id="vo"}
+								<div class="board panel panel-info">
+									<div class="panel-heading">{$vo}</div>
+									<div class="panel-body">
+										<div class="board-list" data-group="{$key}">
+										{foreach name="fields" item="field" key="k"}
+											{if (($field['group'] == -1) or ($field['group'] eq $key))}
+												<div class="board-item">
+													<span data="{$field['id']}">{$field['title']} [{$field['name']}]</span>
+													<input type="hidden" name="field_sort[{$key}][]" value="{$field['id']}"/>
+												</div>
+												{php}
+												unset($fields[$k]);
+												{/php}
+											{/if}
+										{/foreach}
+										</div>
+									</div>
+								</div>
+							{/volist}
+							</div>
+						
+						</div>  
+        </div>
+    </div>
+<div class="form-group">
+        <label for="content" class="control-label col-xs-12 col-sm-2">列表定义:</label>
+        <div class="col-xs-12 col-sm-8">
+        <textarea name="list_grid" class="form-control">{$info.list_grid}</textarea>
+        </div>
+    </div>  
+    <div class="form-group">
+        <label for="content" class="control-label col-xs-12 col-sm-2">是否需要主键:</label>
+        <div class="col-xs-12 col-sm-8">
+		<select name="need_pk" class="form-control selectpicker">
+			<option value="1" selected="selected">是</option>
+			<option value="0">否</option>
+		</select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">默认搜索字段:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="search_key" value="{$info.search_key}"  placeholder="默认列表模板的默认搜索项">
+        </div>
+    </div> 
+     <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">高级搜索字段:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="search_list" value="{$info.search_list}"  placeholder="默认列表模板的高级搜索项">
+        </div>
+    </div>       
+   </div>
+<div class="tab-pane fade" id="moban">
+<div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">后台列表模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="template_list" value="{$info['template_list']|default=''}" placeholder="（自定义的列表模板，放在lib/admin/viewn/模型标识目录/下，不写则使用默认模板）">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">后台新增模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control"  name="template_add" value="{$info['template_add']|default=''}" placeholder="自定义的列表模板，放在lib/admin/viewn/模型标识目录/下，不写则使用默认模板">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">后台编辑模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control"  name="template_edit" value="{$info['template_edit']|default=''}" placeholder="自定义的列表模板，放在lib/admin/viewn/模型标识目录/下，不写则使用默认模板">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">前台栏目模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="template_list_skin" value="{$info['template_list_skin']|default=''}" disabled placeholder="请放到模版文件夹中">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">前台检索模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="template_list_type" value="{$info['template_list_type']|default=''}" disabled placeholder="请放到模版文件夹中">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">前台内容模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="template_list_detail" value="{$info['template_list_detail']|default=''}" disabled placeholder="请放到模版文件夹中">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="module" class="control-label col-xs-12 col-sm-2">前台播放模板:</label>
+        <div class="col-xs-12 col-sm-8">
+        <input type="text" class="form-control" name="template_list_play" value="{$info['template_list_play']|default=''}" disabled placeholder="请放到模版文件夹中">
+        </div>
+    </div>         
+   </div>   
+</div>
+{notempty name="info.id"}
+ <input type="hidden" name="id" value="{$info['id']}"> 
+ {/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

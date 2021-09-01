@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<style>
+
+
+    td {
+		font-size:13px;
+
+
+    }
+</style>
+<body class="xianyu-body">
+<section class="content">
+  <div class="callout callout-title">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4>{$nav.title}</h4>
+    {notempty name="nav.remark"}
+    <p>{$nav.remark}</p>
+    {/notempty} </div>
+  <div class="panel-body" id="contents">
+    <div class="panel-tool">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="select-group-t w150 search">
+            <select name="status" class="form-control select2" type="ajax-select" style="width:100%">
+              <option value="{:url('index',array('prty'=>$prty,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}">图集分类</option>
+              
+{volist name=":F('_data/listpicture')" id="vo"}
+              <option value="{:url('index',array('cid'=>$vo.list_id,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="vo.list_id" value="$cid"}selected{/eq}>
+              {$vo.list_name}
+              </option>
+              
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}
+              <option value="{:url('index',array('cid'=>$splist.list_id,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="splist.list_id" value="$cid"}selected{/eq}>
+              ├ {$splist.list_name}
+              </option>
+              {/volist}{/if}
+{/volist}
+
+            </select>
+          </div>
+          <div class="select-group-t w150 search">
+            <select name="status" class="form-control select2" type="ajax-select" style="width:100%">
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}">状态筛选</option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>1,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="status" value="1"}selected{/eq}>
+              已审
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>0,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="status" value="0"}selected{/eq}>
+              未审
+              </option>
+            </select>
+          </div>
+          <div class="select-group-t w150 search">
+            <select name="pic" class="form-control select2 margin10" type="ajax-select" style="width:100%">
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}">图片筛选</option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>1,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="pic" value="1"}selected{/eq}>
+              无图片
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>2,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="pic" value="2"}selected{/eq}>
+              远程图片
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>3,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="pic" value="3"}selected{/eq}>
+              本地图片
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>4,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="pic" value="4"}selected{/eq}>
+              出错图片
+              </option>
+            </select>
+          </div>
+          <div class="select-group-t w150 search">
+            <select name="url" class="form-control select2" type="ajax-select" style="width:100%">
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}">星级筛选</option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>1,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="stars" value="1"}selected{/eq}>
+              1星
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>2,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="stars" value="2"}selected{/eq}>
+              2星
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>3,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="stars" value="3"}selected{/eq}>
+              3星
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>4,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="stars" value="4"}selected{/eq}>
+              4星
+              </option>
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>5,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="stars" value="5"}selected{/eq}>
+              5星
+              </option>
+            </select>
+          </div>
+          <div class="select-group-t w150 search">
+            <select name="status" class="form-control select2" type="ajax-select" style="width:100%">
+              <option value="{:url('index',array('cid'=>$cid,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}">属性筛选</option>
+              
+{volist name=":parse('textarea',config('setting.document_position'))" id="vo"}
+
+              <option value="{:url('index',array('cid'=>$cid,'prty'=>$key,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order,'limit'=>$limit))}" {eq name="key" value="$prty"}selected{/eq}>
+              {$vo}
+              </option>
+              
+{/volist}        
+
+            </select>
+          </div>
+          <form class="form-inline form-search nice-validator n-default" id="form-search" method="post">
+            <div class="input-group">
+              <input class="form-control" placeholder="请输入关键词搜索" type="text" name="wd">
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-default ajax-post" title="普通搜索" form="#form-search"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 pb15 pt15">
+          <div id="toolbar" class="toolbar"> <a href="{:url('index')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="{:url('add')}" data-name="添加配置" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a> <a  href="{:url('del')}" form="#list" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled hidden-xs"><i class="fa fa-trash"></i> 删除</a>
+             {notempty name="GLOBALS['config']['html']['url_html']"}{notempty name="GLOBALS['config']['html']['url_picture_data']"}
+             <a data-url="{:url('admin/html/picture_create','',false,false)}" form="#list" data-name="静态生成" class="confirm btn btn-facebook btn-disabled create-html disabled">生成静态</a>
+             {/notempty}{/notempty}           
+                    {eq name="repeat" value="1"}
+            <a  href="{:url('del',array('repeat'=>'min'))}" class="btn btn-danger btn-del ajax-post"><i class="fa fa-trash"></i> 删除小ID保留大ID</a>      
+              <a  href="{:url('del',array('repeat'=>'max'))}" class="btn btn-danger btn-del ajax-post"><i class="fa fa-trash"></i> 删除大ID保留小ID</a>
+            {/eq} 
+          
+           <a  href="{:url('admin/batch/post',array('tpl'=>'status','sid'=>16,'field'=>'status','url'=>'field'))}" form="#list" data-name="批量审核" class="btn btn-default btn-del btn-disabled popurl disabled hidden-xs"><i class="fa fa-ban"></i> 审核</a> <a  href="{:url('admin/batch/post',array('tpl'=>'type','sid'=>16,'field'=>'cid','url'=>'field'))}" form="#list" data-name="批量设置分类" class="btn btn-default btn-del btn-disabled popurl disabled hidden-xs"><i class="fa  fa-th-large"></i> 分类</a> <a  href="{:url('admin/batch/post',array('tpl'=>'stars','sid'=>16,'field'=>'stars','url'=>'field'))}" form="#list" data-name="批量设置星级" class="btn btn-default btn-del btn-disabled popurl disabled hidden-xs"><i class="fa fa-star-o"></i> 星级</a> <a  href="{:url('admin/batch/post',array('tpl'=>'hits','sid'=>16,'field'=>'hits','url'=>'field'))}" form="#list" data-name="批量设置人气" class="btn btn-default btn-del btn-disabled popurl disabled hidden-xs"><i class="fa fa-gear"></i> 人气</a> <a  href="{:url('admin/batch/post',array('tpl'=>'prty','sid'=>16,'field'=>'prty','url'=>'fields'))}" form="#list" data-name="批量设置推荐" class="btn btn-default btn-del btn-disabled popurl disabled hidden-xs"><i class="fa fa-thumbs-o-up"></i> 推荐</a> 
+          <a  href="{:url('pic/opt',array('tab'=>'picture'))}" form="#list" data-name="同步文章图片" class="btn btn-default btn-editone hidden-xs"><i class="fa fa-picture-o"></i> 同步图片</a>
+          
+          <span id="selectedChks">已选择<strong></strong>记录</span> </div>
+          <!-- /.toolbar -->
+        </div>
+      </div>
+    </div>
+    <!-- /.panel-tool -->
+    <div class="tab-content">
+      <form id="list" method="post">
+        <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+          <thead>
+            <tr>
+              <th style="text-align:center;vertical-align: middle; width:5%"> <label class="pretty success">
+                <input type="checkbox" id="checkall" class="delcheckall">
+                <label><i class="mdi mdi-check"></i></label>
+                </label>
+              </th>
+              <th style="text-align:center;vertical-align: middle;"> {eq name="orders" value="id desc"}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'id','order'=>'asc','limit'=>$limit))}" class="text-link sort ajax-url">编号 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'id','order'=>'desc','limit'=>$limit))}" class="text-link sort ajax-url">编号 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;">分类</th>
+              <th style="text-align:left;vertical-align: middle; width:25%" >标题</th>
+              <th style="text-align:center;vertical-align: middle;" >类型</th>
+              <th style="text-align:center;vertical-align: middle;" >影视</th>
+              <th style="text-align:center;vertical-align: middle;" >明星</th>
+              <th style="text-align:center;vertical-align: middle;" >角色</th>
+              <th style="text-align:center;vertical-align: middle;" class="hidden-xs">{eq name="orders" value="hits desc"}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'hits','order'=>'asc','limit'=>$limit))}" class="text-link sort ajax-url">人气 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'hits','order'=>'desc','limit'=>$limit))}" class="text-link sort ajax-url">人气 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              {notempty name="stars"}
+              <th style="text-align:center;vertical-align: middle;width:10%" class="hidden-xs">{eq name="orders" value="stars desc"}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'stars','order'=>'asc','limit'=>$limit))}" class="text-link sort ajax-url">星级 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'stars','order'=>'desc','limit'=>$limit))}" class="text-link sort ajax-url">星级 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              {/notempty}
+              {notempty name="prty"}
+              <th style="text-align:center;vertical-align: middle;width:10%" class="hidden-xs">{eq name="orders" value="prty desc"}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'prty','order'=>'asc','limit'=>$limit))}" class="text-link sort ajax-url">推荐 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'prty','order'=>'desc','limit'=>$limit))}" class="text-link sort ajax-url">推荐 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              {/notempty}
+              <th style="text-align:center;vertical-align: middle; width:15%" class="hidden-xs">{eq name="orders" value="addtime desc"}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'addtime','order'=>'asc','limit'=>$limit))}" class="text-link sort ajax-url">时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:url('index',array('cid'=>$cid,'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>'addtime','order'=>'desc','limit'=>$limit))}" class="text-link sort ajax-url">时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+              <th style="text-align:center;vertical-align: middle;width:auto">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {notempty name="list"}
+          {volist name="list" id="vo"}
+          <tr>
+            <td class="bs-checkbox" style="text-align:center;vertical-align:middle; font-size:14px"><label class="pretty success">
+              <input type="checkbox" name="id[]" value="{$vo['picture_id']}" id="checkbox">
+              <label><i class="mdi mdi-check"></i></label>
+              </label></td>
+            <td style="text-align:center;vertical-align: middle;"><a href="{:xianyu_read_url('home/picture/read',$vo)}" class="text-link" target="_blank">{$vo['picture_id']}</a>
+            {notempty name="GLOBALS['config']['html']['url_html']"}{notempty name="GLOBALS['config']['html']['url_picture_data']"}
+                 <a href="{:url('admin/html/picture_create',array('ids'=> $vo['picture_id']))}" data-name="{$vo.picture_name}静态页面生成" class="text-link btn-editone" >生成</a>
+                 {/notempty}{/notempty} <a  href="{:url('pic/down',array('tab'=>'picture','col'=>3,'opt'=>1,'fields'=>'id','value'=>$vo['picture_id']))}" form="#list" data-name="同步{$vo.picture_name}内容图片" class="btn-editone hidden-xs"><i class="fa fa-download"></i> </a></td>
+            <td style="text-align:center;vertical-align: middle;"><a href="{:url('index',array('cid'=>$vo['picture_cid'],'prty'=>$prty,'pic'=>$pic,'stars'=>$stars,'status'=>$status,'wd'=>$wd,'repeat'=>$repeat,'type'=>$type,'order'=>$order))}" class="text-link ajax-url">{:getlistname($vo['picture_cid'])}</a></td>
+            <td style="text-align:left;vertical-align: middle;">{$vo.picture_name|msubstr=0,15,'...'}</td>
+            <td style="text-align:center;vertical-align: middle;"><a  class="btn-editone text-link" href="{:url('admin/batch/mcid',array('tpl'=>'mcid','sid'=>16,'id'=>$vo['picture_id']))}" data-name="编辑添加{$vo.picture_name}类型" >{$vo.picture_mcid|mcat_name=$vo['picture_cid'],2|default='添加'}</a></td>
+             
+            <td style="text-align:center;vertical-align: middle;"><a href="{:url('relation/index',array('tid'=>$vo['picture_id'],'tsid'=>16,'sid'=>1,'types'=>'tid'))}"  data-name="管理关联视频" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">({$vo.picturevod_count|default='0'})个</a></td>
+            <td style="text-align:center;vertical-align: middle;"><a href="{:url('relation/index',array('tid'=>$vo['picture_id'],'tsid'=>16,'sid'=>3,'types'=>'tid'))}"  data-name="管理关联明星" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">({$vo.picturestar_count|default='0'})位</a></td>
+           <td style="text-align:center;vertical-align: middle;"><a href="{:url('relation/index',array('tid'=>$vo['picture_id'],'tsid'=>16,'sid'=>5,'types'=>'tid'))}"  data-name="管理关联角色" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">({$vo.picturerole_count|default='0'})位</a></td>
+            <td style="text-align:center;vertical-align: middle;" class="hidden-xs"><a href="javascript:;" class="editable editable-click text-link" data-id="{$vo['picture_id']}" data-name="picture_hits" data-type="text" data-pk="{$vo['picture_id']}" data-url="{:url('editable')}" data-title="修改人气">{$vo.picture_hits}</a></td>
+            {notempty name="stars"}
+            <td style="text-align:center;vertical-align: middle;" class="hidden-xs">{volist name=":admin_star_arr($vo.picture_stars)" id="ajaxstar"}<img src="{$Think.TPL_PATH}tpl/xianyuadmin/img/star{$ajaxstar}_1.gif" class="addstars">{/volist}</td>
+            {/notempty}               
+            {notempty name="prty"}
+            <td style="text-align:center;vertical-align: middle;" class="hidden-xs"> {volist name="list_prty" id="prty"}
+              {if check_attribute($vo['picture_prty'],$key)}<span class="btn bg-maroon-{$i} btn-xs">{$prty|msubstr=0,2}</span>&nbsp;{/if}
+              {/volist}</td>
+            {/notempty}
+            <td style="text-align:center;vertical-align: middle;" class="hidden-xs">{$vo.picture_addtime|date='Y-m-d H:i:s',###}</td>
+            <td style="text-align:center;vertical-align: middle;"> {eq name="vo.picture_status" value="1"} <a class="btn btn-info btn-xs btn-facebook ajax-post" href="{:url('status',array('id'=> $vo['picture_id'],'status'=>0))}">已审</a>{else /}<a class="btn btn-info btn-xs btn-danger ajax-post" href="{:url('status',array('id'=> $vo['picture_id'],'status'=>1))}">未审</a>{/eq} <a href="{:url('edit',array('id'=>$vo['picture_id']))}"  data-name="编辑" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a> <a href="{:url('del',array('id'=>$vo['picture_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-post"><i class="fa fa-trash-o"></i> 删除</a></td>
+          </tr>
+          {/volist}
+          {else/}
+          <tr>
+            <td style="text-align:center;vertical-align: middle;" colspan="15" >抱歉，没有找到相关内容！</td>
+          </tr>
+          {/notempty}
+          </tbody>
+          
+        </table>
+      </form>
+    </div>
+    {gt name="list->lastPage()" value="1"}
+    <div class="panel-page">
+      <div class="pull-left panel-page-info hidden-xs"><span class="pagination-info">共{$list->total()}条 {$list->currentPage()}/{$list->lastPage()} </span><span class="page-list">每页显示 {$list->listRows()} 条</span></div>
+      <div class="panel-page-url ajax-page">
+        <ul class="pagination">
+          {$list->render()}
+          <div class="panel-page-select pull-left">
+            <select class="select2 ajax-select" data-url="{:url_page(request()->action(),request()->param(),1)}">
+              <option value="10" {eq name="limit" value="10"}selected{/eq}>
+              10 条/页
+              </option>
+              <option value="20" {eq name="limit" value="20"}selected{/eq}>
+              20 条/页
+              </option>
+              <option value="30" {eq name="limit" value="30"}selected{/eq}>
+              30 条/页
+              </option>
+              <option value="40" {eq name="limit" value="40"}selected{/eq}>
+              40 条/页
+              </option>
+              <option value="50" {eq name="limit" value="50"}selected{/eq}>
+              50 条/页
+              </option>
+              <option value="99" {eq name="limit" value="99"}selected{/eq}>
+              99 条/页
+              </option>
+            </select>
+          </div>
+          <div class="panel-page-jump ">
+            <input type="input" name="page" id="page" min="1" value="{$list->currentPage()}" class="form-control"/>
+            <input type="button" value="跳 转" data-url="{:url_page(request()->action(),request()->param())}" class="btn btn-default ajax-jump" />
+          </div>
+        </ul>
+      </div>
+    </div>
+    <!-- /.panel-page -->
+    {/gt} </div>
+  <!-- /.panel-body -->
+</section>
+{include file="public/footer" /}
+<script type="text/javascript">
+$(document).ready(function(){
+	xianyu.cms.all();
+});	
+</script>
+</body>
+</html>

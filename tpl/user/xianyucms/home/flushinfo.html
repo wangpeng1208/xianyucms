@@ -1,0 +1,10 @@
+<a class="nav-link drop-title nav-avatar" href="{:xianyu_user_url('user/center/index')}"><img src="{$userinfo.avatar}" title="{$userinfo.nickname|remove_xss}"><span>{$userinfo.nickname|remove_xss}</span></a>
+<div class="drop-box" id="nav-signed" style="display:none;">
+  <ul class="ui-signed">
+    <div class="nick-name"><img src="{$userinfo.avatar}" title="{$userinfo.nickname|remove_xss}"><span>{$userinfo.nickname|remove_xss}</span></div>
+    {volist name="list" id="xianyu"}
+    <li><a href="{:xianyu_user_url($xianyu.url)}"><i class="ui-icon user-{$xianyu['ico']}"></i>{$xianyu['name']}</a></li>
+    {/volist}
+    <li class="logout"><a class="logoutbt" data="{:xianyu_user_url('user/center/logout',array('jump'=>1))}" href="javascript:;" target="_self"><i class="ui-icon user-logout"></i>退出登录</a></li>
+  </ul>
+</div>

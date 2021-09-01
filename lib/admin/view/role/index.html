@@ -1,0 +1,157 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body" id="contents">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+ <div class="commonsearch-table hidden">
+<form class="form-inline form-commonsearch nice-validator n-default" method="post" action="" role="form">
+<div class="form-group" style="padding:0 10px 0 0px;position: relative;"><label for="createtime" class="control-label" style="padding:0 10px">关键词搜索</label><input class="form-control" placeholder="角色名称内容" type="text" name="wd">
+</div>
+                
+                <div class="form-group" style="margin:5px">
+                  <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-success ajax-posturl" target-form="form-commonsearch">提交</button>
+                    <button type="reset" class="btn btn-default">重置</button>
+                  </div>
+                </div>
+              </form>
+            </div>          
+            <div class="fixed-table-toolbar">
+              <div class="columns-right pull-right" style="margin-top:10px;">
+                <a href="javascript:;" class="btn  btn-default hidedsearch" title="普通搜索"><i class="glyphicon glyphicon-search"></i> </a>
+              </div>
+               <div class="pull-right search">
+    <select name="cid" class="form-control" type="get-select" style="margin:0 0 0 10px;">
+   <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}">角色分类</option>
+{volist name="listrole" id="vo"}<option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$vo.list_id,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="vo.list_id" value="$cid"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$splist.list_id,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="splist.list_id" value="$cid"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+</select>
+              </div>  
+                <div class="pull-right search">
+    <select name="cid" class="form-control" type="get-select" style="margin:0 0 0 10px;border-right:none">
+   <option value="{:admin_url('admin/role/index',array('vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}">视频分类</option>
+{volist name="listvod" id="vo"}<option value="{:admin_url('admin/role/index',array('vcid'=>$vo.list_id,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="vo.list_id" value="$vcid"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{:admin_url('admin/role/index',array('vcid'=>$splist.list_id,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="splist.list_id" value="$vcid"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+</select>
+              </div> 
+                               <div class="pull-right search">
+    <select name="cid" class="form-control" type="get-select" style="margin:0 0 0 10px;border-right:none">
+    <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'wd'=>$wd,'type'=>$type,'order'=>$order))}">内容筛选</option>
+    <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>1,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="content" value="1"}selected{/eq}>内容为空</option>
+     <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>2,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="content" value="2"}selected{/eq}>存在内容 </option>
+</select>
+              </div>
+                 <div class="pull-right search">
+    <select name="cid" class="form-control" type="get-select" style="margin:0 0 0 10px;border-right:none">
+    <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}">图片筛选</option>
+    <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>1,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="pic" value="1"}selected{/eq}>图片为空</option>
+     <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>2,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="pic" value="2"}selected{/eq}>图片不为空 </option>
+</select>
+              </div>
+                                                      
+              <div class="pull-right search">
+                <select name="status" class="form-control" type="get-select" style="margin:0 0 0 10px;border-right:none">
+                  <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}">状态筛选</option>
+                  <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>1,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="status" value="1"}selected{/eq}>
+                  显示
+                  </option>
+                  <option value="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>2,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" {eq name="status" value="2"}selected{/eq}>
+                  隐藏
+                  </option>
+                </select>
+              </div>
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar pull-left"><a href="{:admin_url('admin/role/index')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="javascript:;" data-name="添加角色" data-url="{:admin_url('admin/role/add')}" class="btn btn-success btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加角色</a> </div></div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body">
+              <form class="ids">
+                <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                  <thead>
+                    <tr style="height:45px;">
+                      <th class="bs-checkbox "><input name="btSelectAll" type="checkbox"></th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="role_id desc"}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_id','order'=>'asc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_id','order'=>'desc'))}" class="btn-link sort ajax-url">编号 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">角色分类</th>
+                      <th style="text-align:center;vertical-align: middle;">视频</th>
+                      <th style="text-align:center;vertical-align: middle;">名称</th>
+                      <th style="text-align:center;vertical-align: middle;">明星</th>
+                      <th style="text-align:center;vertical-align: middle;">角色</th>
+<th style="text-align:center;vertical-align: middle;">{eq name="orders" value="role_stars desc"}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_stars','order'=>'asc'))}" class="btn-link sort ajax-url">星级 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_stars','order'=>'desc'))}" class="btn-link sort ajax-url">星级 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="role_hits desc"}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_hits','order'=>'asc'))}" class="btn-link sort ajax-url">人气 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_hits','order'=>'desc'))}" class="btn-link sort ajax-url">人气 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="role_addtime desc"}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_addtime','order'=>'asc'))}" class="btn-link sort ajax-url">时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>'role_addtime','order'=>'desc'))}" class="btn-link sort ajax-url">时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">状态</th>
+                      <th style="text-align:center;vertical-align: middle;">操作</th>
+                    </tr>
+                  </thead>
+            <tbody>
+                  {notempty name="list"}
+                  {volist name="list" id="vo"}
+                <tr>
+                <td class="bs-checkbox"><input data-index="{$vo['role_id']}" name="id[]" type="checkbox"  value="{$vo['role_id']}"></td>
+                <td style="text-align:center;vertical-align: middle;"><a href="{:xianyu_data_url('home/role/read',array('id'=>$vo['role_id'],'pinyin'=>$vo['vod_letters'],'cid'=>$vo['role_cid'],'dir'=>getlistname($vo['role_cid'],'list_dir')))}" class="btn-link" target="_blank">{$vo['role_id']}</a> {notempty name="url_html"}{notempty name="url_role_data"}<a href="javascript:;" data-url="{:admin_url('admin/html/role_detail_id',array('ids'=> $vo['role_id']))}" data-name="{$vo.role_name}静态页面生成" class="btn-link btn-editone" data-offset="0px" data-width="100%" data-height="100%" >生成</a>{/notempty}{/notempty}</td>
+                <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vid,'cid'=>$vo['role_cid'],'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" class="btn-link ajax-url">{:getlistname($vo['role_cid'])}</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a href="{:admin_url('admin/role/index',array('vcid'=>$vcid,'vid'=>$vo['role_vid'],'cid'=>$cid,'stars'=>$stars,'status'=>$status,'pic'=>$pic,'content'=>$content,'wd'=>$wd,'type'=>$type,'order'=>$order))}" class="btn-link ajax-url">{$vo.vod_name|msubstr=0,8,'...'}</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" class="btn-link editable editable-click" data-id="{$vo['role_id']}" data-name="role_name" data-type="text" data-pk="{$vo['role_id']}" data-url="{:admin_url('admin/role/editable')}">{$vo.role_name}</a></td>
+                <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" class="btn-link editable editable-click" data-id="{$vo['role_id']}" data-name="role_star" data-type="text" data-pk="{$vo['role_id']}" data-url="{:admin_url('admin/role/editable')}">{$vo.role_star}</a></td>
+                 <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" class="btn-link editable editable-click" data-id="{$vo['role_id']}" data-name="role_oid" data-type="text" data-pk="{$vo['role_id']}" data-url="{:admin_url('admin/role/editable')}">{$vo.role_oid}</a></td> 
+                 <td style="text-align:center;vertical-align: middle;">{volist name=":admin_star_arr($vo.role_stars)" id="ajaxstar"}<img src="{$config.site.cdnurl}admin/xianyucms/img/star{$ajaxstar}.gif"  id="role_{$vo.role_id}_{$i}" class="setstars">{/volist}</td>
+                 <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" class="btn-link editable editable-click" data-id="{$vo['role_id']}" data-name="role_hits" data-type="text" data-pk="{$vo['role_id']}" data-url="{:admin_url('admin/role/editable')}">{$vo.role_hits}</a></td>  
+                 <td style="text-align:center;vertical-align: middle;">{$vo.role_addtime|date='Y-m-d H:i:s',###}</td>               
+                <td style="text-align:center;vertical-align: middle;">	
+                {eq name="vo.role_status" value="1"} <a class="btn btn-info btn-xs btn-success ajax-get" url="{:admin_url('admin/role/status',array('id'=> $vo['role_id'],'status'=>0))}">显示</a>{else /}<a class="btn btn-info btn-xs btn-danger ajax-get" url="{:admin_url('admin/role/status',array('id'=> $vo['role_id'],'status'=>1))}">隐藏</a>{/eq}
+               </td>
+                <td style="text-align:center;vertical-align: middle;">
+                <a href="javascript:;" data-url="{:admin_url('admin/role/edit',array('id'=> $vo['role_id']))}"  data-name="编辑角色{$vo.role_name}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a>
+                <a url="{:admin_url('admin/role/del' , array('id' => $vo['role_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a>
+               </td>             
+            </tr>
+ {/volist}   
+                  {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="12" >抱歉，没有找到相关内容！</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+ </table>
+              </form>
+            </div>
+            {gt name="list->lastPage()" value="1"}
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info" total="{$list->total()}">共{$list->total()}条数据 {$list->currentPage()}/{$list->lastPage()} </span><span class="page-list">每页显示 {$list->listRows()} 条数据</span></div>
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+            {/gt}
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar pull-left">
+                <a id="checkall" class="btn btn-info">全选</a>
+                {notempty name="url_html"}
+                {notempty name="url_role_data"}
+                <a  url="{:admin_url('admin/html/role_detail_id','',false,false)}" target-form="ids" class="btn btn-info btn-disabled create-html disabled" data-name="角色静态页面生成" data-offset="0px" data-width="100%" data-height="100%">生成静态</a>
+                {/notempty}
+                {/notempty}                  
+                 <a  url="{:admin_url('admin/role/status',array('status'=>1))}" target-form="ids" class="confirm btn btn-info btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 显示</a> <a  url="{:admin_url('admin/role/status',array('status'=>0))}" target-form="ids" class="confirm btn btn-warning btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 隐藏</a> <a  url="{:admin_url('admin/role/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <a  url="{:admin_url('admin/role/del')}" target-form="ids" class="confirm btn bg-purple btn-disabled disabled btn-move"><i class="fa fa-life-ring"></i> 移动</a> </div><span style="display:none" class="move-cid ids"><form class="ids pull-left"><select name="pestcid" class="form-control" style="float:left; width:auto; padding:0 10px 0 10px;margin:3px 10px 0 10px;"><option value="">选择分类</option>{volist name="listrole" id="vo"}<option value="{$vo.list_id}" {eq name="vo.list_id" value="$cid"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$cid"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}</select></form><a url="{:admin_url('admin/role/pestcid')}" target-form="ids,pestcid" class="confirm btn bg-olive btn-disabled disabled ajax-post"> 确 认</a></span><span id="selectedChks" style="display:none; margin-left:10px;">已选择<strong></strong>记录</span> </div>            
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{notempty name="url_html"}{notempty name="url_role_data"}<iframe id="html_create" scrolling="no" frameborder="0" style="display:none"></iframe>{/notempty}{/notempty} 
+

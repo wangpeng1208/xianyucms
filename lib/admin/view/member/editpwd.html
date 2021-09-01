@@ -1,0 +1,44 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty}  
+        <div class="panel-body is-dialog">
+	<form id="edit-form" class="edit-form form-horizontal" role="form" data-toggle="validator" method="post">
+		<div class="panel-body is-dialog">  
+			<div class="form-group">
+				<label for="title" class="control-label col-xs-12 col-sm-2">原密码：</label>
+				<div class="col-xs-12 col-sm-6">
+					<input type="password" class="form-control" name="oldpassword" value=""  data-rule="required" autocomplete="false">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="password" class="control-label col-xs-12 col-sm-2">新密码：</label>
+				<div class="col-xs-12 col-sm-6">
+					<input type="password" class="form-control" name="password" value="" autocomplete="false" data-rule="required">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="repassword" class="control-label col-xs-12 col-sm-2">确认密码：</label>
+				<div class="col-xs-12 col-sm-6">
+					<input type="password" class="form-control" name="repassword" value="" autocomplete="false" data-rule="required">
+				</div>
+			</div>
+                    {notempty name="info.id"}
+                    <input type="hidden" name="id" data-id='{$info['id']|default=''}' value="{$info['id']|default=''}">
+                    {/notempty}
+ <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

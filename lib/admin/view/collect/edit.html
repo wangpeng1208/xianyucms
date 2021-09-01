@@ -1,0 +1,93 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+     <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+             <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">资源模型:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="collect_cid" class="form-control" >
+                        <option value="1">视频</option>
+                        <option value="2" {if isset($info['collect_cid']) && $info['collect_cid']==2}selected{/if}>新闻</option>
+                        <option value="3" {if isset($info['collect_cid']) && $info['collect_cid']==3}selected{/if}>明星</option>
+                        <option value="4" {if isset($info['collect_cid']) && $info['collect_cid']==4}selected{/if}>剧情</option>
+                        <option value="6" {if isset($info['collect_cid']) && $info['collect_cid']==6}selected{/if}>演员</option>
+                        <option value="99" {if isset($info['collect_cid']) && $info['collect_cid']==99}selected{/if}>评论</option>
+                        <option value="100" {if isset($info['collect_cid']) && $info['collect_cid']==100}selected{/if}>会员</option>
+                    </select>
+                </div>
+            </div>    
+           <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">资源名称:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="collect_name" value="{$info.collect_name|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>    
+           <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">资源地址:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="collect_url" value="{$info.collect_url|default=''}" data-rule="required" autocomplete="false" placeholder="开头必须带http://" data-tip="开头必须带http://">
+                </div>
+            </div>    
+           <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">其他参数:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="collect_other" value="{$info.collect_other|default=''}" autocomplete="false" data-tip="JSON格式参数一般为play-yuku,tudou-other-del XML格式参数play=yuku,tudou&other=del">
+                </div>
+            </div>
+             <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">资源类型:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="collect_type" class="form-control" data-tip="其他程序能用的资源一般为XML，JSON类型一般为飞飞程序的资源站">
+                        <option value="2">JSON</option>
+                        <option value="1" {if isset($info['collect_type']) && $info['collect_type']==1}selected{/if}>XML</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">推荐属性:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="collect_nature" value="{$info.collect_nature|default=''}" autocomplete="false" data-tip="显示在资源名称前面的文字">
+                </div>
+            </div>         
+            <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">资源说明:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="collect_title" value="{$info.collect_title|default=''}" autocomplete="false" data-tip="显示在资源名称后面的文字">
+                </div>
+            </div>         
+      <div class="form-group">
+        <label for="weigh" class="control-label col-xs-12 col-sm-2">资源排序:</label>
+        <div class="col-xs-12 col-sm-1">
+          <input type="text" class="form-control" name="collect_oid" value="{$info.collect_oid|default=0}"  style=" text-align:center" data-tip="越小越前面">
+        </div>
+    </div> 
+               <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="collect_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="0">正常</option>
+                        <option value="1" {eq name="info.collect_status" value="1" }selected{/eq}>锁定</option>
+                    </select>
+                </div>
+            </div> 
+{notempty name="info.collect_id"} 
+<input type="hidden" name="collect_id" value="{$info['collect_id']|default=''}"> 
+{/notempty} 
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

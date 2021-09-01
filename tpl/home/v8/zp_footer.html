@@ -1,0 +1,62 @@
+
+{eq name="model" value="index"}
+<div class="box-mcid-list hidden-xs">
+<div class="container">
+<div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12 p-0 clearfix">
+<div class="col-md-3 col-sm-3 col-xs-4 one">
+         <h4><a href="{:getlistname($tpl_id[1],'list_url')}">{:getlistname($tpl_id[1],'list_name')}</a></h4>
+         <ul class="list-inline">
+{volist name="catmovlist" id="vo" offset="0" length='12'}
+<li><a href="{:xianyu_type_url('home/vod/type',array('id'=>$tpl_id[1],'dir'=>getlistdir($tpl_id[1]),'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}">{$vo.m_name|msubstr=0,2}</a></li>{/volist}
+</ul>
+       </div>
+        <div class="col-md-3 col-sm-3 col-xs-4">
+         <h4><a href="{:getlistname($tpl_id[2],'list_url')}">{:getlistname($tpl_id[2],'list_name')}</a></h4>
+         <ul class="list-inline">
+{volist name="cattvlist" id="vo" offset="0" length='12'}
+<li><a href="{:xianyu_type_url('home/vod/type',array('id'=>$tpl_id[2],'dir'=>getlistdir($tpl_id[2]),'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}">{$vo.m_name|msubstr=0,2}</a></li>{/volist}
+     </ul>
+       </div>
+       <div class="col-md-3 col-sm-3 col-xs-4">
+         <h4><a href="{:getlistname($tpl_id[4],'list_url')}">{:getlistname($tpl_id[4],'list_name')}</a></h4>
+        <ul class="list-inline">
+{volist name="catzylist" id="vo" offset="0" length='12'}
+<li><a href="{:xianyu_type_url('home/vod/type',array('id'=>$tpl_id[4],'dir'=>getlistdir($tpl_id[4]),'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}">{$vo.m_name|msubstr=0,2}</a></li>{/volist}
+      </ul>
+       </div>
+       <div class="col-md-3 col-sm-3 col-xs-4 last">
+         <h4><a href="{:getlistname($tpl_id[3],'list_url')}">{:getlistname($tpl_id[3],'list_name')}</a></h4>
+         <ul class="list-inline">
+{volist name="catdmlist" id="vo" offset="0" length='12'}
+<li><a href="{:xianyu_type_url('home/vod/type',array('id'=>$tpl_id[3],'dir'=>getlistdir($tpl_id[3]),'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}">{$vo.m_name|msubstr=0,2}</a></li>{/volist}
+      </ul>
+       </div>
+   </div>
+   </div>
+   </div>
+</div>
+<!--mcid-list--end-->
+{/eq} 
+  <div class="row">
+      ﻿<div class="footer-nav hidden-sm hidden-xs"><a href="{:getlistname($tpl_id[17],'list_url')}" title="网站地图" target="_blank">网站地图</a>-<a href="{:getlistname($tpl_id[18],'list_url')}" title="RSS地图" target="_blank">RSS地图</a>-<a href="{:getlistname($tpl_id[19],'list_url')}" title="百度地图" target="_blank" >百度地图</a>-<a href="{:getlistname($tpl_id[20],'list_url')}" title="360地图" target="_blank" >360地图</a>-<a rel="nofollow" href="{$gb_url}" title="给我留言" target="_blank">给我留言</a>-{$tongji}</div>
+    <div class="box-footer clearfix">
+    <div class="container">
+        <p class="m-0 text-muted">{$copyright}</p>
+      <p class="visible-xs"><a class="text-muted" href="{$gb_url}" title="留言求片">留言求片</a></p>
+    </div>
+  </div>
+</div>
+
+<ul class="slider-extra clearfix">
+  <li><a class="backtop" href="javascript:scroll(0,0)" style="display: none;"><i class="icon iconfont">&#xe900;</i></a></li>
+  <li class="visible-xs hidden-xs"><a class="open-share" href="javascript:;"><i class="icon iconfont icon-share">&#xe62d;</i></a></li>
+  <li class="hidden-xs"><span><i class="icon iconfont icon-qrcode">&#xe62d;</i></span>
+    <div class="sideslip">
+      <div class="col-pd"><p class="qrcode"></p>
+        <p class="text-center text">扫码用手机访问</p>
+      </div>
+    </div>
+  </li>
+  <li><a href="{$gb_url}"><i class="icon iconfont">&#xe63e;</i></a></li>
+</ul>

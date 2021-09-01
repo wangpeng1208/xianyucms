@@ -1,0 +1,115 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="commonsearch-table hidden">
+<form class="form-inline form-commonsearch nice-validator n-default" method="post" action="" role="form">
+<div class="form-group" style="padding:0 10px 0 0px;position: relative;"><label for="createtime" class="control-label" style="padding:0 10px">登录时间</label><input class="form-control operate" name="field-createtime" data-name="createtime" value="BETWEEN" readonly="" type="hidden"><input class="form-control datetimepicker" name="start_time" value="" placeholder="开始时间" id="createtime" data-date-format="YYYY-MM-DD HH:mm:ss" type="datetime">&nbsp;-&nbsp;<input class="form-control datetimepicker" name="end_time" value="" placeholder="结束时间" id="createtime" data-date-format="YYYY-MM-DD HH:mm:ss" type="datetime"></div>
+
+<div class="form-group" style="margin:5px"><label for="title" class="control-label" style="padding:0 10px">关键词</label><input class="form-control" name="wd" value="" placeholder="用户名,昵称,Email" id="wd"  type="text"></div>
+                
+                <div class="form-group" style="margin:5px">
+                  <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-success ajax-posturl" target-form="form-commonsearch">提交</button>
+                    <button type="reset" class="btn btn-default">重置</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="fixed-table-toolbar">
+              <div class="columns-right pull-right" style="margin-top:10px;">
+                <button class="btn btn-default hidedsearch" type="button"  title="普通搜索"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
+              <div class="pull-right search">
+                <select name="status" class="form-control" type="get-select">
+                  <option value="{:admin_url('admin/user/show')}">状态</option>
+                  <option value="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>1,'type'=>$type,'order'=>$order))}" {eq name="user_status" value="1"}selected{/eq}>
+                  锁定
+                  </option>
+                  <option value="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>2,'type'=>$type,'order'=>$order))}" {eq name="user_status" value="2"}selected{/eq}>
+                  正常
+                  </option>
+                </select>
+              </div>
+              <div class="bs-bars pull-left">
+                <div id="toolbar" class="toolbar"><a href="{:admin_url('admin/user/show')}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a> <a href="javascript:;" data-name="添加用户" data-url="{:admin_url('admin/user/add')}" class="btn btn-success btn-add btn-editone" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-plus"></i> 添加</a> <a  url="{:admin_url('admin/user/user_status',array('user_status'=>0))}" target-form="ids" class="confirm btn btn-info btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 正常</a> <a  url="{:admin_url('admin/user/user_status',array('user_status'=>1))}" target-form="ids" class="confirm btn btn-warning btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 锁定</a> <a  url="{:admin_url('admin/user/userdel')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除</a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> </div>
+              </div>
+            </div>
+          </div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;" id="contents">
+            <div class="fixed-table-body">
+              <form class="ids">
+                <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                  <thead>
+                    <tr style="height:45px;">
+                      <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="userid desc"}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'userid','order'=>'asc'))}" class="btn-link sort ajax-url">ID <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'userid','order'=>'desc'))}" class="btn-link sort ajax-url">ID <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:left;vertical-align: middle;">用户</th>
+                      <th style="text-align:left;vertical-align: middle;">邮箱</th>
+                      <th style="text-align:center;vertical-align: middle;">影币</th>
+                      <th style="text-align:center;vertical-align: middle;">相关</th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="loginnum desc"}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'loginnum','order'=>'asc'))}" class="btn-link sort ajax-url">登录次数 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'loginnum','order'=>'desc'))}" class="btn-link sort ajax-url">登录次数 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="viptime desc"}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'viptime','order'=>'asc'))}" class="btn-link sort ajax-url">VIP到期时间 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'viptime','order'=>'desc'))}" class="btn-link sort ajax-url">VIP到期时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">{eq name="orders" value="last_login_time desc"}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'last_login_time','order'=>'asc'))}" class="btn-link sort ajax-url">登录日期 <i class="fa fa-angle-up"></i></a>{else/}<a href="{:admin_url('admin/user/show',array('wd'=>$wd,'user_status'=>$user_status,'type'=>'last_login_time','order'=>'desc'))}" class="btn-link sort ajax-url">登录时间 <i class="fa fa-angle-down"></i></a>{/eq}</th>
+                      <th style="text-align:center;vertical-align: middle;">会员状态</th>
+                      <th style="text-align:center;vertical-align: middle;">相关操作</th>
+                    </tr>
+                  </thead>
+               <tbody>
+                {notempty name="list"}
+                {volist name="list" id="vo"}
+                <tr>
+                <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$vo['userid']}" id="checkbox"></td> 
+                <td style="text-align:center;vertical-align: middle;">{$vo.userid}</td>
+                <td style="text-align:left;vertical-align: middle;"><a href="{:xianyu_user_url('user/home/index',array('id'=>$vo['userid']))}" target="_blank" class="btn-link">{$vo.username|msubstr=0,6,'...'}</a></td>
+                <td style="text-align:left;vertical-align: middle;">{$vo.email}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.score|default='0'}</td>
+                <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" id="{$vo.userid}" class="btn-editone btn-link" data-url="{:admin_url('admin/cm/index',array('uid'=> $vo['userid'],'view'=>1))}" data-name="管理用户{$vo.username}的评论" data-width="100%" data-height="100%" data-offset="0px">评论</a>&nbsp; &nbsp; 
+                <a href="javascript:;" id="{$vo.userid}" class="btn-editone btn-link" data-url="{:admin_url('admin/orders/index',array('uid'=> $vo['userid'],'view'=>1))}" data-name="管理用户{$vo.username}的订单" data-width="100%" data-height="100%" data-offset="0px">订单</a>&nbsp; &nbsp; 
+                 <a href="javascript:;" id="{$vo.userid}" class="btn-editone btn-link" data-url="{:admin_url('admin/score/index',array('uid'=> $vo['userid'],'view'=>1))}" data-name="管理用户{$vo.username}的消费" data-width="100%" data-height="100%" data-offset="0px">消费</a>
+                 
+                </td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.loginnum}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.viptime|default='time'|date='Y-m-d H:i:s',###}</td>
+                <td style="text-align:center;vertical-align: middle;">{$vo.last_login_time|date='Y-m-d H:i:s',###}</td>
+                <td style="text-align:center;vertical-align: middle;">
+                {eq name="vo.user_status" value="1"} <a class="btn btn-info btn-xs btn-danger ajax-get" url="{:admin_url('admin/user/user_status',array('id'=> $vo['userid'],'user_status'=>0))}">锁定</a>{else /}<a class="btn btn-info btn-xs btn-success ajax-get"  url="{:admin_url('admin/user/user_status',array('id'=> $vo['userid'],'user_status'=>1))}">正常</a>{/eq}
+                </td>
+                <td style="text-align:center;vertical-align: middle;">
+                <a href="javascript:;" data-name="编辑用户{$vo.username}" data-url="{:admin_url('admin/user/edit',array('id'=> $vo['userid']))}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a> <a url="{:admin_url('admin/user/userdel' , array('id' => $vo['userid']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></td>
+              </tr>
+                  {/volist}    
+                  {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="8" >抱歉，没有找到相关内容！</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+                  
+                </table>
+              </form>
+            </div>
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info" total="{$list->total()}">共{$list->total()}条数据 {$list->currentPage()}/{$list->lastPage()} </span><span class="page-list">每页显示 {$list->listRows()} 条数据</span></div>
+             {gt name="list->lastPage()" value="1"}
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+               {/gt}
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

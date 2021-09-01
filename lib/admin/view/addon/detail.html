@@ -1,0 +1,66 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+<table id="table" class="table table-striped table-bordered" style="margin-top: 0px;" width="100%">
+<thead>
+            <tr>
+              <th style="text-align:left;vertical-align: middle;">标题</th>
+              <th style="text-align:left;vertical-align: middle;">内容</th>
+            </tr>
+            </thead>
+            <tbody>
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">日志ID</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.a_id}</td> 
+  </tr>
+   <tr>
+  <td style="text-align:left;vertical-align: middle;">用户ID</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.user_id}</td> 
+  </tr> 
+ <tr>
+  <td style="text-align:left;vertical-align: middle;">用户名称</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.username}</td> 
+  </tr>
+ <tr>
+  <td style="text-align:left;vertical-align: middle;">行为名称</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.title}</td> 
+  </tr> 
+ <tr>
+  <td style="text-align:left;vertical-align: middle;">行为标识</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.name}</td> 
+  </tr>    
+ <tr>
+  <td style="text-align:left;vertical-align: middle;">行为备注</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.ac_remark}</td> 
+  </tr> 
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">执行数据</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.record_id}</td> 
+  </tr>  
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">操作地址</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.a_remark}</td> 
+  </tr>
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">操作IP</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.action_ip}</td> 
+  </tr>  
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">操作时间</td> 
+  <td style="text-align:left;vertical-align: middle;">{$info.create_time}</td> 
+  <tr>
+  <td style="text-align:left;vertical-align: middle;">操作状态</td> 
+  <td style="text-align:left;vertical-align: middle;">
+  {eq name="info.a_status" value="1"}<span class="btn btn-info btn-xs btn-success">成功</span>{else /}<span class="btn btn-info btn-xs btn-danger">失败</span>{/eq}
+  
+  {$info.action_status}</td> 
+  </tr>    </tr>
+                                                
+</tbody>
+</table>
+</div>
+<div class="hide layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">关闭</button>
+    </div>
+</div>

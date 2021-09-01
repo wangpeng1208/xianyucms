@@ -1,0 +1,40 @@
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+{php}
+           $type=getmodeid($xianyu['cm_sid'],'title');
+		    if($xianyu['cm_sid']==1){
+			$cminfo=get_vod_find($xianyu['cm_vid'],'vod_id','vod_id,vod_letters,vod_name,vod_cid,vod_jumpurl');
+			$name=$cminfo['vod_name'];
+			$url=xianyu_data_url('home/vod/read',array('id'=>$cminfo['vod_id'],'pinyin'=>$cminfo['vod_letters'],'cid'=>$cminfo['vod_cid'],'dir'=>getlistname($cminfo['vod_cid'],'list_dir'),'jumpurl'=>$cminfo['vod_jumpurl']));
+			}elseif($xianyu['cm_sid']==2){
+			$cminfo=get_news_find($xianyu['cm_vid'],'news_id','news_id,news_name,news_cid,news_jumpurl');
+			$name=$cminfo['news_name'];
+			$url=xianyu_data_url('home/news/read',array('id'=>$cminfo['news_id'],'cid'=>$cminfo['news_cid'],'dir'=>getlistname($cminfo['news_cid'],'list_dir'),'jumpurl'=>$cminfo['news_jumpurl']));
+			}elseif($xianyu['cm_sid']==3){
+			$cminfo=get_star_find($xianyu['cm_vid'],'star_id','star_id,star_letters,star_name,star_cid,star_jumpurl');
+			$name=$cminfo['star_name'];
+			$url=xianyu_data_url('home/star/read',array('id'=>$cminfo['star_id'],'pinyin'=>$cminfo['star_letters'],'cid'=>$cminfo['star_cid'],'dir'=>getlistname($cminfo['star_cid'],'list_dir'),'jumpurl'=>$cminfo['star_jumpurl']));
+			}
+
+{/php}
+<li>
+  <label class='label-checkbox' for='cmt{$xianyu['cm_id']}'>
+    <input type='checkbox' name='ids[]' xianyu='{$xianyu['cm_id']}' id='cmt{$xianyu['cm_id']}' />
+  </label>
+  <div class='user-txt-list-cnt'>
+    <h5>
+    {eq name="xianyu.cm_pid" xianyu="0"}您评论了：
+    <span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span>
+    {else/}您回复了<span class="user">&nbsp;<a href='{:xianyu_user_url('user/home/index',array('id'=>$xianyu['cm_tuid']))}' target='_blank'>{:get_user_info($xianyu['cm_tuid'])}</a>&nbsp;</span>在：<span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span><span>的评论</span>
+    {/eq}
+    
+    </h5>
+    <p id='contmedit{$xianyu['cm_id']}'>{eq name="xianyu.cm_status" xianyu="0"}<span class='status'>【未审核】</span>{/eq}{$xianyu['cm_content']|strip_tags|remove_xss|get_emots}</p>
+    <div class='my-list-assit fn-clear'>
+      <div class='fn-left'><span class='list-digg'>支持[<strong>{$xianyu.cm_support}</strong>]</span><em>|</em><span class='list-digg'>反对[<strong>{$xianyu.cm_oppose}</strong>]</span><em>|</em><a class='mdel' href='javascript:void(0)' id='mdel{$xianyu['cm_id']}' data='{:xianyu_user_url('user/center/delcm',array('id'=>$xianyu['cm_id']))}'>删除</a></div>
+      <div class='fn-right'><span class='date-time'>{$xianyu['cm_addtime']|date='Y-m-d H:i:s',###}</span></div>
+    </div>
+  </div>
+</li>
+{/volist}
+{/notempty}

@@ -1,0 +1,14 @@
+
+<div class="details-images">
+<div class="details-content text-justify">
+<a href="{$news_images_content['img']}" target="_blank" title="{$news_name}{$news_images_content['alt']}"><img class="loading" src="{$apicss}xianyucms/images/loading.gif" data-original="{$news_images_content['img']}" alt="{$news_name}{$news_images_content['alt']}" title="{$news_name}{$news_images_content['alt']}" /></a>
+{notempty name="news_pageprevurl"}
+<a id="pre" href="{$news_pageprevurl}" class="details-slide-pre contextDiv"  title="上一张"><div class="swiper-button-prev"><i class="icon iconfont icon-left"></i></div></a>
+{/notempty}
+{notempty name="news_pagenexturl"}
+<a id="next" href="{$news_pagenexturl}" class="details-slide-next contextDiv" title="下一张"><div class="swiper-button-next"><i class="icon iconfont icon-right"></i></div></a>
+{/notempty}          
+</div>
+</div>
+<h5 class="text-center">{$news_name}{$news_images_content['alt']}</h5>
+<div class="details-image-title text-center"><span class="text-color">{$news_page}</span>/<i>{$news_page_count}</i></div>

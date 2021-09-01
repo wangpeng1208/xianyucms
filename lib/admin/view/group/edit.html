@@ -1,0 +1,61 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty}  
+<div class="panel-body is-dialog">
+<form id="edit-form" class="form-horizontal form-ajax" role="form" method="post" action="">
+          <input type="hidden" name="rules" value="" />
+          <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">用户组名：</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="title" value="{$info.title|default=''}" data-rule="required" autocomplete="false">
+                </div>
+         </div>
+           <div class="form-group">
+                <label for="description" class="control-label col-xs-12 col-sm-2">分组描述：</label>
+                <div class="col-xs-12 col-sm-6">
+                  <textarea class="form-control" name="description">{$info.description|default=''}</textarea>
+                </div>
+         </div>  
+    <div class="form-group" style="vertical-align:middle;">
+        <label for="nickname" class="control-label col-xs-12 col-sm-2"><a id="checkall">分组权限:</a></label>
+        <div class="col-xs-12 col-sm-6" style="border:none;width:auto; position:relative; top:6px;">
+ <span class="text-muted"><input  type="checkbox"  id="checkall"/> <label for="expandall"><small>选择全部</small></label></span>
+ <span class="text-muted"><input  type="checkbox"  id="expandall"/> <label for="expandall"><small>展开全部</small></label></span>
+        </div>
+        
+    </div> 
+            <div class="form-group">
+            <label for="description" class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-6">
+                  <div id="treeview"></div>
+                </div>
+         </div>   
+          <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="info.status" value="0" }selected{/eq}>禁用</option>
+                    </select>
+                </div>
+            </div>
+{notempty name="info.id"}
+      <input type="hidden" name="id" data-id='{$info['id']|default=''}' value="{$info['id']|default=''}">
+{/notempty}            
+ <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

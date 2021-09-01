@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$news_name}{notempty name="news_page"}{neq name="news_page" value="1"}第{$news_page}页{/neq}{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{$news_name}">
+<meta name="description" content="{$news_remark}"> 
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<!--盒子开始--> 
+<div class="container">
+  <div class="row">
+  <!--左侧板块开始--> 
+  <div class="col-md-9 col-sm-12 box-main-content" style="position:static">
+  <div class="layout-box clearfix">
+  <div class="news_details">
+  <h1 class="text-overflow">{$news_name}</h1>
+  <div class="news_top text-center text-overflow"><span>时间：{$news_addtime|date='Y-m-d H:i:s',###}</span><span>阅读：<span id="detail-hits" data-type="news_hits"></span>次</span><span>编辑：{$news_inputer}</span><span class="hidden-xs">来源：<a href="{$siteurl}" target="_blank">{$sitename}</a></span></div>
+  <div class="news_remark">{$news_remark}</div>
+  </div> 
+{include file="news_detail_info" /}  
+{notempty name="news_images_slide"}
+{include file="news_detail_slide" /} 
+{/notempty}
+{notempty name="news_images_content"}
+{include file="news_detail_images" /} 
+{/notempty} 
+  <div class="details-content text-justify">
+  <p>{$news_content|xianyu_actor_replace=###,$vod_info[0]['vod_actor']|xianyu_role_replace=###,$vod_info[0]['vod_id'],$vod_info[0]['vod_letters']}</p>
+</div>
+{notempty name="news_pagelist"}  
+<div class="box-page clearfix m-0"><ul>{$news_pagelist}</ul></div>  
+{/notempty}  
+<div class="clearfix"></div>
+<div class="details-page clearfix">
+<ul class="clearfix">
+{notempty name="news_prev"}
+<li class="col-md-6"><a  class="text-overflow" href="{$news_prev['news_readurl']}" target="_self">上一篇：{$news_prev['news_name']}</a></li>
+{else /}
+<li class="col-md-6"><a target="_self">没有了</a></li>
+{/notempty}
+{notempty name="news_next"}
+<li class="col-md-6"><a class="text-overflow" href="{$news_next['news_readurl']}" target="_self">下一篇：{$news_next['news_name']}</a></li>
+{else /}
+<li class="col-md-6"><a  target="_self">没有了</a></li>
+{/notempty}
+</ul>
+  </div> 
+    </div> 
+{notempty name="news_newsid"} 
+{php}$news_list = xianyu_mysql_news('ids:'.$news_newsid.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:12;order:news_addtime desc');{/php}
+<div class="layout-box clearfix details-story">
+    <div class="box-title">
+    <h3 class="m-0">相关资讯</h3>
+    </div>
+    <div class="swiper-container news-switch-3">
+   <ul class="swiper-wrapper clearfix">
+{volist name="news_list" id="xianyu"}
+<li class="swiper-slide"><a class="video-pic swiper-lazy" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-background="{$xianyu.news_picurl}" style="padding-top:62.5%;background-position:50% 50%;background-size:cover;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span><div class="swiper-lazy-preloader"></div></a></li>
+{/volist}
+         </ul>
+     <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+     <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+   </div>
+</div>   
+{/notempty}   
+    
+ <!--视频评论开始-->     
+ {include file="vod_detail_cm" /}
+  <!--视频评论结束-->        
+  </div>
+ <!--左侧板块结束--> 
+ 
+ <!--右侧板块结束--> 
+  <div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+{include file="vod_detail_right" /} 
+</div> 
+
+ <!--右侧板块结束-->  
+</div>
+</div>
+<!--盒子结束--> 
+{$news_hits_insert}
+{include file="zp_footer" /}
+</body>
+</html>

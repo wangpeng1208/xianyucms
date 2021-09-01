@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$star_name}演过的电视剧_{$star_name}电影全集_{$star_name}有那些电影电视剧 - {$sitename}</title>
+<meta name="keywords" content="{$star_name}最新电视剧,{$star_name}最新电影,{$star_name}演过的电视剧,{$star_name}电影全集">
+<meta name="description" content="{$sitename}为您收集了{$star_name}演过的电视剧以及{$star_name}最新电影与{$star_name}最新电视剧免费高清在线观看希望你能喜欢。">  
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$hezuo=xianyu_mysql_starhz('star:'.$star_name.';field:star_id,star_cid,star_name,star_letters,star_pic;limit:9;order:star_hits_day desc');
+$news_star=xianyu_mysql_news('news:'.$star_name.';did:'.$star_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:8;order:news_id desc');
+$actor_list=xianyu_mysql_role('starname:'.$star_name.';limit:4;order:role_addtime desc');
+$vod_list = xianyu_mysql_vod('actor:'.$star_name.';field:vod_id,vod_cid,vod_name,vod_letters,vod_pic,vod_title,vod_gold,vod_actor,vod_year,vod_mcid,vod_addtime;limit:18;page:true;p:'.$page.';order:vod_addtime desc');
+{/php}
+{include file="star_detail_top" /}    
+<div class="container">
+<div class="row"> 
+<div class="clearfix"></div> 
+ {notempty name="vod_list"} 
+  <!--明星作品模块开始-->   
+<div class="layout-box clearfix{notempty name="star_bigpicurl"} mt-0{/notempty}">
+  <div class="col-md-12 col-sm-12 col-xs-12 pg-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}作品</h3>
+    <div class="more pull-right">共<span class="text-color">“{$vod_list.0.page.pagecount}”</span>个视频</div>
+    </div>
+        <div class="clearfix star-video-list">
+            <ul class="item">
+            {volist name="vod_list" id="xianyu"}
+              <li class="col-md-2 col-sm-3 col-xs-4">
+                <a class="video-pic loading" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" data-original="{$xianyu.vod_picurl}">{notempty name="xianyu.vod_diantai"}<span class="tips orange">{$xianyu.vod_diantai}</span>{/notempty}<span class="note text-bg-c">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span></a>
+                  <div class="title">
+                    <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+                  </div>
+                  <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+              </li>
+           {/volist}
+            </ul>
+          </div>
+</div>
+{notempty name="vod_list"}
+<div class="box-page clearfix m-0"><ul>{$vod_list.0.page.pageurl}</ul></div>
+{/notempty}  
+</div>
+ <!--明星作品模块结束--> 
+{/notempty}
+</div>
+</div>
+{$vod_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

@@ -1,0 +1,1 @@
+DELETE FROM `__PREFIX__usernav` WHERE `url` = 'user/center/sns' and `cid`=2;

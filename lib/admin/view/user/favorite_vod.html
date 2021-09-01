@@ -1,0 +1,46 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+<div class="panel-body" style="padding:0px;">
+          <div class="form-group">
+            <div class="col-xs-12 col-sm-6" id="userhtml" sid="favorite" uid="{$uid|default='0'}">
+            </div>
+            <div class="col-xs-12 col-sm-6" id="contents">
+            <div style="text-align:center; line-height:45px;">等待收录视频列表</div>
+              <table id="table2" class="table table-striped table-bordered table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th style="text-align:center;vertical-align: middle;">ID</th>
+                    <th class="col" style="text-align:left">视频名称</th>
+                    <th class="col" style="text-align:center">相关操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+               {volist name="list" id="vo"}
+                <tr style="height:35px;">
+                  <td align="center">{$vo.vod_id}</td>
+                  <td align="left"><a href="{:xianyu_data_url('home/vod/read',array('id'=>$vo['vod_id'],'pinyin'=>$vo['vod_letters'],'cid'=>$vo['vod_cid'],'dir'=>$vo['list_dir'],'jumpurl'=>$vo['vod_jumpurl']))}" target="_blank">{$vo.vod_name|msubstr=0,15}</a></td>
+                  <td align="center"><a href="javascript:;" class="btn btn-info btn-xs addajax" id="add_favorite_{$uid|default='0'}_{$vo.vod_id}_{$vo.vod_cid}"><i class="fa fa-plus-square"></i> 添加</a></td>
+                </tr>
+                {/volist}
+                </tbody>
+              </table>
+               {gt name="list->lastPage()" value="1"}
+            <div class="fixed-table-pagination" style="overflow:hidden;">
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+            {/gt}             
+            </div>
+            </div>                
+        </div>         
+        </div>
+ </div>
+<div class="hide layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">关闭</button>
+    </div>
+</div> 

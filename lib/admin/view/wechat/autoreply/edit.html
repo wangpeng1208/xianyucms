@@ -1,0 +1,72 @@
+{layout name="layout/index" /}
+<link href="{$config.site.cdnurl}admin/xianyucms/css/wechat/menu.css" rel="stylesheet">
+<style>
+    .clickbox {margin:0;text-align: left;}
+    .create-click {
+        margin-left:0;
+    }
+</style>
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+     <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+          <div class="form-group">
+                <label for="auto_title" class="control-label col-xs-12 col-sm-2">回复标题:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="auto_title" value="{$info.auto_title|default=''}" data-rule="required" autocomplete="false" data-tip="该指令标题">
+                </div>
+            </div>
+                
+  <div class="form-group">
+                <label for="auto_text" class="control-label col-xs-12 col-sm-2">发送内容:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="auto_text" value="{$info.auto_text|default=''}" data-rule="required" autocomplete="false" data-tip="微信用户发送的内容">
+                </div>
+            </div>
+         
+     <div class="form-group">
+        <label for="c-content" class="control-label col-xs-12 col-sm-2">响应标识:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="hidden" name="auto_eventkey" id="c-eventkey" class="form-control" value="" data-rule="required" readonly />
+            <div class="clickbox">
+                <span class="create-click"><a href="{:url('admin/wechat.response/index',array('open'=>1))}" id="select-resources" title="选择现有资源"><i class="weixin-icon big-add-gray"></i><strong>选择现有资源</strong></a>{notempty name="info.response_title"}<div class="keytitle">资源名:{:$info['response_title']}</div>{/notempty}</span>
+                <span class="create-click"><a href="{:url('admin/wechat.response/add',array('open'=>1))}" id="add-resources" title="添加资源"><i class="weixin-icon big-add-gray"></i><strong>添加新资源</strong></a></span>
+            </div>
+        </div>
+    </div>        
+
+      <div class="form-group">
+                <label for="auto_remark" class="control-label col-xs-12 col-sm-2">备注:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="auto_remark" value="{$info.auto_remark|default=''}" autocomplete="false"  data-tip="用于前台CSS样式的图片名">
+                </div>
+      </div>   
+    <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">连接状态:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select name="auto_status" class="form-control selectpicker">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.auto_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>        
+      {notempty name="info.auto_id"}
+       <input type="hidden" name="auto_id" value="{$info['auto_id']|default=''}">
+      {/notempty}
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

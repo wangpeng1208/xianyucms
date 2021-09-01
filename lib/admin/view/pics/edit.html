@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+{include file="public/head" /}
+<body>
+          <div class="nav-tabs-custom" style="box-shadow:0 0 0 0; margin:5px;">
+            <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_1" data-toggle="tab">基础设置</a></li>
+            <li><a href="#tab_2" data-toggle="tab">扩展设置</a></li>               
+            </ul> 
+        <form id="myform" class="myform form-horizontal"  method="post">
+        <input type="hidden" id="picture_id" name="picture_id" value="{$info['picture_id']|default=''}"> 
+       <div class="box-body">
+           <div class="tab-content tab-fade fade active in " id="tab_1"> 
+           <div class="row">
+           
+                <div class="col-md-4 col-sm-6 col-xs-12 mb10 pr00">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集名称：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" class="form-control" id="picture_name" name="picture_name" value="{$info.picture_name|default=''}" placeholder="填写图集名称" >    
+
+              </div>   
+              </div> 
+              <div class="col-md-4 col-sm-6 col-xs-12 mb10 pr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集分类：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+               <div class="select-group-t w49" style="margin-right:5px;">
+                <select id="picture_cid" name="picture_cid" class="form-control select2" required="required" placeholder="请选择分类" style="width:100%">
+                <option value=''>选择分类</option>
+{volist name=":F('_data/listpicture')" id="vo"}
+ {notempty name="vo.son"}
+<optgroup label="{$vo.list_name}">
+{volist name="vo['son']" id="splist"}
+<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info['picture_cid']"}selected{/eq}>├ {$splist.list_name}</option>
+{/volist}
+  </optgroup>
+{else/}
+  <option value="{$vo.list_id}" {eq name="vo.list_id" value="$info['picture_cid']"}selected{/eq}>{$vo.list_name}</option>
+{/notempty}
+{/volist}
+</select></div>    
+<div class="select-group-t w49" style="margin-right:5px;">
+<select name="picture_status" class="form-control select2" style="width:100%">
+    <option value="1">已审</option>
+     <option value="0" {eq name="info.picture_status" value="0" }selected{/eq}>未审</option>
+</select> 
+</div>
+
+   </div>   
+              </div>
+                 <div class="col-md-4 col-sm-4 col-xs-12 prr0">
+                <div class="input-group ">
+                 <span class="input-group-btn hidden-xs">
+                      <button type="button" class="btn btn-default btn-flat form-title">颜色</button>
+                    </span>
+                <!-- /btn-group -->
+                <div class="input-group color-input hidden-xs">
+                       <input type="text" class="form-control" name="picture_color"  value="{$info.picture_color|default=''}">
+                      <div class="input-group-addon"><i style="background-color: rgb(0, 0, 0);"></i></div>
+                    </div>
+                    <span class="input-group-btn">
+<span class="pretty success input-xz">
+<input name="sendurl" type="checkbox" value="1" id="checkbox" {empty name="info['picture_id']"}checked{/empty}> 
+<label><i class="mdi mdi-check"></i> 推送百度</label>
+</span>
+</span>
+                    </div> 
+                      
+              </div>              
+               <div class="col-md-6 col-sm-6 col-xs-12 mb10 pr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集属性：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="hidden" name="picture_prty" value="">
+             <span class="text-link form-control">
+                      {volist name=":parse('textarea',config('setting.document_position'))" id="vo"}
+                      <label class="pretty success">
+	  <input type="checkbox" name="picture_prty[]" value="{$key}" id="checkbox" {if check_attribute($info['picture_prty'],$key)}checked="checked"{/if}> 
+	  <label><i class="mdi mdi-check"></i> {$vo|msubstr=0,2}</label>
+	</label>
+                      {/volist} 
+            </span> 
+               </div> 
+               </div> 
+               <div class="col-md-6 col-sm-6 col-xs-12 mb10 pr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集标题2：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+
+              <input type="text" id="picture_titles"  name="picture_titles" value="{$info.picture_titles|default=''}" placeholder="用于视频明星图库标题" class="form-control">
+
+               </div> 
+               </div>               
+           <div class="input-group  margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集类型：</span>
+               <span class="form-left-title-hide"></span>
+                </div>
+             <input type="hidden" name="picture_mcid" value="">
+             <span id="vod_cat_list" class="form-control" style="overflow:hidden; height:auto">
+              {notempty name="info.picture_cid"}
+ {volist name=":get_list_mcat($info.picture_cid)" id="vo"}
+     <label class="pretty success">
+	  <input type="checkbox" name="picture_mcid[]" value="{$vo.m_cid}" id="checkbox" {if in_array($vo['m_cid'],explode(',',$info.picture_mcid))}checked="checked"{/if}> 
+	  <label><i class="mdi mdi-check"></i> {$vo.m_name}</label>
+	</label>
+            {/volist} 
+            {else/}
+  {volist name=":get_list_mcat(16,1)" id="vo"}
+     <label class="pretty success">
+	  <input type="checkbox" name="picture_mcid[]" value="{$vo.m_cid}" id="checkbox" {if in_array($vo['m_cid'],explode(',',$info.picture_mcid))}checked="checked"{/if}> 
+	  <label><i class="mdi mdi-check"></i> {$vo.m_name}</label>
+	</label>
+            {/volist}            
+            {/notempty}
+            </span> 
+         </div> 
+              {notempty name="info.picture_id"}
+               <div class="col-md-12 col-sm-12 col-xs-12 mb10">
+               
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">数据关联：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <span class="text-link form-control">
+                <span class="margin15"><a href="{:url('relation/index',array('tid'=>$info['picture_id'],'tsid'=>16,'sid'=>1,'types'=>'tid'))}"  data-name="管理关联视频" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">关联视频({$info.picturevod_count|default='0'})个</a></span>
+                <span class="margin15"><a href="{:url('relation/index',array('tid'=>$info['picture_id'],'tsid'=>16,'sid'=>3,'types'=>'tid'))}"  data-name="管理关联明星" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">关联明星({$info.picturestar_count|default='0'})位</a></span>
+                <span class="margin15"><a href="{:url('relation/index',array('tid'=>$info['picture_id'],'tsid'=>16,'sid'=>5,'types'=>'tid'))}"  data-name="管理关联明星" class="text-link btn-editone" data-width="100%" data-height="100%" data-offset="0px">关联角色({$info.picturerole_count|default='0'})位</a></span>
+                </span>
+              </div>
+                
+              </div>  
+{/notempty} 
+               <div class="col-md-4 col-sm-12 col-xs-12 mb10 pr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">视频关联：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input class="form-control" id="picture_vod_keywords" name="picture_vod_keywords" type="text" value="{$info['picture_vod_keywords']|default=''}">
+               <span class="input-group-btn">
+                <button type="button" class="btn btn-success btn-flat btn-editone" href="{:url('vod/index',array('view'=>'picture'))}" data-name="添加关联视频">添加</button>
+               </span>
+              </div>   
+              </div>
+               <div class="col-md-4 col-sm-12 col-xs-12 mb10">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">明星关联：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input class="form-control" id="picture_star_keywords" name="picture_star_keywords" type="text" value="{$info['picture_star_keywords']|default=''}">
+               <span class="input-group-btn">
+                <button type="button" class="btn btn-success btn-flat btn-editone" href="{:url('star/index',array('view'=>'picture'))}" data-name="添加关联明星">添加</button>
+               </span>                
+              </div>   
+              </div> 
+                 <div class="col-md-4 col-sm-12 col-xs-12 mb10">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">角色关联：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input class="form-control" id="picture_role_keywords" name="picture_role_keywords" type="text" value="{$info['picture_role_keywords']|default=''}">
+               <span class="input-group-btn">
+                <button type="button" class="btn btn-success btn-flat btn-editone" href="{:url('role/index',array('view'=>'picture'))}" data-name="添加关联角色">添加</button>
+               </span>                
+              </div>   
+              </div>                                                               
+              <div class="col-md-6 col-sm-12 col-xs-12 mb10 pr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集图片：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+               <input class="form-control" size="50" id="picture_pic" name="picture_pic" type="text" value="{$info['picture_pic']|default=''}">
+<span class="input-group-btn">
+                      <button type="button" class="btn btn-primary btn-flat plupload" id="plupload-picture" data-input-id="picture_pic" data-mimetype="picture/*"   data-multiple="false"><i class="fa fa-upload"></i> 上传</button>
+                    </span>
+                     
+              </div>   
+              </div> 
+               <div class="col-md-6 col-sm-12 col-xs-12 mb10">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集大图：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+               <input class="form-control" size="50" id="picture_bigpic" name="picture_bigpic" type="text" value="{$info['picture_bigpic']|default=''}">
+<span class="input-group-btn">
+                      <button type="button" class="btn btn-primary btn-flat plupload" id="plupload-pictures" data-input-id="picture_bigpic" data-mimetype="picture/*"   data-multiple="false"><i class="fa fa-upload"></i> 上传</button>
+                    </span>
+                     
+              </div>   
+              </div> 
+             <div class="col-md-12 col-sm-12 col-xs-12 mb10">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">显示方式：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <span class="text-link form-control">
+    <label class="pretty circle primary">
+	  <input name="picture_mid" type="radio" value="1" {neq name="info.picture_mid" value="2"}checked{/neq}> 
+	  <label><i class="default"></i> 图片幻灯</label>
+	</label>
+        <label class="pretty circle primary">
+	  <input name="picture_mid" type="radio" value="2" {eq name="info.picture_mid" value="2"}checked{/eq}> 
+	  <label><i class="default"></i> 图片分页</label>
+	</label>
+	</span> 
+    
+               </div> 
+               </div>
+             <div class="col-md-12 col-sm-12 col-xs-12">
+           <div class="input-group mb10">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图库采集：</span>
+               <span class="form-left-title-hide"></span>
+                </div>
+                   <input type="text" class="form-control" id="picture_caiji" name="picture_caiji" value="{$info.picture_caiji|default=''}" placeholder="支持豆瓣地址支持百度图册地址采集" >
+                   <span class="input-group-btn">
+                   <button type="button" class="btn  btn-primary btn-flat" id="getpicture">获取资料</button>
+                    </span>
+                </div> 
+                </div>    
+               <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图库图集：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->             
+<div id="uploader" class="wu-example" data-ext="gif,jpg,jpeg,bmp,png" data-num="300" data-sid="picture">
+<div id="preview" class="preview">
+    <ul class="preview-list ui-sortable" id="preview-ul">
+    {volist name=":xianyu_picture_array($info['picture_image'])" id="vo"}
+    <li>
+    <p class="imgWrap"><img src="{$vo.url|xianyu_img_url}"></p>
+    <input class="upalt  text-center" type="text" name="picture_image[title][]" value="{$vo.title}" placeholder="图片描述">
+    <input class="img-url" type="hidden" name="picture_image[url][]" value="{$vo.url}"><div class="file-panel"><span class="cancel">删除</span></div><span class="successs"></span></li>
+    {/volist}
+    </ul>
+    </div>
+    <div class="queueList" id="multi">
+        <div id="dndArea" class="placeholder">
+            <div id="filePicker"></div>
+            <p>或将照片拖到这里，单次最多可选300张</p>
+        </div>
+    </div>
+    <div class="statusBar" style="display:none;">
+        <div class="progress">
+            <span class="text">0%</span>
+            <span class="percentage"></span>
+        </div><div class="info"></div>
+        <div class="btns">
+            <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+        </div>
+    </div>
+</div>     </div>    
+                
+                                   
+                 <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集简介：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <textarea  class="form-control" name="picture_remark" id="picture_remark"  data-tip="留空自动提取">{$info.picture_remark|default=''}</textarea>
+              </div>
+                            
+                <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集介绍：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <textarea  class="editor"  id="picture_content" name="picture_content"  style=" width:100%;min-height:300px">{$info['picture_content']}</textarea>
+              </div> 
+                <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">更新时间：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+              <input type="text" name="picture_addtime" value="{notempty name="info.picture_addtime"}{$info.picture_addtime|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s',time())}{/notempty}" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm:ss">
+<span class="input-group-btn">
+<span class="pretty success input-xz">
+<input name="picture_checktime" type="checkbox" value="1" id="checkbox" {notempty name=":config('system.system_uptime')"}checked{/notempty}> 
+<label><i class="mdi mdi-check"></i> 更新时间</label>
+</span>
+</span>     
+              </div>              
+               </div>
+              <!-- /row --> 
+            </div>
+            <!-- /.tab_1-->
+           <div class="tab-content tab-fade fade " id="tab_2">
+            <div class="row">
+                <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集标题：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_title"  name="picture_title" value="{$info.picture_title|default=''}" placeholder="用于前台页面的SEO标题" class="form-control">
+              </div>
+              
+                <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-title">图集关键词：</span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_keywords"  name="picture_keywords" value="{$info.picture_keywords|default=''}" class="form-control" placeholder="用于前台页面的关键词,填写关键词获取,留空获取名称关键词长尾词" >
+
+                <span class="input-group-btn">
+<span class="pretty success input-xz">
+<input name="auto_keywords" type="checkbox" value="1" id="checkbox" {notempty name=":config('system.system_auto_keywords')"}checked{/notempty}> 
+<label><i class="mdi mdi-check"></i> 自动获取</label>
+</span>
+</span>    
+  
+              </div>
+
+              
+              
+                 <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集描述：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <textarea  class="form-control" name="picture_description" id="picture_description">{$info['picture_description']|default=''}</textarea>
+              </div>
+                <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集TAG：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_tag"  name="picture_tag" value="{$info.picture_tag|default=''}" class="form-control tag" data-tip="TAG标签" >
+                
+                <span class="input-group-btn">
+                 <button type="button" class="btn btn-success btn-flat btn-editone" href="{:url('tag/showajax',array('sid'=>2))}"  data-name="添加TAG"><i class="fa fa-plus"></i> 添加TAG</button>
+                 </span>
+                 
+               <span class="input-group-btn">
+<span class="pretty success input-xz">
+<input name="auto_tag" type="checkbox" value="1" id="checkbox" {notempty name=":config('system.system_auto_tag')"}checked{/notempty}> 
+<label><i class="mdi mdi-check"></i> 自动生成</label>
+</span>
+</span> 
+
+
+              </div>
+                              <div class="input-group margin15">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">图集标签：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_label"  name="picture_label" value="{$info.picture_label|default=''}" placeholder="图集标签说明" class="form-control">
+              </div>  
+              <div class="col-md-4 col-sm-4 col-xs-6 mb10 prrr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">首字母：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                 <input type="text" name="picture_letter"  value="{$info.picture_letter|default=''}" class="form-control text-center" placeholder="留空自动获取">
+              </div>   
+              </div>             
+             <div class="col-md-4 col-sm-4 col-xs-6 mb10 pr00">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">推荐星级：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input name="picture_stars" id="picture_stars" type="hidden" value="{$info.picture_stars|default=''}">
+                <span class="text-link form-control pr00">
+                {volist name=":admin_star_arr($info.picture_stars)" id="ajaxstar"}<img src="{$Think.TPL_PATH}tpl/xianyuadmin/img/star{$ajaxstar}.gif" id="picture_{$i}" class="addstars" width="19px" height="19px">{/volist}
+                </span>
+              </div>   
+              </div>              
+             <div class="col-md-4 col-sm-4 col-xs-6 mb10 pr000">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">独立模版：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" name="picture_skin"  value="{$info.picture_skin|default=''}" class="form-control text-center" placeholder="留空使用分类中内容模版">
+              </div>   
+              </div> 
+              
+             <div class="col-md-4 col-sm-4 col-xs-6 mb10 pr00">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">总人气：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_hits" name="picture_hits"  value="{$info.picture_hits|default=''}" class="form-control text-center" >
+              </div>   
+              </div>
+              
+             <div class="col-md-4 col-sm-4 col-xs-6 mb10 prrr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">月人气：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" name="picture_hits_month"  value="{$info.picture_hits_month|default=''}" class="form-control text-center" >
+              </div>   
+              </div> 
+              <div class="col-md-4 col-sm-4 col-xs-6 mb10 ">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">周人气：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" name="picture_hits_week"  value="{$info.picture_hits_week|default=''}" class="form-control text-center" >
+              </div>   
+              </div>                                          
+                                                                                    
+              <div class="col-md-4 col-sm-4 col-xs-6 mb10 prrr0">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">日人气：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" name="picture_hits_day"  value="{$info.picture_hits_day|default=''}" class="form-control text-center" >
+              </div>   
+              </div> 
+              
+               <div class="col-md-4 col-sm-4 col-xs-6 mb10 pr00">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">评分值：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_gold" name="picture_gold"  value="{$info.picture_gold|default=''}" class="form-control text-center" >
+              </div>   
+              </div>
+                           
+                <div class="col-md-4 col-sm-4 col-xs-6 mb10 pr000">
+               <div class="input-group">
+                <div class="input-group-btn">
+                <span class="btn btn-default form-left-title">评分人：</span>
+                <span class="form-left-title-hide"></span>
+                </div>
+                <!-- /btn-group -->
+                <input type="text" id="picture_golder" name="picture_golder"  value="{$info.picture_golder|default=''}" class="form-control text-center" >
+              </div>   
+              </div>
+              </div>
+              <!-- /row -->
+                             
+              
+                                             
+            </div> 
+            <!-- /.tab_2 -->
+         
+        <div class="box-footer {notempty name=":request()->param('dialog')"}hidden{/notempty} layer-footer">
+          <div  class="footer-btn">
+               <button type="submit" class="btn btn-success btn-embossed">确定</button>
+               <button type="reset" class="btn btn-default btn-embossed">重置</button>
+               {notempty name=":request()->param('dialog')"}
+               <button type="reset" class="btn btn-primary btn-embossed btn-close" onClick="layer.closeAll();"> 关闭</button>
+               {/notempty}
+            </div>
+       </div>
+       <!-- /.box-footer -->     
+</div>
+<!-- /.box-body --> 
+</form>
+</div>
+<!-- /.nav-tabs-custom -->    
+{include file="public/footer" /}
+<script type="text/javascript">
+$(document).ready(function(){				   
+	xianyu.cms.vod();
+		$(document).on("change", "select[name='picture_cid']", function(){
+		var id = $(this).val();
+		$.get('{:url('batch/mcat')}',{cid:id},function(data, status) {
+			$("#vod_cat_list").html(data);
+		});
+	});	
+	$(document).on("click", "#getpicture", function() {									   
+			if ($("#picture_caiji").val() == '') {
+						layer.msg('请填写采集网址', {icon:2,time: 1800});
+						return false;
+			}	
+			layer.msg('数据获取中...');
+			var $data = "url="+$("#picture_caiji").val();
+			$.ajax({type: 'post',url:xianyu.api.fixurl('get/picture'),data:$data,dataType: 'json',
+					success: function(data) {
+							if(data.code == 1){
+								for(var i in data.data){
+									$("#preview-ul").append( '<li><p class="imgWrap"><img src="'+data.data[i].url+'"></p><input class="upalt  text-center" type="text" name="picture_image[title][]" value="'+data.data[i].title+'" placeholder="图片描述"><input type="hidden" class="img-url" name="picture_image[url][]" value="'+data.data[i].url+'"><div class="file-panel">' + '<span class="cancel">删除</span></div><span class="success"></span></li>');	
+                                }
+								$(".preview-list li").on( 'mouseenter', function() {
+                                           $(this).children('.file-panel').stop().animate({height: 30});
+                                });
+                                $(".preview-list li").on( 'mouseleave', function() {
+                                          $(this).children('.file-panel').stop().animate({height: 0});
+                                });
+								layer.msg('获取图集成功', {icon:1,time: 1800}); 
+    $(".file-panel").on('click', 'span',function() {
+        var $li = $(this).parent().parent('li'); 
+		$li.remove();
+		})
+							}else {
+						          layer.msg(data.msg ? data.msg : '获取资料失败', {icon:2,time: 1800});
+					        }
+					},error: function(data) {
+					            layer.confirm('程序返回：' + data.status + ' 错误,点击查看详细错误', {zIndex:layer.zIndex,icon: 5, title:'出错啦！',btn: ['查看', '关闭']}, function() {$('html').html(data.responseText);});
+				   },
+			})											   
+	});	
+
+});	
+xianyu.webupload('#uploader');
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+<div class="panel-body" style="padding:0px;">
+          <div class="form-group">
+            <div class="col-xs-12 col-sm-6" id="specialhtml" tid="{$tid|default='0'}" nid="{$nid|default='0'}" did="{$did|default='0'}">
+            </div>
+            <div class="col-xs-12 col-sm-6" id="contents">
+            <div style="text-align:center; line-height:45px;">等待收录视频列表</div>
+              <table id="table2" class="table table-striped table-bordered table-hover" width="100%">
+                <thead>
+                  <tr>
+                    <th style="text-align:center;vertical-align: middle;">ID</th>
+                    <th class="col" style="text-align:left">视频名称</th>
+                    <th class="col" style="text-align:center">相关操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {notempty name="list"}
+               {volist name="list" id="vo"}
+                <tr style="height:35px;">
+                  <td align="center">{$vo.vod_id}</td>
+                  <td align="left"><a href="{:xianyu_data_url('home/vod/read',array('id'=>$vo['vod_id'],'pinyin'=>$vo['vod_letters'],'cid'=>$vo['vod_cid'],'dir'=>$vo['list_dir'],'jumpurl'=>$vo['vod_jumpurl']))}" target="_blank">{$vo.vod_name|msubstr=0,15}</a></td>
+                  <td align="center"><a href="javascript:;" class="btn btn-info btn-xs addajax" id="{$vo.vod_id}_{$tid|default='0'}_{$vo.vod_id}_add_0_special_1"><i class="fa fa-plus-square"></i> 添加</a></td>
+                </tr>
+                {/volist}
+                {else/}
+                 <tr>
+   <td style="text-align:center;vertical-align: middle;" colspan="4">没有数据，请先添加数据！</td>
+   </tr>
+                {/notempty}
+                </tbody>
+              </table>
+            <div class="fixed-table-pagination" style="overflow:hidden;">
+             <div class="commonsearch-table pull-left" style=" position:absolute; left:-100%">
+<form class="form-inline form-commonsearch nice-validator n-default" method="post" action="" role="form">
+<div class="form-group" style="padding:0 10px 0 0px;position: relative;"><label for="createtime" class="control-label" style="padding:0 10px">搜索</label><input class="form-control" placeholder="搜索视频名称,演员,导演" type="text" name="wd">
+</div>
+                <div class="form-group">
+                  <div class="col-sm-12 text-center" style="margin:0px; padding:0px;">
+                    <button type="submit" class="btn btn-success ajax-posturl" target-form="form-commonsearch">提交</button>
+                    <button type="reset" class="btn btn-default">重置</button>
+                    <a href="{:admin_url('admin/vod/index',array('tid'=>$tid))}" class="btn btn-primary ajax-url"><i class="fa fa-refresh"></i> </a>
+                  </div>
+                </div>
+              </form>
+            </div>   
+              <div class="pull-right pagination" style="margin:0px; padding:0px;">
+                <ul class="pagination">
+                  {$page}
+                </ul>
+              </div>
+            </div>
+             
+            </div>
+            </div>               
+        </div>         
+        </div>
+ </div>
+<div class="hide layer-footer">
+    <label class="control-label col-xs-12 col-sm-2"></label>
+    <div class="col-xs-12 col-sm-8">
+        <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();">关闭</button>
+    </div>
+</div> 

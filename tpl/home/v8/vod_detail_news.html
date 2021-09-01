@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{$vod_name}最新资讯_{$list_name_big}{$vod_name}动态预告 -{$sitename}</title>
+<meta name="keywords" content="{$vod_name}预告,{$list_name_big}{$vod_name}花絮,{$vod_name}{$list_name_big}新闻">
+<meta name="description" content="{$sitename}为您提供{$list_name_big}{$vod_name}花絮、{$vod_name}预告、{$vod_name}花絮新闻动态以及，{$vod_name}明星资讯新闻等更多信息请关注">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$ji= preg_replace('/\D/s', '', $vod_lastname);
+$vod_list=xianyu_mysql_news('news:'.$vod_name.';did:'.$vod_id.';limit:18;field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;page:true;p:'.$page.';order:news_id desc');
+{/php}{if condition="($vod_pid eq $tpl_id[2]) OR ($vod_cid eq $tpl_id[4])"}{php}$tvtitle="播出";{/php}{else /}{php}$tvtitle="上映";{/php}{/if}
+<!--盒子开始--> 
+<div class="container">
+  <div class="row">
+  <!--左侧板块开始--> 
+    <div class="details-nav">
+<ul>
+<li><a href="{$vod_readurl}" target="_self"><span class="hidden-xs">视频</span>详细</a></li>
+{notempty name="story_id"}
+<li><a href="{$story_readurl}" title="{$vod_name}分集剧情" target="_self"><span class="hidden-xs">分集</span>剧情</a></li>
+{/notempty}
+{notempty name="actor_id"}
+<li><a href="{$actor_readurl}" title="{$vod_name}演员表" target="_self">演员<span class="hidden-xs">角色</span></a></li>
+{/notempty}
+<li class="active"><a href="{:xianyu_data_url('home/vod/news',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>$list_dir,'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}花絮新闻" target="_self"><span class="hidden-xs">新闻</span>花絮</a></li>
+<li><a href="{:xianyu_data_url('home/vod/filmtime',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>$list_dir,'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}{$tvtitle}" target="_self">{$tvtitle}<span class="hidden-xs">时间</span></a></li>
+</ul></div>
+<div class="col-md-9 col-sm-12 box-main-content">
+  <div class="layout-box clearfix mt-0"> 
+  {include file="vod_detail_min_info" /}
+<div class="details-title text-center"><h1 class="m-0">{$vod_name}剧照花絮</h1></div>
+   <ul class="clearfix">
+          {volist name="vod_list" id="xianyu"}
+          <li class="news-box col-md-4 col-sm-4 col-xs-6" ><a class="video-pic loading text-overflow" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-original="{$xianyu.news_picurl}" style="padding-top:62.5%;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span></a></li>
+          {/volist}
+ </ul>
+ {gt name="vod_list.0.page.pagecount"}
+ <div class="box-page clearfix"><ul>{$vod_list.0.page.pageurl}</ul></div>
+{/gt} 
+</div>
+</div>
+<div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+<div class="layout-box clearfix mt-0">
+<div class="col-md-12 p-0">
+<div class="col-md-6 col-sm-12 col-xs-12 p-0">
+<a class="video-pic" href="{$vod_readurl}" title="{$vod_name}"  style="background: url({$vod_picurl}) no-repeat top center;background-size:cover;"><span class="note text-bg-r">{notempty name="vod_continu"}第{:preg_replace('/\D/s', '', $vod_continu)}集{else /}{$vod_title}{/notempty}</span></a>
+</div>
+<div class="col-md-6 col-sm-12 col-xs-12" style=" padding-top:0px; padding-right:0px;">
+<div class="col-md-12 p-0 text-overflow"><strong>{$vod_name}</strong></div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_mcid|mcat_url=$vod_cid}</div>
+<div class="col-md-12 p-0 text-overflow">{$vod_actor}</div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_year|default='未录入'} / {$vod_area|default='其他'}</div>
+<div class="col-md-12 p-0 text-overflow">{notempty name="vod_continu"}第{:preg_replace('/\D/s', '', $vod_continu)}集{else /}{$vod_title}{/notempty}</div>
+<div class="col-md-12 pg-0 text-overflow"><span>评分：</span><span class="hits text-color" style="font-size:20px"><em>{$vod_gold}</em></span></div>
+</div>
+</div>
+</div>
+{include file="vod_detail_right" /}     
+</div>
+</div>
+</div>
+{$vod_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

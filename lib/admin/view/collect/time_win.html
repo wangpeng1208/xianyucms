@@ -1,0 +1,54 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+<form class="form-horizontal" action="{:admin_url('admin/collect/wait')}" method="post">
+
+            <div class="form-group">
+            <div class="col-xs-12 col-sm-4">
+            <select name="ds[url][]" multiple class="form-control" style="height:350px">
+{volist name="list" id="vo"}
+<option value="{:admin_url('admin/collect/data',array('action'=>'day','apiid'=>$vo['collect_id'],'h'=>24))}">{$i}.{$vo.collect_name}</option>
+{/volist}
+</select>
+            </div>
+            <div class="col-xs-12 col-sm-5">
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-6 col-sm-6">采集当天数据频率(分钟/次)：</label>
+            <div class="col-xs-6 col-sm-6">
+           <input name="ds[caiji]" type="text"  value="30"  class="form-control">
+           </div> 
+           </div>
+           {notempty name="url_html"}
+           <div class="form-group">
+              <label for="c-content" class="control-label col-xs-6 col-sm-6">采集后生成静态间隔(分钟/次)：</label>
+             <div class="col-xs-6 col-sm-6">
+              <input name="ds[create]" type="text"  value="35"  class="form-control"></div> 
+            </div> 
+            {/notempty}
+            <div class="form-group">  
+            <div class="col-xs-12 col-sm-12">
+            使用方法：从左侧选采集的资源库支持多选，并设定定时频率提交即可。
+            </div>    
+            </div> 
+            <div class="form-group">   
+           <div class="col-xs-6 col-sm-6"></div>
+            <div class="col-xs-6 col-sm-6">
+             <input name="" type="submit"  value="执行定时任务" class="btn btn-success btn-add"/>  
+             </div>
+             </div> 
+            </div>
+              </form>
+            </div>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

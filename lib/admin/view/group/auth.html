@@ -1,0 +1,36 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro" style="padding-bottom:30px;">
+<form id="edit-form" class="form-horizontal form-ajax" role="form" method="POST" action="">
+<div class="panel-body is-dialog">
+     <input type="hidden" name="rules" value="" />
+    <div class="form-group" style="vertical-align:middle;">
+        <label for="nickname" class="control-label col-xs-12 col-sm-2"><a id="checkall">分组权限:</a></label>
+        <div class="col-xs-12 col-sm-8" style="border:none;width:auto; position:relative; top:6px;">
+ <span class="text-muted"><input  type="checkbox"  id="checkall"/> <label for="expandall"><small>选择全部</small></label></span>
+ <span class="text-muted"><input  type="checkbox"  id="expandall"/> <label for="expandall"><small>展开全部</small></label></span>
+        </div>
+    </div> 
+            <div class="form-group">
+            <label for="description" class="control-label col-xs-12 col-sm-2"></label>
+                <div class="col-xs-12 col-sm-8">
+                  <div id="treeview">
+                  <p style=" height:100px;">&nbsp;</p><p style=" height:100px;">&nbsp;</p><p style=" height:100px;">&nbsp;</p>
+                  </div>
+                </div>
+         </div> 
+   </div>   
+                       {notempty name="info.id"}
+                    <input type="hidden" name="id" data-id='{$info['id']|default=''}' value="{$info['id']|default=''}">
+                    {/notempty}    
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+      </form>
+  </div>
+<div class="clearfix">
+</div>

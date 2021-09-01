@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>动态添加li标签并自动滚动到底部</title>
+  <script type="text/javascript" src="http://127.0.0.1:1123/tpl/cms/js/jquery-3.3.1.min.js"></script>
+</head>
+<style>
+  #parent {
+    width: 800px;
+    height: 200px;/* 父级div高度必须规定 */
+    background: black;
+    color: white;
+    overflow-y: hidden;
+  }
+
+  .chlid {
+    height: auto;
+  }
+
+  .chlid li {
+    height: 50px;
+    width: 500px;
+    background: gray;
+  }
+</style>
+
+<body>
+<div id="parent">
+  <div id="demoChlid1" class="chlid">
+    <ul id="demo">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+    </ul>
+  </div>
+</div>
+</body>
+<script>
+  var i = 0;
+  var interval = setInterval(function() { // 定时添加/json地址并且添加demo div 中
+    var parent = document.getElementById('parent');
+    var child1 = document.getElementById('demoChlid1');
+    var child2 = document.getElementById('demoChlid2');
+    i++
+    $('#demo').append('<li>动态添加的li:' + i + '</li>')
+    setInterval(function () { // 定时判断是否子级div高度是否大于父级div高度
+      console.log(parent.scrollTop)
+      if(parent.scrollTop >= child1.scrollHeight) {
+        parent.scrollTop = 0;
+      } else {
+        parent.scrollTop++;
+      }
+    },1)
+  }, 1000);
+</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>{$sitename} - 用户注册</title>
+    {include file="user_include" /}
+</head>
+<body class="user_body">
+<div class="container">
+    <div class="row">
+        <!--模块开始-->
+        <div class="user-form modal-dialog clearfix">
+            <div class="user_title"><h2 class="text-color">用户注册</h2><span class="pull-right">已有{$sitename}帐号？请<a href="{:xianyu_user_url('user/login/index')}" target="_self">点击登录</a></span></div>
+            <div class="col-md-9 col-md-offset-1">
+                <h4 class="text-center mt20 mb20">欢迎来自加入{$sitename}</h4>
+                {notempty name="channel"}
+                <p class="text-center">欢迎<span class="text-color">{$nickname}</span>,立刻注册一个帐号，就可以直使用{$channel}登录</p>
+                {/notempty}
+                <div class="col-md-12">
+                    <form class="form-horizontal" id="reg-form"  method="post" role="form" action="{:zp_url('user/reg/index')}" onSubmit="return false;">
+                        <div class="form-group"> <span for="user_email" class="col-md-3 control-label hidden-xs">帐号:</span>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control txt" name="username" id="username" type="text" placeholder="字母、数字等，用户名唯一" required>
+                            </div>
+                        </div>
+                        <!--<div class="form-group"> <span for="user_email" class="col-md-3 control-label hidden-xs">邮箱:</span>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control txt" name="email" id="email" type="text" placeholder="常用邮箱" required>
+                            </div>
+                        </div>-->
+                        <div class="form-group"> <span for="user_nickname" class="col-md-3 control-label hidden-xs">昵称:</span>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control txt" name="nickname" id="nickname" type="text" placeholder="用来交流的昵称" required>
+                            </div>
+                        </div>
+                        <div class="form-group"> <span for="user_email" class="col-md-3 control-label hidden-xs">密码:</span>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control txt" name="password" id="password" type="password" placeholder="6-20位字符" required>
+                            </div>
+                        </div>
+                        <!--<div class="form-group"> <span for="user_email" class="col-md-3 control-label hidden-xs">重复密码:</span>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <input class="form-control txt" name="rePassword" id="rePassword" type="password" placeholder="6-20位字符" required>
+                            </div>
+                        </div>-->
+                        {notempty name="userconfig['user_code']"}
+                        <div class="form-group"> <span for="user_email" class="col-md-3 control-label hidden-xs">验证码:</span>
+                            <div class="col-md-4 col-sm-4 col-xs-6">
+                                <input class="form-control txt" id="xianyu-validate" data="validate" name="validate" type="text" placeholder="验证码" required>
+                            </div>
+                            <div class="col-md-3 col-sm-4 col-xs-2"><img id="verify_img"  src="{:captcha_src()}" alt="captcha" width="150px" alt="请点击刷新验证码" onclick="this.src='{:captcha_src()}'" /></div>
+                        </div>
+                        {/notempty}
+                        <input value="1" name="agreement"  type="hidden">
+                        <div class="form-group">
+                            <div class="col-md-3 hidden-xs"></div>
+                            <div class="col-md-8">
+                                <input type="checkbox" name="cookietime" id="cookietime" checked="checked" value="2592000" />
+                                <input type="hidden" name="notforward" id="notforward" value="1">
+                                <input type="hidden" name="jump" value="1"/>
+                                <input  type="hidden" name="dosubmit" id="dosubmit" value="1">我已阅读并接受《<a class="text-color" href="/user/agreement.html" target="_blank">使用协议</a>》</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 hidden-xs"></div>
+                            <div class="col-md-8 col-xs-12">
+                                <button type="button" class="btn btn-success btn-block" id="reg-submit">注册</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 hidden-xs"></div>
+                    <div class="col-md-8 col-xs-12 p-0">
+                        <div class="login-ico">
+                            {if condition="(!empty($snsconfig['api_qq_key'])) and (!empty($snsconfig['api_qq_secret']))"}
+                            <a rel="nofollow" class="qq pull-left" id="qqlogin" href="{:xianyu_user_url('user/snslogin/qq')}" target="_self"><i class="icon iconfont">&#xe73e;</i></a>
+                            {/if}
+                            <a class="weixin pull-center" rel="nofollow" href="#"><i class="icon iconfont">&#xe73b;</i></a>
+                            {if condition="(!empty($snsconfig['api_weibo_key'])) and (!empty($snsconfig['api_weibo_secret']))"}
+                            <a class="weibo pull-right" rel="nofollow" id="weibologin"  href="{:xianyu_user_url('user/snslogin/weibo')}" target="_self"><i class="icon iconfont">&#xe73c;</i></a>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <h5 class="col-md-12 text-center mt20 mb20"><a class="text-color" href="{$root}" target="_self">返回首页</a><a class="text-color" href="{:xianyu_user_url('user/login/forgetpwd')}" target="_self">忘记密码</a><a class="text-color" href="{:xianyu_user_url('user/reg/index')}" target="_self">帐号注册</a> </h5>
+        </div>
+    </div>
+</div>
+{include file="user_footer" /}
+</body>
+</html>

@@ -1,0 +1,65 @@
+{extend name="public/header"/}
+{block name="style"}
+<!--专题管理ajax相关操作 -->
+<script language="javascript">
+function special_vod($vid,$type,$lastdid,$cid){
+	$.ajax({
+		type: 'get',
+		cache: false,
+		url: '{:admin_url('admin/User/Ajax','','')}-type-'+$type+'-sid-favorite-uid-{$uid}-vid-'+$vid+'-cid-'+$cid+'-lastdid-'+$lastdid+'.{$Think.config.url_html_suffix}',
+		timeout: 3000, 
+		success:function($html){
+			$('#specialhtml').html($html);
+		}
+	});
+}
+$(document).ready(function(){
+	special_vod(0,'show',0,0);
+})
+</script>
+{/block}
+{block name="body"}
+<div style="width:100%; margin-top:20px;overflow:hidden">
+<div class="list" style="width:49%; margin-left:1%; float:left">
+<div style=" height:30px; text-align:center">已收藏视频列表(<font color="#FF0000"><label id="count" class="count"></label></font>)个</div>
+         <ul id="specialhtml" style="text-align:center">loading...</ul> 
+         
+</div>
+       <div class="list" style="width:47%; float:right; margin-right:1%">
+       <div style=" height:30px; text-align:center">等待收藏视频列表</div>
+        <table width="100%" border="0" cellpadding="7" cellspacing="0" class="tableBasic default-list-table colorfl">
+          <tbody>
+            <tr style="height:35px;">
+              <th class="col col_id col_number">ID</th>
+              <th class="col" style="text-align:left">视频名</th>
+              <th class="col" style="text-align:center">相关操作</th>
+            </tr>
+               {volist name="list" id="vo"}
+                <tr style="height:35px;">
+                <td align="center">{$vo.vod_id}</td>
+                <td align="left"><a href="{:xianyu_data_url('home/vod/read',array('id'=>$vo['vod_id'],'pinyin'=>$vo['vod_letters'],'cid'=>$vo['vod_cid'],'dir'=>$vo['list_dir'],'jumpurl'=>$vo['vod_jumpurl']))}" target="_blank">{$vo.vod_name|msubstr=0,15}</a></td>
+                <td align="center"><a href="javascript:void(0);" onclick="special_vod({$vo.vod_id},'add',0,{$vo.vod_cid});$(this).css({color:'#999'});" class="adds">添加</a>
+                </td>
+              </tr>
+                 {/volist}             
+          </tbody>
+        </table>  
+		<!-- /分页 -->
+    </div>
+        <div class="do-action" style=" clear:both">
+
+        <div class="pager-area">
+		{$page} <div class="gl">
+          <form action="" method="post" name="myform" id="myform">
+             <input name="wd" type="text" class="keywords _search" value="" size="20" placeholder="搜索内容">
+             <input name="search" class="btn search go _search" type="submit" value="go">
+          </form>
+        </div>
+        </div>
+      
+        </div> 
+        
+ </div>   
+{/block}
+{block name="script"}
+{/block}

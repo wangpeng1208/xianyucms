@@ -1,0 +1,73 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+     <div class="panel-body is-dialog">
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+    <input type="hidden" name="mode" value="textarea" />
+          <div class="form-group">
+                <label for="module_name" class="control-label col-xs-12 col-sm-2">配置名称:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="module_name" value="{$info.module_name|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>
+           <div class="form-group">
+                <label for="module_title" class="control-label col-xs-12 col-sm-2">配置标题:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" class="form-control" name="module_title" value="{$info.module_title|default=''}" data-rule="required" autocomplete="false">
+                </div>
+            </div>                 
+      <div class="form-group">
+                <label for="module_value" class="control-label col-xs-12 col-sm-2">配置内容:</label>
+                <div class="col-xs-12 col-sm-8">
+                            <p>
+                <a href="javascript:;" class="btn btn-info btn-jsoneditor"><i class="fa fa-pencil"></i> Json editor</a>
+                <a href="javascript:;" class="btn btn-primary btn-insertlink"><i class="fa fa-link"></i> Insert link</a>
+            </p>
+                   <textarea id="c-value" class="form-control " rows="15" name="module_value">{$info.module_value|default=''}</textarea>
+     <dl class="fieldlist hide" rel="1" data-listidx="0">
+                <dd>
+                    <ins>键</ins>
+                    <ins>值</ins>
+                </dd>
+                {notempty name="info.module_value"}
+                {foreach $value as $key => $vo}
+                <dd class="form-inline">
+                    <input type="text" name="field[{$key}]" class="form-control" id="field-{$key}" value="{$key}" size="10" />
+                    <input type="text" name="value[{$key}]" class="form-control" id="value-{$key}" value="{:is_array($vo)?'':$vo}" size="40" />
+                    <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span>
+                    <span class="btn btn-sm btn-primary btn-dragsort"><i class="fa fa-arrows"></i></span>
+                </dd>
+                {/foreach}
+                {else/}
+                <dd>
+                    <input name="field[0]" class="form-control" id="field-0" value="" size="10" required="" type="text">
+                    <input name="value[0]" class="form-control" id="value-0" value="" size="40" required="" type="text">
+                    <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span>
+                    <span class="btn btn-sm btn-primary btn-dragsort" style="cursor: pointer;"><i class="fa fa-arrows"></i></span>
+                </dd>                
+               {/notempty} 
+                <dd><a href="javascript:;" class="append btn btn-sm btn-success"><i class="fa fa-plus"></i> 追加</a></dd>
+            </dl>
+         </dl>                     
+                </div>
+      </div>       
+      {notempty name="info.module_id"}
+       <input type="hidden" name="module_id" value="{$info['module_id']|default=''}">
+      {/notempty}
+     <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

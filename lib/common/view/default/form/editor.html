@@ -1,0 +1,13 @@
+<textarea name="{$field}" id="{$field}">{$value}</textarea>
+<script type="text/javascript">
+var editor = new Simditor({
+  textarea: $('#{$field}'),
+  defaultImage : '__PUBLIC__tpl/admin/static/images/wechat.jpg',
+  upload       : {
+  	placeholder : '欢迎使用ZanPianCMS网站管理系统',
+  	url: "{:url('upload/editor')}",
+  	pasteImage:true,
+  	fileKey: "upload_file"
+  }
+});
+</script>

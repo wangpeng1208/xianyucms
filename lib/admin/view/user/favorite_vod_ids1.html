@@ -1,0 +1,28 @@
+<table width="100%" border="0" cellpadding="7" cellspacing="0" class="tableBasic default-list-table colorfl">
+          <tbody>
+                      <tr style="height:35px;">
+              <th class="col col_id col_number">ID</th>
+              <th class="col" style="text-align:left">视频名</th>
+              <th class="col" style="text-align:center">排序</th>
+              <th class="col" style="text-align:center">相关操作</th>
+            </tr>
+               {volist name="list_vod" id="vo"}
+                <tr style="height:35px;">
+                <td align="center">{$vo.vod_id}</td>
+                <td align="left"><a href="{:xianyu_data_url('home/vod/read',array('id'=>$vo['vod_id'],'pinyin'=>$vo['vod_letters'],'cid'=>$vo['vod_cid'],'dir'=>$vo['list_dir'],'jumpurl'=>$vo['vod_jumpurl']))}" target="_blank">{$vo.vod_name|msubstr=0,14}</a></td>
+                <td align="center" class="px">
+                
+{gt name='vo.topic_oid' value='$min_oid'}
+<a href="javascript:void(0);" onclick="special_vod({$vo.vod_id},'down',{$list_vod[$key+1]['vod_id']})" class="up" title="排序往下一位">下</a>&nbsp;
+{/gt}
+{lt name='vo.topic_oid' value='$max_oid'}
+<a href="javascript:void(0);" onclick="special_vod({$vo.vod_id},'up',{$list_vod[$key-1]['vod_id']})" class="down" title="排序往上一位">上</a>&nbsp;
+{/lt}</td>
+<td align="center"><a href="javascript:void(0);" onclick="special_vod({$vo.vod_id},'del',{$vo.vod_id},0);" title="从专题里移除">删除</a></td>
+              </tr>
+                 {/volist}   
+                 
+ </tbody>
+        </table>  
+        
+ <script language="javascript">$('#count').html('{$count}');</script>       

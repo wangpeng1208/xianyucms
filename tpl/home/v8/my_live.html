@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$description}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+
+     <!--模块开始-->
+    <div class="layout-box clearfix">
+        <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe605;</i>{$list_name}</h3>
+    </div>
+   <iframe width="100%" scrolling="no" height="600" align="middle" frameborder="no" src="//zhibo.97bike.com/live.html" hspace="0" vspace="0" marginheight="0" marginwidth="0" name="tv"></iframe>
+   </div>
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

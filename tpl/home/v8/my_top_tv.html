@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}排行榜_热门{$list_name}大全{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}{$list_name}排行榜,{$list_name}排行榜,热门{$list_name}大全{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}热门{$list_name}TOP100排行榜排行榜{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+    <div class="layout-box clearfix">
+    <div class="box-title-nav">
+    <ul class="clearfix">
+    <li><a class="text-overflow" href="{$list_url_big}">全部榜单</a></li>
+    {php}$array_listid = getlistall($list_pid);{/php}
+   {volist name="array_listid" id="zp_listid"}
+    <li><a class="text-overflow {eq name="zp_listid.list_id" value="$list_id"}active{/eq}" href="{$zp_listid.list_url}">{$zp_listid.list_name}</a></li>
+{/volist}
+    </ul>
+    </div>    
+    </div>
+ <div class="layout-box clearfix">
+    <div class="box-title">
+    <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>{$list_name}TOP60</h3>
+    <div class="more pull-right"><span class="text-muted pull-right">TOP<span class="text-color">“60”</span>个视频</div>
+    </div>
+        {php}$top_list =xianyu_mysql_vod('cid:'.$tpl_id[2].';field:vod_id,vod_cid,vod_name,vod_year,vod_letters,vod_mcid,vod_pic,vod_actor,vod_continu,vod_title,vod_total,vod_content,vod_gold,vod_addtime,vod_bigpic,vod_jumpurl,vod_hits;limit:60;cahce_name:default;cahce_time:86400;order:vod_hits desc');{/php}
+            {volist name="top_list" id="xianyu"}
+            <div class="col-md-2 col-sm-4 col-xs-4 hotlist clearfix">
+            <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" >
+            <span class="top"><em>{$i}</em></span>
+            <span class="tips red">{$xianyu.vod_hits}</span>
+            <span class="player"></span>
+            <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span>
+            </a>
+            <div class="title"><h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5></div>
+            </div>
+            {/volist}
+   <div class="box-video-text-list clearfix">
+            <ul>
+            </ul>
+        </div>
+      </div>  
+
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

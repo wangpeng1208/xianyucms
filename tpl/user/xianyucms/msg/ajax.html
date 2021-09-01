@@ -1,0 +1,5 @@
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+<li><label class="label-checkbox"><input name="ids[]" value="{$xianyu['msg_id']}" type="checkbox" /></label><div class="user-txt-list-cnt"><h5><a href="{:xianyu_user_url("user/home/index",array("id"=>$xianyu['msg_userid']))}" target="_blank"><span class="nickname">{$xianyu['nickname']}</span></a>&nbsp;&nbsp;&nbsp;&nbsp;给你的&nbsp;&nbsp;『私信』&nbsp;&nbsp;{$xianyu["msg_title"]|strip_tags|remove_xss}<em class="date-time">{$xianyu.msg_addtime|date="Y-m-d H:i:s",###}</em><a class="mdel" href="javascript:void(0)" data="{:xianyu_user_url('user/center/delmsg',array('id'=>$xianyu['msg_id']))}">删除</a></h5><div class="mymsg-list-cnt">{$xianyu["msg_content"]|strip_tags|remove_xss}</div></div></li>
+ {/volist}
+ {/notempty}

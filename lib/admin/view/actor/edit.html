@@ -1,0 +1,148 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading" style=" padding-top:5px;">
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">基本设置</a></li>
+                   <li ><a href="#tab_2" data-toggle="tab">其他设置</a></li> 
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax ajax-no-close" role="form" data-toggle="validator" method="post">      
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade active in" id="tab_1">
+    <div class="form-group">
+    {notempty name="info.vod_id"}
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">视频ID:</label>
+        <div class="col-xs-12 col-sm-1">
+         <input type="text" id="actor_vid" name="actor_vid" value="{$info.actor_vid|default=''}" class="form-control"  readonly>
+         </div>
+          <label for="c-keywords" class="control-label col-xs-12" style="width:auto">视频名称:</label>
+       <div class="col-xs-12 col-sm-2">
+         <input type="text" id="vod_name" name="vod_name" value="{$info.vod_name|default=''}" class="form-control"  readonly>
+        </div>
+           <label for="c-keywords" class="control-label col-xs-12" style="width:auto">视频分类:</label>
+       <div class="col-xs-12 col-sm-2">
+         <input type="text" id="vod_list_name" name="vod_list_name" value="{:getlistname($info['vod_cid'],'list_name')}" class="form-control"  readonly>
+        </div> 
+        {else /} 
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">视频ID:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" id="actor_vid" name="actor_vid" value="{$info.actor_vid|default=''}" class="form-control" data-rule="required">
+         </div> 
+         {/notempty} 
+      <label for="c-keywords" class="control-label col-xs-12" style="width:auto">演员分类:</label>
+         <div class="col-xs-12 col-sm-2">
+          <select name="actor_cid" class="form-control selectpicker" data-rule="required">
+<option value="">选择分类</option> 
+{volist name="listactor" id="vo"}<option value="{$vo.list_id}" {if isset($info['actor_cid'])} {eq name="vo.list_id" value="$info['actor_cid']"}selected{/eq}{/if}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{$splist.list_id}" {eq name="splist.list_id" value="$info['actor_cid']"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+</select>
+         </div>   
+         <span style="line-height:30px;">推送到百度：</span><input name="insertseo" type="checkbox" {empty name="info['actor_id']"}checked{/empty} title="勾选推送到百度" style="border:none;width:auto; position:relative; top:2px;margin-bottom:3px;margin-right:8px;" >                     
+    </div>   
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">演员标题:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" name="actor_title" value="{$info.actor_title|default=''}" class="form-control" data-tip="用于前台演员表页面的标题">
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">关键词:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="keywords" name="actor_keywords" value="{$info.actor_keywords|default=''}" class="form-control" data-tip="用于前台演员表页面的关键词"><a href="javascript:;" id="getkeywords" class="btn btn-success btn-add" style="cursor:pointer; position:absolute; right:15px">获取关键词</a>
+        </div>
+    </div>              
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">演员描述:</label>
+        <div class="col-xs-12 col-sm-8">
+         <textarea  class="form-control" name="actor_description">{$info['actor_description']|default=''}</textarea>
+        </div>
+    </div> 
+    {notempty name="info.actor_id"}
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">角色采集:</label>
+        <div class="col-xs-12 col-sm-8">
+         <input type="text" id="actor_reurl" name="actor_reurl" value="{$info.actor_reurl|default=''}" class="form-control" placeholder="慢慢看角色表,TV2345角色表,百度百科,好搜百科" data-tip="慢慢看角色表,TV2345角色表,百度百科,好搜百科"><a href="javascript:;" id="getrole" class="btn btn-success btn-add" style="cursor:pointer; position:absolute; right:15px">采集角色</a>
+        </div> 
+    </div>
+      <div  id="contents"> 
+     </div>
+     {/notempty}
+       <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-1">演员状态:</label>
+                <div class="col-xs-12" style="width:auto">
+                    <select name="actor_status" class="form-control selectpicker">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.actor_status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>  
+    <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">演员时间:</label>
+        <div class="col-xs-12" style="width:auto">
+         <input type="text" name="actor_addtime" value="{notempty name="info.actor_addtime"}{$info.actor_addtime|date='Y-m-d H:i:s',###}{else/}{:date('Y-m-d H:i:s',time())}{/notempty}" class="form-control">
+        </div>
+        <input name="checktime" type="checkbox" style="border:none;width:auto;position:relative; top:5px;" value="1" {notempty name="info.admin_time_edit"}checked{/notempty} title="勾选则使用系统当前时间">
+    </div>             
+            
+     </div>
+<div class="tab-pane fade" id="tab_2">
+     <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-1">推荐星级:</label>
+                <div class="col-xs-12 col-sm-6" style="position:relative; top:5px;">
+                 <input name="actor_stars" id="actor_stars" type="hidden" value="{$info.actor_stars|default=''}">{volist name=":admin_star_arr($info.actor_stars)" id="ajaxstar"}<img src="{$config.site.cdnurl}admin/xianyucms/img/star{$ajaxstar}.gif" id="actor_{$i}" class="addstars">{/volist}
+                </div>
+            </div>          
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">标题颜色:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="actor_color"  value="{$info.actor_color|default=''}" class="form-control" data-tip="点击选色" style="width:80px;text-align:center" id="color">
+        </div>
+    </div>
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">总人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="actor_hits"  value="{$info.actor_hits|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>    
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">月人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="actor_hits_month"  value="{$info.actor_hits_month|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div> 
+       <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">周人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="actor_hits_week"  value="{$info.actor_hits_week|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>    
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">日人气:</label>
+        <div class="col-xs-12 col-sm-2">
+         <input type="text" name="actor_hits_day"  value="{$info.actor_hits_day|default=''}" class="form-control" style="width:80px;text-align:center">
+        </div>
+    </div>         
+      <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-1">独立模版:</label>
+        <div class="col-xs-12 col-sm-3">
+         <input type="text" name="actor_skin"  value="{$info.actor_skin|default=''}" class="form-control">
+        </div>
+    </div>          
+     </div>     
+</div>     
+{notempty name="info.actor_id"} 
+<input type="hidden" name="actor_id" value="{$info['actor_id']|default=''}"> 
+{/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+  </form>      
+</div>
+</div>

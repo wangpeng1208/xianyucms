@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+{include file="list_seo_title" /}
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+    <div class="list-mcat clearfix">
+      <div class="left-head hidden-sm hidden-xs">
+        <ul class="clearfix">
+          <li class="text"><span class="text-muted">选择频道</span></li>
+          <li><a class="active" href="{$list_url}" title="{$list_name}">{$list_name}</a></li>
+        </ul>
+      </div>
+      <div class="content-menu clearfix"><a class="head" href="javascript:;" data-toggle="collapse" data-target="#collapse"><span class="text">已选择</span><i class="conbread"><span>{$list_name}</span>{notempty name="param.mcid"}<span>{$param.mcid,$list_id|mcat_name}</span>{/notempty}{notempty name="param['area']"}<span>{$param['area']}</span>{/notempty}{notempty name="param['year']"}<span>{$param['year']}</span>{/notempty}{notempty name="param['letter']"}<span>{$param['letter']}</span>{/notempty}</i></a><span class="conreset" id="conreset"><a href="javascript:" data="id-{notempty name="list_pid"}{$list_pid}{else/}{$list_id}{/notempty}">重新筛选</a></span>
+
+        <div class="item collapse list_type" id="collapse">
+          {php}$array_listid = getlistall($list_pid);{/php}
+          {if condition="(!empty($array_list)) or (!empty($array_listid))"}
+          <ul class="clearfix">
+            <li class="text"><span class="text-muted">按分类</span></li>
+            {notempty name="array_listid"}
+            <li><a {eq name="list_pid" value="0"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="全部" data="id-{$list_pid}">全部</a></li>
+            {volist name="array_listid" id="zplist"}
+            <li><a {eq name="list_id" value="$zplist.list_id"}class="active"{/eq} href="{$zplist.list_url}" title="{$zplist.list_name}" data="id-{$zplist.list_id}">{$zplist.list_name}</a></li>
+            {/volist}
+            {else /}
+            <li><a {eq name="list_pid" value="0"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="全部" data="id-{$list_id}">全部</a></li>
+             {volist name="array_list" id="zplist"}
+            <li><a {eq name="list_id" value="$zplist.list_id"}class="active"{/eq} href="{$zplist.list_url}" title="{$zplist.list_name}" data="id-{$zplist.list_id}">{$zplist.list_name}</a></li>
+            {/volist}
+            {/notempty}
+          </ul>
+          {/if}
+          <ul class=" clearfix">
+            <li class="text"><span class="text-muted">按类型</span></li>
+            <li><a {empty name="param.mcid"}class="active"{/empty} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>"",'mename'=>"",'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="全部" data="mcid-0">全部</a></li>
+            {volist name="mcatlist" id="cat_menu" offset="0" length='31'}
+            <li><a {eq name="cat_menu.m_cid" value="$param['mcid']"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$cat_menu['m_cid'],'mename'=>$cat_menu['m_ename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="{$cat_menu.m_name}" data='mcid-{$cat_menu.m_cid}'>{$cat_menu.m_name}</a></li>
+            {/volist}
+          </ul>
+          <ul class="clearfix">
+            <li class="text"><span class="text-muted">按地区</span></li>
+            <li><a  {empty name="param.area"}class="active"{/empty} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>"",'earea'=>'','year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="全部" data="area-0">全部</a></li>
+            {volist name="list_area_all" id="area" offset="0" length='13'}
+            <li><a  {eq name="area['name']" value="$param['area']"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($area['name']),'earea'=>$area['ename'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>$param['order']))}" title="{$area.name}" data='area-{$area.name|urlencode}'>{$area.name}</a></li>
+            {/volist}
+          </ul>
+
+          <ul class="letter hidden-xs clearfix">
+          <li class="text"><span class="text-muted">按字母</span></li>
+            <li><a {empty name="param.letter"}class="active"{/empty}  href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>"",'order'=>$param['order']))}" title="全部" data="letter-0">全部</a></li>
+            {volist name="s_letter" id="letter"}
+            <li><a {eq name="letter" value="$param['letter']"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$letter,'order'=>$param['order']))}" title="{$letter}" data='letter-{$letter}'>{$letter}</a></li>
+            {/volist}
+            <li><a {eq name="param.letter" value="0,1,2,3,4,5,6,7,8,9"}class="active"{/eq} href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>"0,1,2,3,4,5,6,7,8,9",'order'=>$param['order']))}" title="0-9" data='letter-0,1,2,3,4,5,6,7,8,9'>0-9</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+{php}
+	if($param['order'])
+    $s_order=$param['order']." desc";
+    else
+    $s_order="addtime desc";
+$list=xianyu_mysql_vod('mcid:'.$param['mcid'].';cid:'.$list_id.';year:'.$param["year"].';lz:'.$param["lz"].';letter:'.$param["letter"].';area:'.$param["area"].';language:'.$param["language"].';field:vod_id,vod_cid,vod_name,vod_director,vod_letters,vod_pic,vod_gold,vod_continu,vod_title,vod_total,vod_actor,vod_mcid,vod_year,vod_addtime,vod_content;limit:30;page:true;p:'.$list_page.';order:vod_'.$s_order.';');
+	{/php}
+    <div class="layout-box clearfix">
+    <div class="box-switch-tabs active clearfix">
+    <span class="text-muted pull-right hidden-xs" id="count">共有<span class="text-color">“{$list.0.page.pagecount|default='0'}”</span>个影片,当前第<span class="text-color">“{$list_page}”</span>页</span>
+        <ul class="nav nav-tabs ajax-nav-tabs">
+          <li {eq name="param.order" value="addtime"}class="active"{/eq}{empty name="param.order"}class="active"{/empty}><a href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>'addtime'))}" data="order-addtime">按时间</a></li>
+          <li {eq name="param.order" value="hits"}class="active"{/eq}><a href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>'hits'))}" data="order-hits">按人气</a></li>
+          <li {eq name="param.order" value="hits"}class="gold"{/eq}><a href="{:xianyu_type_url('home/vod/type',array('id'=>$list_id,'dir'=>$list_dir,'mcid'=>$param['mcid'],'mename'=>$param['mename'],'area'=>urlencode($param['area']),'earea'=>$param['earea'],'year'=>$param['year'],'letter'=>$param['letter'],'order'=>'gold'))}" data="order-gold">按评分</a></li>
+        </ul>
+    </div>
+
+    <div class="box-video-list">
+     <div class="item">
+          <ul class="clearfix" id="content">
+           {notempty name="list"}
+           {volist name="list" id="xianyu"}
+            <li class="col-md-2 col-sm-3 col-xs-4">
+            <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" >
+            <span class="player"></span>
+            <span class="score">{$xianyu.vod_gold}</span>
+            <span class="note text-bg-r">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span>
+            </a>
+            <div class="title"><h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5></div>
+             <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+            </li>
+            {/volist}
+            {else/}<div class="kong">抱歉，没有找到相关内容！</div>
+            {/notempty}
+  </ul>
+  </div>
+   </div>
+    <div class="box-page clearfix ajax-page" id="long-page"><ul>{$list.0.page.pageurl}</ul></div>
+   </div>
+</div>
+</div>
+<script>
+var type_ajax_url="index.php?s=vod-type";
+var type_parms={"id":"{$list_id}","mcid":"{$param['mcid']}","area":"{$param['area']}","year":"{$param['year']}","letter":"{$param['letter']}","order":"{$param['order']}","picm":1,"p":1};
+</script>
+{include file="zp_footer" /}
+</body>
+</html>

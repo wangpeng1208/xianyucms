@@ -1,0 +1,11 @@
+<div style="text-align:center; line-height:25px;">本地分类</div>
+<div style="padding-bottom:5px;overflow:hidden">
+<select name="cid"  id="cid" class="form-control" style="width:100px;">
+{volist name="list" id="vo"}
+<option  value="{$vo.list_id}" {eq name="vo.list_id" value="$list_cid"}selected{/eq}>{$vo.list_name}</option>
+{/volist}
+<option value="">取消绑定</option>
+</select>
+</div>
+<button type="submitbind" class="btn btn-success btn-embossed"  url="{:admin_url('admin/collect/insertbind')}" id="{$bind}">确定</button>
+<button type="hidebind" class="btn btn-default btn-embossed">取消</button>

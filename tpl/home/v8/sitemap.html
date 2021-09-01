@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新{$list_name},{$keywords}{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}{$description}{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+{volist name="list_menu" id="xianyu"}
+{in name="xianyu.list_sid" value="1,2,7"}
+<!--板块开始-->
+  <div class="list-mcat sitemap clearfix">
+      <div class="content-menu clearfix">
+        <div class="item list_type in">
+        <h2><a href="{$xianyu.list_url}" class="ncs-line fl">{$xianyu.list_name}</a></h2>
+          {php}$array_id = getlistall($xianyu['list_id']);{/php}
+          {notempty name="array_id"}       
+          <ul class="clearfix">
+            <li class="text"><span class="text-color">分类</span></li>
+            {volist name="array_id" id="zp_listid"}
+            <li><a target="_blank" href="{$zp_listid.list_url}" title="{$zp_listid.list_name}">{$zp_listid.list_name}</a></li>
+            {/volist}
+         </ul> 
+         {/notempty}   
+         {php}$catlist = getlistmcat($xianyu['list_id']); {/php}
+         {notempty name="catlist"}       
+          <ul class=" clearfix">
+            <li class="text"><span class="text-color">类型</span></li>
+            {volist name="catlist" id="vo"}
+            <li><a target="_blank" href="{:xianyu_type_url('home/vod/type',array('id'=>$xianyu['list_id'],'dir'=>$xianyu['list_dir'],'mcid'=>$vo['m_cid'],'mename'=>$vo['m_ename'],'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>""))}" title="{$vo.m_name}{:getlistname($xianyu['list_id'],'list_name')}">{$vo.m_name}</a></li>
+          {/volist}
+          </ul>
+          {/notempty}
+        </div>
+      </div>
+    </div>
+  <!--板块结束-->  
+  {/in}
+ {/volist}   
+    
+ <div class="list-mcat sitemap clearfix">
+      <div class="content-menu clearfix">
+        <div class="item list_type in">
+        <h2>其他</h2>
+                 
+          <ul class="clearfix">
+            <li class="text"><span class="text-color">分类</span></li>
+            {volist name="list_menu" id="zp_listid"}
+             {in name="zp_listid.list_sid" value="3,4,5,6,8,9,10"}
+            <li><a href="{$zp_listid.list_url}" title="{$zp_listid.list_name}">{$zp_listid.list_name}</a></li>
+            {/in}
+            {/volist}
+         </ul> 
+       </div>
+      </div>
+    </div>  
+   
+   
+    
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{eq name='story_page' value='1'}{empty name="story_stitle"}{$vod_name}剧情{$story_title}{notempty name="vod_total"}(共{php}echo preg_replace('/\D/s', '', $vod_total);{/php}集){/notempty}_{$vod_name}全集剧情{else /}{$story_stitle}{$story_name}{/empty}{else /}{$vod_name}{$story_name}剧情,{$vod_name}分集剧情{/eq} - {$sitename}</title>
+<meta name="keywords" content="{eq name='story_page' value='1'}{empty name="story_keywords"}{$vod_name}剧情,{$vod_name}{$story_name}剧情,{$vod_name}全集剧情,{$vod_name}分集剧情,{$vod_name}全集在线观看{else /}{$story_keywords}{/empty}{else /}{$vod_name}{$story_name}剧情,{$vod_name}分集剧情,{$vod_name}{$story_name}剧情介绍,{$vod_name}{$story_name}在线观看{/eq}">
+<meta name="description" content="{eq name='story_page' value='1'}{empty name="story_description"}{$vod_name}{$story_name}剧情{$story_title}：{$story_info|msubstr=0,35}...{else /}{$story_description|msubstr=0,35}{/empty}{else /}{$vod_name}{$story_name}分集剧情{$story_title}{$story_info|msubstr=0,35}...{/eq}"> 
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$ji= preg_replace('/\D/s', '', $vod_lastname);
+$vod_news=xianyu_mysql_news('news:'.$vod_name.';did:'.$vod_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:8;cahce_name:default;cahce_time:3600;order:news_addtime desc');
+$vod_pid=getlistname($vod_cid,'list_pid');
+{/php}{if condition="($vod_pid eq $tpl_id[2]) OR ($vod_cid eq $tpl_id[4])"}{php}$tvtitle="播出";{/php}{else /}{php}$tvtitle="上映";{/php}{/if}
+<!--盒子开始--> 
+<div class="container">
+  <div class="row">
+  <!--左侧板块开始--> 
+    <div class="details-nav">
+<ul>
+<li><a href="{$vod_readurl}" target="_self"><span class="hidden-xs">视频</span>详细</a></li>
+<li class="active"><a href="{$story_readurl}" title="{$vod_name}分集剧情" target="_self"><span class="hidden-xs">分集</span>剧情</a></li>
+{notempty name="actor_id"}
+<li><a href="{$actor_readurl}" title="{$vod_name}演员表" target="_self">演员<span class="hidden-xs">角色</span></a></li>
+{/notempty}
+{notempty name="vod_news"}
+<li><a href="{:xianyu_data_url('home/vod/news',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>getlistname($vod_cid,'list_dir'),'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}花絮新闻" target="_self"><span class="hidden-xs">新闻</span>花絮</a></li>
+{/notempty}
+<li><a href="{:xianyu_data_url('home/vod/filmtime',array('id'=>$vod_id,'pinyin'=>$vod_letters,'cid'=>$vod_cid,'dir'=>getlistname($vod_cid,'list_dir'),'jumpurl'=>$vod_jumpurl))}" title="{$vod_name}{$tvtitle}" target="_self">{$tvtitle}<span class="hidden-xs">时间</span></a></li>
+</ul></div>
+<div class="col-md-9 col-sm-12 box-main-content">
+  <div class="layout-box clearfix mt-0"> 
+{include file="vod_detail_min_info" /}
+<div  class="text-overflow text-left details-title">分集剧情选择:<span>{notempty name="story_cont"}{$story_continu}集全集剧情{else /}(剧情已更新到{$story_continu}集{notempty name="vod_total"}，共{php}echo preg_replace('/\D/s', '', $vod_total);{/php}集){else /}){/notempty}{/notempty}</span></div>
+ <div class="playlist">
+ <ul class="clearfix" style="display:block">
+ {volist name="story_list" id="xianyu" key="ii"}
+ <li><a {eq name='xianyu.story_url' value='$story_url'}class="active"{/eq} href="{$xianyu.story_url}">{$xianyu.story_name}{$story_addtime|gettimevodnew='m-d',###}</a></li>
+ {/volist}  
+  </ul>
+ </div>
+ <div class="details-story">
+<div class="item">
+{notempty name="story_info"}
+<h4 class="text-overflow text-center">{$vod_name}<em>{$story_name}剧情</em><span>{$story_title}</span></h4>
+<div id="popover-info" class="details-content text-justify">
+<p>{$story_info|xianyu_actor_replace=###,$vod_actor|xianyu_role_replace=###,$vod_id,$vod_letters}</p>
+</div>
+{else /}
+<div id="popover-info" class="details-content text-justify">
+<p style="text-align:center">暂无剧情</p>
+<h4 class="text-overflow text-center">{$vod_name}<em>{$xianyu.story_name}剧情</em><span>{$story_title}</span></h4>
+<p>{$vod_content}</p>
+</div>
+{/notempty}
+<div class="details-page clearfix">
+<ul class="clearfix">
+{notempty name="story_prevurl"}
+<li class="col-md-6"><a  href="{$story_prevurl}" id="pre" target="_self">（键盘快捷键&larr;）上一集</a></li>
+{else /}
+<li class="col-md-6"><a  target="_self">（键盘快捷键&larr;）没有了</a></li>
+{/notempty}
+{notempty name="story_nexturl"}
+<li class="col-md-6"><a href="{$story_nexturl}" id="next"  target="_self">（键盘快捷键&rarr;）下一集</a></li>
+{else /}
+<li class="col-md-6"><a  target="_self">（键盘快捷键&larr;）没有了</a></li>
+{/notempty}
+</ul>
+  </div> 
+  </div>  
+</div>  
+</div>
+</div>
+<div class="col-md-3 col-sm-12 box-main-side hidden-sm hidden-xs">
+<div class="layout-box clearfix mt-0">
+<div class="col-md-12 p-0">
+<div class="col-md-6 col-sm-12 col-xs-12 p-0">
+<a class="video-pic" href="{$vod_readurl}" title="{$vod_name}"  style="background: url({$vod_picurl}) no-repeat top center;background-size:cover;"><span class="note text-bg-r">{notempty name="vod_continu"}{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}{/notempty}</span></a>
+</div>
+<div class="col-md-6 col-sm-12 col-xs-12" style=" padding-top:0px; padding-right:0px;">
+<div class="col-md-12 p-0 text-overflow"><strong>{$vod_name}</strong></div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_mcid|mcat_url=$vod_cid}</div>
+<div class="col-md-12 p-0 text-overflow">{$vod_actor}</div>
+<div class="col-md-12 pg-0 text-overflow">{$vod_year|default='未录入'} / {$vod_area|default='其他'}</div>
+<div class="col-md-12 p-0 text-overflow">{notempty name="vod_continu"}{notempty name="vod_title"}{$vod_title}{else /}{$vod_continu}{/notempty}{/notempty}</div>
+<div class="col-md-12 pg-0 text-overflow"><span>评分：</span><span class="hits text-color" style="font-size:20px"><em>{$vod_gold}</em></span></div>
+</div>
+</div>
+</div>
+{include file="vod_detail_right" /}     
+</div>  
+</div>
+</div>
+{$story_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

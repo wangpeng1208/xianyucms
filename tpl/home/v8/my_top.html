@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}排行榜_热门{$list_name}大全{/notempty} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}{$list_name}排行榜,{$list_name}排行榜,热门{$list_name}大全{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}热门{$list_name}TOP100排行榜排行榜{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+    <div class="layout-box clearfix">
+    <div class="box-title-nav">
+    <ul class="clearfix">
+    <li><a class="text-overflow active" href="{$list_url}">全部榜单</a></li>
+   {volist name="array_list" id="zp_listid"}
+    <li><a class="text-overflow" href="{$zp_listid.list_url}">{$zp_listid.list_name}</a></li>
+{/volist}
+    </ul>
+    </div>    
+
+    </div>
+      <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+        <div class="layout-box clearfix">
+        
+            {volist name="list_menu" id="zp_listid" key="k" offset="0" length='5'}
+      {php}$dir=$array_list[$k-1]['list_url'];{/php}
+        <div class="col-md-4 col-sm-12 col-xs-12 active">
+          <div class="box-title pg-0">
+            <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>{:getlistname($zp_listid['list_id'],'list_name')}</h3>
+            <div class="more pull-right"><a href="{:xianyu_type_url('home/vod/type',array('id'=>$zp_listid['list_id'],'dir'=>$zp_listid['list_dir'],'mcid'=>"",'mename'=>"",'area'=>"",'earea'=>"",'year'=>"",'letter'=>"",'order'=>"hits"))}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+          </div>
+          <div class="box-video-text-list">
+          {php}$vod_hot = xianyu_mysql_vod('cid:'.$zp_listid['list_id'].';limit:10;field:vod_id,vod_cid,vod_actor,vod_director,vod_mcid,vod_title,vod_name,vod_pic,vod_bigpic,vod_letters,vod_content,vod_gold,vod_color;cahce_name:default;cahce_time:86400;order:vod_hits_day desc'); {/php}
+            <ul class="clearfix p-0 m-0">
+              {volist name="vod_hot" id="xianyu"}
+             <li class="list p-0"><a class="pull-left" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="4"}active{/lt}">{$i}</em>{$xianyu.vod_name}</a><span class="hits text-color">{$xianyu.vod_hits_day}</span>
+              </li>
+              {/volist}
+            </ul>
+          </div>
+           </div>
+          {/volist} 
+          
+          
+         <div class="col-md-4 col-sm-12 col-xs-12 active">
+          <div class="box-title pg-0">
+            <h3 class="m-0"><i class="icon iconfont text-color">&#xe66e;</i>明星</h3>
+            <div class="more pull-right"><a href="{:getlistname($tpl_id[7],'list_url')}" class="text-muted" title="更多">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+          </div>
+          <div class="box-video-text-list">
+{php}$hot_star=xianyu_mysql_star('limit:10;field:star_id,star_cid,star_bm,star_content,star_wwm,star_gj,star_area,star_xb,star_zy,star_tz,star_name,star_content,star_pic,star_letters,star_pic,star_zy,star_area,star_hits_day;cahce_name:default;cahce_time:300;order:star_hits_day desc');{/php}
+            <ul class="clearfix p-0 m-0">
+             {volist name="hot_star" id="xianyu"}
+             <li class="list p-0"><a class="pull-left" href="{$xianyu.star_readurl}" title="{$xianyu.star_name}"><em class="num {lt name="i" value="4"}active{/lt}">{$i}</em>{$xianyu.star_name}</a><span class="hits text-color">{$xianyu.star_hits_day}</span>
+              </li>
+              {/volist}
+              
+            </ul>
+          </div>
+           </div>         
+
+        </div>
+      </div>
+
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

@@ -1,0 +1,66 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+            <em>{$nav_title.title}</em>{$nav_title.remark}
+        </div>
+    </div>
+{/notempty}    
+<div class="panel-body is-dialog"> 
+    <form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+<div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">行为标识:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="name" value="{$info.name|default=''}" data-rule="required" autocomplete="false" placeholder="请输入英文字母标识">
+                </div>
+            </div>
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">行为名称:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="title" value="{$info['title']|default=''}" data-rule="required" autocomplete="false" placeholder="请输入行为的名称">
+                </div>
+            </div>
+            
+             <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">行为类型:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="type" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">系统</option>
+                        <option value="0" {eq name="info.type" value="0" }selected{/eq}>用户</option>
+                    </select>
+                </div>
+            </div>
+                       
+            
+ <div class="form-group">
+                <label for="name" class="control-label col-xs-12 col-sm-2">行为描述：</label>
+                <div class="col-xs-12 col-sm-6">
+                   <textarea class="form-control" name="remark">{$info.remark|default=''}</textarea>
+                </div>
+            </div>                               
+    
+               <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.status" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div> 
+      
+       {notempty name="info.id"}
+        <input type="hidden" name="id" value="{$info['id']|default=''}">
+       {/notempty}
+    <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

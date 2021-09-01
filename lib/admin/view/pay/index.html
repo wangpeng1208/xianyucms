@@ -1,0 +1,202 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+    <div class="panel-heading">
+        <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+        <ul class="nav nav-tabs">
+                     <li class="active"><a href="#tab_1" data-toggle="tab">支付设置</a></li>
+                     <li ><a href="#tab_2" data-toggle="tab">充值卡密</a></li>
+                     <li ><a href="#tab_3" data-toggle="tab">支付宝</a></li>
+                     <li ><a href="#tab_4" data-toggle="tab">微信支付</a></li>
+                     <li ><a href="#tab_5" data-toggle="tab">PayPal</a></li>
+                     <li ><a href="#tab_6" data-toggle="tab">第三方云支付支付</a></li>
+                     <li ><a href="#tab_7" data-toggle="tab">第三方码支付</a></li>
+                          
+        </ul>
+    </div>
+<div class="panel-body is-dialog">    
+<form id="edit-form" class="form-horizontal form-ajax" role="form"  data-toggle="validator" method="post" action="{:admin_url('admin/pay/up')}">      
+<div id="myTabContent" class="tab-content">
+
+<div class="tab-pane fade active in" id="tab_1">
+  <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">用户充值最低金额：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[user_pay_small]" id="user_pay_small"  value="{$user_pay_small|default='5'}" class="form-control" data-tip="用户每次充值最低充值金额">
+              </div>
+              </div>
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">用户充值积分比例：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[user_pay_scale]" id="user_pay_scale"  value="{$user_pay_scale|default='10'}" class="form-control" data-tip="1元人民币等于多少积分">
+              </div>
+              </div>
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">VIP会员售价：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[user_pay_vip_day]" id="user_pay_vip_day"  value="{$user_pay_vip_day|default='10'}" class="form-control"data-tip="（积分/天），按（天）销售">
+              </div>
+              </div>  
+             <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">VIP购买最少天数：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[user_pay_vip_small]" id="user_pay_vip_small"  value="{$user_pay_vip_small|default='5'}" class="form-control" data-tip="用户升级时自动计算所需积分。">
+              </div>
+              </div>          
+    
+          </div>
+  <div class="tab-pane fade" id="tab_2">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">卡密出售网址链接：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[card_url]" id="card_url"  value="{$card_url}" class="form-control" data-tip="第三方24小时自动卡密出售网址">
+              </div>
+              </div>
+</div>           
+          
+ <div class="tab-pane fade " id="tab_3">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">应用ID：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[alipay_app_id]" id="alipay_app_id"  value="{$alipay_app_id}" class="form-control" data-tip="支付宝APP_ID">
+              </div>
+              </div>
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">支付宝公钥：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[alipay_public_key]" id="alipay_public_key"  value="{$alipay_public_key}" class="form-control" data-tip="支付宝公钥(1行填写)">
+              </div>
+              </div>
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">支付宝私钥：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[alipay_private_key]" id="alipay_private_key"  value="{$alipay_private_key}" class="form-control"data-tip="支付宝私钥(1行填写)">
+              </div>
+              </div> 
+        <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">是否启用:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[alipay_onoff]" id="info[alipay_onoff]" class="form-control selectpicker">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="alipay_onoff" value="0"}selected{/eq}>停用</option>
+                    </select>
+        </div>
+    </div>                
+                                
+          
+
+</div> 
+        
+ <div class="tab-pane fade " id="tab_4">
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">应用ID：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[weixin_app_id]" id="weixin_app_id"  value="{$weixin_app_id}" class="form-control" data-tip="微信APP_ID">
+              </div>
+              </div>
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">微信支付商户号：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[weixin_mch_id]" id="weixin_mch_id"  value="{$weixin_mch_id}" class="form-control" data-tip="微信支付商户号">
+              </div>
+              </div>
+            <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">微信支付密钥：</label>
+             <div class="col-xs-12 col-sm-6">
+              <input type="text" name="info[weixin_mch_key]" id="weixin_mch_key"  value="{$weixin_mch_key}" class="form-control"data-tip="支付宝私钥(1行填写)">
+              </div>
+              </div>        
+        <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">是否启用:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[weixin_onoff]" id="info[weixin_onoff]" class="form-control selectpicker">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="weixin_onoff" value="0"}selected{/eq}>停用</option>
+                    </select>
+        </div>
+    </div> 
+</div> 
+                 
+  <div class="tab-pane fade " id="tab_5">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">PayPal收款账号：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[paypal_name]" id="paypal_name"  value="{$paypal_name}" class="form-control" data-tip="PayPal收款账号">
+              </div>
+              </div>
+        <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">是否启用:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[paypal_onoff]" id="info[paypal_onoff]" class="form-control selectpicker">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="paypal_onoff" value="0"}selected{/eq}>停用</option>
+                    </select>
+        </div>
+    </div>                
+</div> 
+
+  <div class="tab-pane fade " id="tab_6">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">商户ID：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[cloudpay_id]" id="cloudpay_id"  value="{$cloudpay_id}" class="form-control" data-tip="商户ID">
+              </div>
+              </div>
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">商户密钥：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[cloudpay_key]" id="cloudpay_key"  value="{$cloudpay_key}" class="form-control" data-tip="商户密钥">
+              </div>
+              </div> 
+        <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">是否启用:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[cloudpay_onoff]" id="info[cloudpay_onoff]" class="form-control selectpicker">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="cloudpay_onoff" value="0"}selected{/eq}>停用</option>
+                    </select>
+        </div>
+    </div>                
+                           
+</div> 
+  <div class="tab-pane fade " id="tab_7">
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">码支付ID：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[codepay_id]" id="codepay_id"  value="{$codepay_id}" class="form-control" data-tip="码支付ID">
+              </div>
+              </div>
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">通信密钥：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[codepay_key]" id="codepay_key"  value="{$codepay_key}" class="form-control" data-tip="通信密钥">
+              </div>
+              </div> 
+           <div class="form-group">
+            <label for="c-content" class="control-label col-xs-12 col-sm-2">支付方式：</label>
+             <div class="col-xs-12 col-sm-3">
+              <input type="text" name="info[codepay_type]" id="codepay_type"  value="{$codepay_type}" class="form-control" data-tip="支付方式,1:支付宝,2:微信,3:QQ钱包 多个请使用逗号隔开">
+              </div>
+              </div> 
+          <div class="form-group">
+        <label for="c-keywords" class="control-label col-xs-12 col-sm-2">是否启用:</label>
+       <div class="col-xs-12 col-sm-6">
+                   <select name="info[codepay_onoff]" id="info[codepay_onoff]" class="form-control selectpicker">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="codepay_onoff" value="0"}selected{/eq}>停用</option>
+                    </select>
+        </div>
+    </div>                                         
+</div>        
+ 
+         
+</div>     
+</div>
+<div class="layui-layer-btn layui-layer-footer">
+<div class="row"><div class="col-xs-2"></div><div class="col-xs-12 col-sm-6">
+            <button type="submit" class="btn btn-success btn-embossed">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button onClick="javascript:history.back(-1);return false;" class="btn btn-danger">返回</button>
+        </div></div>
+        </div>
+  </form>      
+</div>

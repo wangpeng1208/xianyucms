@@ -1,0 +1,17 @@
+<div class="user-box clearfix mb20 user-info-left pb-0">
+   <div class="user-center-avatar p-0">
+    <h2 class="text-center p-0 m-0">
+      <a href="{:xianyu_user_url('user/center/info')}">
+        <img class="img-circle face jQuery-image-upload mt-0" src="{$userinfo.avatar}" id="avatar" align="用户中心">
+      </a>
+    </h2>
+    </div>
+    <div class="user-center-info">
+     <p class="text-center"><strong class="mr10 text-overflow">{$userinfo.nickname}</strong><span>{notempty name="memberinfo.email"}({$userinfo.email}){/notempty}</span><a class="text-color" href="{:xianyu_user_url('user/center/info')}">编辑资料</a></p>
+<!--     <p class="text-muted text-overflow"><span>订阅邮箱：</span>{notempty name="userinfo.iemail"}{$userinfo.iemail}{else /}<span class="text-color"><a href="{:xianyu_user_url('user/center/email')}"><b>点击设置订阅邮箱</b></a></span>{/notempty}</p>-->
+     <p class="text-muted text-overflow"><span>注册邮箱：</span>{$userinfo.email}</p>
+     <p class="text-muted"><span>注册时间：</span>{$userinfo.regdate|date='Y-m-d H:i:s',###}</p>
+     <p class="text-muted"><span>最后登录：</span>{$userinfo.lastdate|date='Y-m-d H:i:s',###}</p>
+<!--     <p class="text-muted"><span>登录次数：</span>{$userinfo.loginnum} 次</p>        -->
+    </div>
+</div>    

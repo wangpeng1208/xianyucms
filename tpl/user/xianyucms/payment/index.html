@@ -1,0 +1,75 @@
+
+<div class="modal fade xianyu-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog clearfix">
+       <div class="modal-content clearfix">
+           <div class="modal-header">
+               -2022年完全免费
+                   </div>
+                    <div class="modal-body">
+完全免费，无需充值
+    </div></div>
+ </div>
+</div>
+<!--<div class="modal fade xianyu-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+  <div class="modal-dialog clearfix">
+    <div class="modal-content clearfix">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <div class="xianyu-modal-tabs">
+          <ul id="myTab">
+          <li class="active"><a href="#pay_online" data-toggle="tab">在线充值</a><li>
+          <li><a href="#pay_card" data-toggle="tab">卡密充值</a></li>
+          </ul>
+         </div>
+    </div>
+    <div class="modal-body">
+   <div class="modal-body-tab text-center active in" id="pay_online">
+   <form class="form-horizontal forum-payment" action="{:zp_url('user/payment/index')}" method="post" role="form" target="_blank" style="padding:20px 0" data-small="">
+        <div class="form-group">
+           <label for="score_ext" class="col-sm-3 control-label">充值金额</label>
+           <div class="col-sm-6">
+            <input class="form-control text-center" name="score_ext" id="score_ext" value="{$payconfig.user_pay_small}" type="text" required>
+          </div>
+        </div>
+       <div class="form-group">
+          <label for="pay_type" class="col-sm-3 control-label">支付方式</label>
+          <div class="col-sm-8 text-left">
+            <label class="radio-inline">
+            {volist name="pay_list" id="xianyu"}
+            <label class="radio-inline">
+            <input type="radio" name="pay_type" id="pay_type" value="{$xianyu}" checked>
+            {switch name="xianyu"}
+            {case value="cloudpay"}云支付{/case}
+            {case value="code_alipay"}支付宝{/case}
+            {case value="code_weixinpay"}微信{/case}
+            {case value="code_qqpay"}QQ钱包{/case}
+            {case value="alipay"}支付宝{/case}
+            {case value="weixinpay"}微信{/case}
+            {case value="paypal"}PayPal{/case}
+            {/switch}
+            </label>
+            {/volist}
+         
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success" id="user-pay">提交</button>
+      </form>
+    </div>
+    
+   <div class="modal-body-tab text-center fade" id="pay_card">
+   <form class="form-horizontal form-pay-card"  method="post" role="form" style="padding:20px 0" method="post" onsubmit="return false;">
+        <div class="form-group">
+           <label for="score_ext" class="col-sm-3 control-label">充值卡号</label>
+           <div class="col-sm-6">
+            <input class="form-control text-center" name="card_number" id="card_number" value="" type="text" required>
+          </div>
+        </div>
+         <a class="btn btn-primary" href="{$payconfig.card_url}" target="_blank">购买卡密</a>
+        <button type="submit" class="btn btn-success" id="user-pay-card">提交充值</button>
+      </form>
+    </div>
+    </div>
+   <div class="modal-footer">
+    <h6 class="text-center">1元等于<span class="text-color">{$payconfig.user_pay_scale}</span>个积分，最低<span class="text-color">{$payconfig.user_pay_small}</span>元起充，支持微信、支付宝、网银等在线充值</h6>
+    </div>
+</div>-->

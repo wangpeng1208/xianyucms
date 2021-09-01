@@ -1,0 +1,111 @@
+{layout name="layout/default" /}
+<div class="panel panel-default panel-intro">
+  <div class="panel-heading">
+    <div class="panel-lead"><em>{$nav_title.title}</em>{$nav_title.remark}</div>
+  </div>
+  <div class="panel-body" id="contents">
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in">
+        <div class="widget-body no-padding">
+          <div class="bootstrap-table">
+            <div class="fixed-table-toolbar">
+              <div class="columns-right pull-right" style="margin-top:10px;">
+              <form class="form-inline form-commonsearch nice-validator n-default" method="post">
+                  <input class="form-control" placeholder="搜索" type="text" name="keyword" id="wd" value="{$result['keyword']}">
+                  <button type="submit" class="btn btn-default ajax-posturl"  title="普通搜索"  target-form="form-commonsearch" url="{:url('admin/Vodcheck/index',array('check_sub'=>'ok','len'=>$result['len'],'keyword'=>$result['keyword'],'mod'=>$modd))}"><i class="glyphicon glyphicon-search"></i></button>
+                </form>
+              </div>  
+              <div class="pull-right search">
+                <select name="status" class="form-control" type="get-select" style="margin:0 0 0 10px; float:left">
+                  <option value="{:url('admin/Vodcheck/index',array('check_sub'=>ok,'len'=>$result['len'],'mod'=>$modd,'keyword'=>$result['keyword'],'cid'=>0))}" {eq name="result.cid" value="0"}selected{/eq}>全部分类</option>
+{volist name="listvod" id="vo"}<option value="{:url('admin/Vodcheck/index',array('check_sub'=>ok,'len'=>$result['len'],'mod'=>$modd,'keyword'=>$result['keyword'],'cid'=>$vo.list_id))}" {eq name="vo.list_id" value="$result.cid"}selected{/eq}>{$vo.list_name}</option>
+{if isset($vo['son'])}{volist name="vo['son']" id="splist"}<option value="{:url('admin/Vodcheck/index',array('check_sub'=>ok,'len'=>$result['len'],'mod'=>$modd,'keyword'=>$result['keyword'],'cid'=>$splist.list_id))}" {eq name="splist.list_id" value="$result.cid"}selected{/eq}>├ {$splist.list_name}</option>{/volist}{/if}
+{/volist}
+                </select>
+              </div>
+              <form class="form-inline form-commonsearch nice-validator n-default" method="post">
+                
+                <div class="pull-right search" style="margin-right:10px;"><button type="submit" class="btn btn-success ajax-posturl" target-form="form-commonsearch" url="{:url('admin/Vodcheck/index',array('check_sub'=>'ok','len'=>$result['len'],'keyword'=>$result['keyword'],'mod'=>$modd))}">提交</button></div>
+<div class="pull-right search" style="margin-right:10px;"><input name="len" type="text" id="len" size="2"  maxlength="1" value="{$result['len']|default=3}" class="form-control"></div>
+<div class="pull-right search" style="margin-right:10px;">检测长度：</div>
+</form>
+                <div class="pull-right search" style="margin-right:10px;">
+ <select class="form-control" type="get-select">
+    <option value="{:url('admin/Vodcheck/index',array('check_sub'=>'ok','len'=>$result['len'],'keyword'=>$result['keyword'],'mod'=>1))}" {eq name="modd" value="1"}selected{/eq}>智能模式 （匹配率高）</option>
+    <option value="{:url('admin/Vodcheck/index',array('check_sub'=>'ok','len'=>$result['len'],'keyword'=>$result['keyword'],'mod'=>2))}" {eq name="modd" value="2"}selected{/eq}>增强模式（更加准确）</option>
+ </select>
+              </div>   
+                                   
+              <div class="bs-bars pull-left">
+              
+                <div id="toolbar" class="toolbar"> <a  url="{:url('admin/vod/status',array('status'=>1))}" target-form="ids" class="confirm btn btn-info btn-disabled ajax-post disabled"><i class="fa fa-unlock"></i> 显示</a> <a  url="{:url('admin/vod/status',array('status'=>0))}" target-form="ids" class="confirm btn btn-warning btn-disabled ajax-post disabled"><i class="fa fa-lock"></i> 隐藏</a>
+                 <a  url="{:url('admin/vod/del')}" target-form="ids" class="confirm btn btn-danger btn-del btn-disabled ajax-post disabled"><i class="fa fa-trash"></i> 删除 </a> <span id="selectedChks" style="display:none">已选择<strong></strong>记录</span> 
+                
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="showpic" class="showpic" style="display:none; width:265px;"><img name="showpic_img" id="showpic_img" width="250" ></div>
+          <div class="fixed-table-container" style="padding-bottom: 0px;">
+            <div class="fixed-table-body">
+              <form class="ids">
+                <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+                  <thead>
+                    <tr style="height:45px;">
+                      <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+                      <th style="text-align:center;vertical-align: middle;">编号</th>
+                      <th style="text-align:left;vertical-align: middle;">视频名称</th>
+                      <th style="text-align:left;vertical-align: middle;">播放器名</th>
+                      <th style="text-align:center;vertical-align: middle;">视频类型</th>
+                      <th style="text-align:center;vertical-align: middle;">视频地区</th>
+                      <th style="text-align:center;vertical-align: middle;">视频年代</th>
+                      <th style="text-align:center;vertical-align: middle;">视频导演</th>
+                      <th style="text-align:center;vertical-align: middle;">更新时间</th>
+                      <th style="text-align:center;vertical-align: middle;">相关操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {notempty name="result.list"}
+                  {volist name="result.list" id="vo"}
+                  <tr class="">
+                    <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$vo['vod_id']}" id="checkbox"></td>
+                    <td style="text-align:center;vertical-align: middle;">{$vo['vod_id']}</td>
+                    <td style="text-align:left;vertical-align: middle;">『<a class="ajax-url btn-link" href="{:url('admin/Vodcheck/index',array('check_sub'=>'ok','len'=>$result['len'],'cid'=>$vo['vod_cid'],'keyword'=>$result['keyword'],'mod'=>$modd))}">{:getlistname($vo['vod_cid'])}</a>』 <a href="{$vo.vod_readurl}" target="_blank"  title="{$vo.vod_name}" class="btn-link">{$vo.vod_name|msubstr=0,10,'...'}</a></td>
+                    <td >{$vo.vod_play|str_replace='$$$',' ',###|msubstr=0,10,'...'}</td>
+                    
+                    <td style="text-align:center;vertical-align: middle;"> <a href="javascript:;" id="{$vo.vod_id}" class="btn-link btn-edit" data-url="{:url('admin/vod/ajaxmcid',array('id'=> $vo['vod_id']))}" data-name="添加编辑{$vo.vod_name}类型" >{$vo.vod_mcid|mcat_name=$vo['vod_cid'],2}</a></td>
+                    <td style="text-align:center;vertical-align: middle;">{$vo.vod_area}</td>
+                    <td style="text-align:center;vertical-align: middle;">{$vo.vod_year}</td>
+                    <td style="text-align:center;vertical-align: middle;">{$vo.vod_director|msubstr=0,10,'...'}</td>
+                    <td style="text-align:center;vertical-align: middle;">{$vo.vod_addtime|date='Y-m-d',###}</td>
+                    <td style="text-align:center;vertical-align: middle;"><a href="javascript:;" data-url="{:url('admin/vod/edit',array('id'=> $vo['vod_id']))}" data-name="编辑视频{$vo.vod_name}" class="btn btn-success btn-editone btn-xs" data-width="100%" data-height="100%" data-offset="0px"><i class="fa fa-pencil"></i> 编辑</a> <a url="{:url('admin/vod/del' , array('id' => $vo['vod_id']))}" class="confirm btn btn-danger btn-xs confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></td>                  
+                  </tr>
+                  {/volist}    
+                  {else/}
+                  <tr>
+                    <td style="text-align:center;vertical-align: middle;" colspan="10" >抱歉，没有找到相关内容，请先检索</td>
+                  </tr>
+                  {/notempty}
+                  </tbody>
+                  
+                </table>
+              </form>
+            </div>
+            {notempty name="result.list"}
+            <div class="fixed-table-pagination" style="overflow:hidden">
+              <div class="pull-left pagination-detail"><span class="pagination-info">共{$result.data->total()}条 {$result.data->currentPage()}/{$result.data->lastPage()} </span> <span class="page-list">每页显示 {$result.data->listRows()} 条</span></div>
+              <div class="pull-right pagination">
+                <ul class="pagination">
+                  {$result.page}
+                </ul>
+              </div>
+            </div>
+            {/notempty}
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="star_title"}{$star_title}{else/}{$star_name}个人资料_{$star_name}演过的电视剧_{$star_name}电影全集{/notempty}-{$sitename}</title>
+<meta name="keywords" content="{notempty name="star_skeywords"}{$star_skeywords}{else/}{$star_name}个人资料,{$star_name}演过的电视剧,{$star_name}电影全集,{$star_name}最新电影,{$star_name}最新电视剧{/notempty}">
+<meta name="description" content="{notempty name="star_description"}{$star_description}{else/}{$sitename}为你收集了{$star_name}个人资料包括了{$star_name}最新演过的电视剧,{$star_name}电影全集,以及{$star_name}图片剧照最近动态等信息希望你能喜欢。{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+{php}
+$hezuo=xianyu_mysql_starhz('star:'.$star_name.';field:star_id,star_cid,star_name,star_letters,star_pic;limit:9;order:star_hits_day desc');
+$news_star=xianyu_mysql_news('news:'.$star_name.';did:'.$star_id.';field:news_id,news_name,news_cid,news_pic,news_addtime,news_remark;limit:10;order:news_id desc');
+$actor_list=xianyu_mysql_role('starname:'.$star_name.';limit:4;order:role_addtime desc');
+$vod_list = xianyu_mysql_vod('actor:'.$star_name.';cid:1,2;field:vod_id,vod_cid,vod_name,vod_mcid,vod_letters,vod_gold,vod_pic,vod_actor,vod_director,vod_title;limit:12;order:vod_addtime desc');
+{/php}
+{include file="star_detail_top" /}    
+<div class="container">
+<div class="row"> 
+<div class="clearfix"></div> 
+{notempty name="news_star"}
+ <!--明星新闻模块开始-->   
+<div class="layout-box clearfix">
+  <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}最近资讯</h3>
+    <div class="more pull-right"><a href="{:xianyu_data_url('home/star/news',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" class="text-muted" title="{$star_name}最近资讯">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+    <div class="swiper-container news-switch-5">
+   <ul class="swiper-wrapper">
+{volist name="news_star" id="xianyu"}
+<li class="swiper-slide"><a class="video-pic swiper-lazy" href="{$xianyu.news_readurl}" title="{$xianyu.news_name}" data-background="{$xianyu.news_picurl}" style="padding-top:62.5%;background-position:50% 50%;background-size:cover;"><span class="note text-bg-c">{$xianyu.news_name|msubstr=0,15,'...'}</span><div class="swiper-lazy-preloader"></div></a></li>{/volist}
+   </ul>
+  <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+  <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+   </div>
+</div>
+</div>
+ <!--明星新闻模块结束--> 
+ {/notempty}
+ {notempty name="actor_list"}
+  <!--明星角色模块开始-->   
+<div class="layout-box clearfix">
+  <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}参演角色</h3>
+    <div class="more pull-right"><a href="{:xianyu_data_url('home/star/role',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" class="text-muted" title="{$star_name}参演角色">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+ {volist name="actor_list" id="role"}
+<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-12 col-sm-12 col-xs-12 news-box-txt p-0">
+<div class="col-md-2 col-sm-3 col-xs-3 news-box-txt-l"><a class="video-pic loading" href="{$role.role_readurl}" title="{$star_name}{$role.vod_name}{$role.role_name}" data-original="{$role.role_picurl}"><span class="note text-bg-c">{$role.role_name}</span></a></div>
+<div class="col-md-10 col-sm-9 col-xs-9 pb-0">
+<div class="news-info">
+<div class="actor-role-top"><strong><a href="{$role.vod_readurl}" target="_blank" title="{$role.vod_name}">{$role.vod_name}</a></strong><strong><a href="{$role.role_readurl}" target="_blank" title="{$role.vod_name}{$role.role_name}">{$role.role_name}</a></strong><span>演员：</span><a class="text-color" {php}if(strstr($role['star_readurl'],"wd-")){echo 'rel="nofollow"' ;}{/php} href="{$role.star_readurl}" target="_blank">{$role.role_star|default='未知'}</a><div class="more pull-right"><a href="{$role.role_readurl}" class="text-muted hidden-xs" title="详细">详细 <i class="icon iconfont">&#xe65e;</i></a></div></div>
+<div class="actor-role-info" style="min-height:60px;">
+{empty name="role.role_content"}暂无对此角色的描述。{else/}{$role.role_content|msubstr=0,60,'...'}{/empty}
+</div>
+</div></div>
+</div>
+</div>
+{/volist} 
+</div>
+</div>
+ <!--明星角色模块结束--> 
+  {/notempty}
+ 
+ {notempty name="vod_list"} 
+  <!--明星作品模块开始-->   
+<div class="layout-box clearfix">
+  <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+      <div class="box-title">
+    <h3 class="m-0">{$star_name}作品</h3>
+    <div class="more pull-right"><a href="{:xianyu_data_url('home/star/work',array('id'=>$star_id,'pinyin'=>$star_letters,'cid'=>$star_cid,'dir'=>getlistname($star_cid,'list_dir')))}" class="text-muted" title="{$star_name}作品">更多 <i class="icon iconfont">&#xe65e;</i></a></div>
+    </div>
+        <div class="swiper-container vod-swiper-6">
+            <ul class="swiper-wrapper">
+            {volist name="vod_list" id="xianyu"}
+              <li class="swiper-slide">
+                <a class="video-pic swiper-lazy" href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}" data-background="{$xianyu.vod_picurl}">{notempty name="xianyu.vod_diantai"}<span class="tips orange">{$xianyu.vod_diantai}</span>{/notempty}<span class="note text-bg-c">{notempty name="xianyu.vod_continu"}{notempty name="xianyu.vod_title"}{$xianyu.vod_title}{else /}{$xianyu.vod_continu}{/notempty}{else /}{$xianyu.vod_title}{/notempty}</span><div class="swiper-lazy-preloader"></div></a>
+                  <div class="title">
+                    <h5 class="text-overflow"><a href="{$xianyu.vod_readurl}" title="{$xianyu.vod_name}">{$xianyu.vod_name}</a></h5>
+                  </div>
+                  <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor|default='未知'}</div>
+              </li>
+           {/volist}
+            </ul>
+            <div class="swiper-button-next hidden-xs"><i class="icon iconfont icon-right"></i></div>
+            <div class="swiper-button-prev hidden-xs"><i class="icon iconfont icon-left"></i></div>
+          </div>
+</div>
+</div>
+ <!--明星作品模块结束--> 
+{/notempty}
+{notempty name="star_data"}
+  <!--明星介绍开始-->   
+<div class="layout-box clearfix">
+<div class="col-md-12">
+<div class="details-story">
+{volist name="star_data" id="star" key="key"}
+<h4 class="text-overflow text-left">{$star.title}</h4>
+<div class="details-content text-justify">
+<p>{$star.info}</p>
+</div>
+{/volist}
+</div>
+</div>
+</div>
+</div>
+ <!--明星介绍结束--> 
+{/notempty}
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row"> 
+{include file="vod_detail_cm" /}
+</div>
+</div>
+{$vod_hits_insert}
+<!--盒子结束--> 
+{include file="zp_footer" /}
+</body>
+</html>

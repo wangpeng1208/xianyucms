@@ -1,0 +1,41 @@
+{extend name="collect/show"/}
+{block name="body"}
+<div class="fixed-table-body">
+  <form class="ids" id="form" method="post">
+    <table id="table" class="table table-striped table-bordered table-hover" style="margin-top: 0px;" width="100%">
+      <thead>
+        <tr style="height:45px;">
+          <th align="center" class="bs-checkbox"><input name="chkall" type="checkbox" id="chkall"></th>
+          <th style="text-align:center;vertical-align: middle;">ID</th>
+          <th style="text-align:left;vertical-align: middle;">明星分类</th>
+          <th style="text-align:left;vertical-align: middle;">明星名字</th>
+          <th style="text-align:left;vertical-align: middle;">明星性别</th>
+          <th style="text-align:left;vertical-align: middle;">明星国籍</th>   
+          <th style="text-align:left;vertical-align: middle;">明星地区</th>                   
+          <th style="text-align:center;vertical-align: middle;">更新时间</th>
+        </tr>
+      </thead>
+      <tbody>
+      {notempty name="data"}
+      {volist name="data" id="vo"}
+      <tr>
+        <td class="bs-checkbox" style="text-align:center;vertical-align: middle;"><input name="id[]" type="checkbox" value="{$vo['star_id']}" id="checkbox"></td>
+        <td style="text-align:center;vertical-align: middle;">{$vo.star_id}</td>
+        <td style="text-align:left;vertical-align: middle;">{$vo.list_name}</td>
+        <td style="text-align:left;vertical-align: middle;">{$vo.star_name} <a href="{:admin_url('admin/star/index',array('wd'=>urlencode($vo.vod_name)))}" target="_blank" style="color:#FF0000">查</a></td>
+        <td style="text-align:left;vertical-align: middle;">{$vo.star_xb}</td>
+        <td style="text-align:left;vertical-align: middle;">{$vo.star_gj}</td>
+        <td style="text-align:left;vertical-align: middle;">{$vo.star_area}</td>
+        <td style="text-align:center;vertical-align: middle;">{$vo.star_addtime}</td>
+      </tr>
+      {/volist}
+      {else/}
+      <tr>
+        <td style="text-align:center;vertical-align: middle;" colspan="8" >抱歉，没有找到相关内容！</td>
+      </tr>
+      {/notempty}      
+      </tbody>
+    </table>
+  </form>
+</div>
+{/block}

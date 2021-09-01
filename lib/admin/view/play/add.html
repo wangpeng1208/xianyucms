@@ -1,0 +1,101 @@
+{layout name="layout/index" /}
+<div class="panel panel-default panel-intro">
+{notempty name="nav_title.title"}
+    <div class="panel-heading">
+        <div class="panel-lead">
+          {$nav_title.remark}
+        </div>
+    </div>
+{/notempty} 
+<div class="panel-body is-dialog">
+<form id="edit-form" class="edit-form form-horizontal" role="form" method="post">
+<div class="form-group play_title">
+                <label for="name" class="control-label col-xs-12 col-sm-2">播放器名称:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="play_title" value="{$info.play_title|default=''}" data-rule="required" autocomplete="false" placeholder="播放器中文名称">
+                </div>
+            </div>    
+  <div class="form-group play_name">
+                <label for="name" class="control-label col-xs-12 col-sm-2">播放器标识:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" name="play_name" value="{$info.play_name|default=''}" data-rule="required" autocomplete="false" placeholder="使用字母" style="text-align:center" data-tip="使用字母,添加完成播放器后请在程序{$public}/player/播放器标识.js 的播放器JS文件">
+                     
+                </div>
+            </div> 
+ <div class="form-group play_oid">
+                <label for="name" class="control-label col-xs-12 col-sm-2">播放器排序:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" name="play_oid" value="{$info.play_oid|default=''}" autocomplete="false" placeholder="越小越前面" style="text-align:center" data-tip="越小越前面">
+                </div>
+            </div> 
+ <div class="form-group play_copyright">
+                <label for="name" class="control-label col-xs-12 col-sm-2">版权跳转:</label>
+                <div class="col-xs-12 col-sm-3">
+                    <input type="text" class="form-control" name="play_copyright" value="{$info.play_copyright|default=''}"  autocomplete="false"  style="text-align:center" data-tip="填写数字为开启版权跳转时间秒">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">播放形式:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="play_cloud" class="form-control selectpicker" style="width:65px;">
+                    <option value="0">官方云播</option>
+                    <option value="1" {eq name="info.play_cloud" value="1" }selected{/eq}>本地JS</option> 
+                    </select>
+                </div>
+            </div>            
+ <div class="form-group play_apiurl">
+                <label for="name" class="control-label col-xs-12 col-sm-2">解析地址:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="play_apiurl" value="{$info.play_apiurl|default=''}"  autocomplete="false"  data-tip="播放器变量参数:播放器名{playname}">
+                </div>
+            </div>
+  <div class="form-group play_downurl">
+                <label for="name" class="control-label col-xs-12 col-sm-2">播放器安装地址:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="play_downurl" value="{$info.play_downurl|default=''}"  autocomplete="false" data-tip="留空默认:{$public}/player/setup/播放器标识.html">
+                </div>
+            </div> 
+   <div class="form-group play_key">
+                <label for="name" class="control-label col-xs-12 col-sm-2">加密地址密匙:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="play_key" value="{$info.play_key|default=''}"  autocomplete="false" style="text-align:center" data-tip="填写加密密匙,开启加密,留空不加密,完美配合加密全网解析 需要联系 QQ ：1139599288">
+                </div>
+            </div>  
+   <div class="form-group play_keytime">
+                <label for="name" class="control-label col-xs-12 col-sm-2">密匙失效时间:</label>
+                <div class="col-xs-12 col-sm-2">
+                    <input type="text" class="form-control" name="play_keytime" value="{$info.play_keytime|default=''}"  autocomplete="false" style="text-align:center" data-tip="默认设置为0长期有效">
+                </div>
+            </div> 
+              <div class="form-group play_status">
+                <label for="content" class="control-label col-xs-12 col-sm-2">采集状态:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="play_status" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">启用</option>
+                        <option value="0" {eq name="info.play_status" value="0" }selected{/eq}>禁用</option>
+                    </select>
+                </div>
+            </div>
+              <div class="form-group">
+                <label for="content" class="control-label col-xs-12 col-sm-2">页面显示:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select name="play_display" class="form-control selectpicker" style="width:65px;">
+                        <option value="1">显示</option>
+                        <option value="0" {eq name="info.play_display" value="0" }selected{/eq}>隐藏</option>
+                    </select>
+                </div>
+            </div>  
+            {notempty name="info.play_id"}
+            <input type="hidden" name="play_id" value="{$info['play_id']|default=''}">
+            {/notempty}
+   <div class="form-group hidden layer-footer">
+      <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">确定</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+            <button type="reset" class="btn btn-primary btn-embossed btn-close" onclick="Layer.closeAll();"> 关闭</button>
+        </div>
+    </div>
+</form>
+            </div>
+            </div> 

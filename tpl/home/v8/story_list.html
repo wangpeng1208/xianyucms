@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>{notempty name="list_title"}{$list_title}{else/}{$list_name}{$list_name_big}{/notempty}{neq name="list_page" value="1"}第{$list_page}页{/neq} - {$sitename}</title>
+<meta name="keywords" content="{notempty name="list_keywords"}{$list_keywords}{else/}最新剧情,电视剧分集剧情,剧情介绍{/notempty}">
+<meta name="description" content="{notempty name="list_description"}{$list_description}{else/}最新剧情栏目包含的电视剧剧情,剧情分集介绍等希望你能喜欢！{/notempty}">
+{include file="zp_include" /}
+</head>
+<body>
+{include file="zp_header" /}
+<div class="container">
+  <div class="row">
+{php}$array_listid = getlistall($list_pid);{/php}
+    <div class="layout-box clearfix">
+    <div class="box-title-nav">
+    <ul class="clearfix">
+    <li><a class="text-overflow" href="{$list_url_big}">全部{$list_name_big}</a></li>
+   {volist name="array_listid" id="zp_listid" offset="0" length='7'}
+    <li><a class="text-overflow {eq name="zp_listid.list_id" value="$list_id"}active{/eq}" href="{$zp_listid.list_url}">{$zp_listid.list_name}剧情</a></li>
+{/volist}
+    </ul>
+    </div>    
+    </div>
+
+
+{php}$volist=xianyu_mysql_story('cid:'.$list_id.';limit:38;page:true;p:'.$list_page.';order:story_addtime desc;');{/php}
+<div class="col-md-9 col-sm-12 box-main-content">
+  <div class="layout-box clearfix">
+    <div class="box-title">
+      <h3 class="m-0">{$list_name}剧情</h3>
+<div class="more pull-right">共<span class="text-color">“{$volist.0.page.pagecount}”</span>篇剧情</div>
+    </div>
+    <div class="col-md-3 col-sm-4 col-xs-12 p-0 hotlist">
+     {volist name="volist" id="xianyu" offset="0" length='4'}
+     <li class="col-md-12 col-sm-12 col-xs-4 {gt name="i" value="3"} hidden-xs{/gt}">
+     <a class="video-pic loading" data-original="{$xianyu.vod_picurl}" href="{eq name="xianyu.story_cont" value="1"}{$xianyu.story_readurl}{else/}{$xianyu.story_endurl}{/eq}" title="{$xianyu.vod_name}{eq name="xianyu.story_cont" value="1"}全集剧情{else/}{$xianyu.story_title}分集剧情{/eq}"><span class="note text-bg-r">{eq name="xianyu.story_cont" value="1"}分集剧情介绍（1-{$xianyu.story_continu}集）大结局{else/}{$xianyu.story_title}剧情介绍{/eq}</span> <span class="top"><em>{$i}</em></span></a>
+      <div class="title">
+        <h5 class="text-overflow"><a href="{$xianyu.story_readurl}" title="{$xianyu.vod_name}剧情">{$xianyu.vod_name}剧情</a></h5>
+      </div>
+      <div class="subtitle text-muted text-overflow hidden-xs">{$xianyu.vod_actor}</div>
+     </li>
+     {/volist}
+    </div>
+    <div class="col-md-9 col-sm-4 col-xs-12 pg-0">
+    <div class="box-video-text-list clearfix">
+      <ul>
+            {volist name="volist" id="xianyu" offset="4"}
+              <li class="list1 text-overflow">
+              <em class="key">{$i+4}.</em>
+              {eq name="xianyu.story_cont" value="1"}
+              <a href="{$xianyu.story_readurl}" title="{$xianyu.vod_name}全集剧情分集剧情介绍（1-{$xianyu.story_continu}集）大结局"><span class="time pull-right hidden-xs">{$xianyu.story_addtime|date='Y-m-d H:i:s',###}</span>{$xianyu.vod_name}分集剧情介绍（1-{$xianyu.story_continu}集）大结局</a>{else/}
+              <a href="{$xianyu.story_endurl}" title="{$xianyu.vod_name}{$xianyu.story_title}分集剧情"><span class="time pull-right hidden-xs">{$xianyu.story_addtime|date='Y-m-d H:i:s',###}</span>{$xianyu.vod_name}分集剧情介绍{$xianyu.story_title}剧情</a>
+              {/eq}
+              </li>
+           {/volist}
+           
+            </ul>
+    </div>
+    </div>
+
+{notempty name="volist"}
+<div class="box-page clearfix m-0" id="long-page"><ul>{$volist.0.page.pageurl}</ul></div>
+{/notempty}    
+  </div>
+</div>
+{php}$list_new =xianyu_mysql_story('cid:'.$zp_listid['list_id'].';limit:8;order:story_addtime desc;');{/php}
+<div class="col-md-3 col-sm-12 box-main-side hidden-xs">
+  <div class="layout-box clearfix">
+    <div class="box-title " style="padding:0px 0px 10px 0">
+    <h3 class="m-0">最新{:getlistname($list_pid,'list_name')}</h3>
+    </div>        
+<div class="box-video-text-list">
+      <ul class="clearfix mg-0">
+        {volist name="list_new" id="xianyu"}
+<li class="list p-0"><span class="pull-right">{eq name="xianyu.story_cont" value="1"}全集剧情{else/}{$xianyu.story_title}剧情{/eq}</span><a href="{$xianyu.story_readurl}" title="{$xianyu.vod_name}"><em class="num {lt name="i" value="3"}active{/lt}">{$i}</em>{$xianyu.vod_name|msubstr=0,8,'..'}</a></li>
+        {/volist}
+      </ul>
+    </div>
+  </div>
+{include file="vod_detail_right" /} 
+   
+  
+</div>
+
+
+
+
+
+ 
+  </div>
+</div>
+{include file="zp_footer" /}
+</body>
+</html>

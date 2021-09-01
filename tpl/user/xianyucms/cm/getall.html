@@ -1,0 +1,37 @@
+{notempty name="list"}
+{volist name="list" id="xianyu"}
+{php}
+           $type=getmodeid($xianyu['cm_sid'],'title');
+		    if($xianyu['cm_sid']==1){
+			$cminfo=get_vod_find($xianyu['cm_vid'],'vod_id','vod_id,vod_letters,vod_name,vod_cid,vod_jumpurl');
+			$name=$cminfo['vod_name'];
+			$url=xianyu_data_url('home/vod/read',array('id'=>$cminfo['vod_id'],'pinyin'=>$cminfo['vod_letters'],'cid'=>$cminfo['vod_cid'],'dir'=>getlistname($cminfo['vod_cid'],'list_dir'),'jumpurl'=>$cminfo['vod_jumpurl']));
+			}elseif($xianyu['cm_sid']==2){
+			$cminfo=get_news_find($xianyu['cm_vid'],'news_id','news_id,news_name,news_cid,news_jumpurl');
+			$name=$cminfo['news_name'];
+			$url=xianyu_data_url('home/news/read',array('id'=>$cminfo['news_id'],'cid'=>$cminfo['news_cid'],'dir'=>getlistname($cminfo['news_cid'],'list_dir'),'jumpurl'=>$cminfo['news_jumpurl']));
+			}elseif($xianyu['cm_sid']==3){
+			$cminfo=get_star_find($xianyu['cm_vid'],'star_id','star_id,star_letters,star_name,star_cid,star_jumpurl');
+			$name=$cminfo['star_name'];
+			$url=xianyu_data_url('home/star/read',array('id'=>$cminfo['star_id'],'pinyin'=>$cminfo['star_letters'],'cid'=>$cminfo['star_cid'],'dir'=>getlistname($cminfo['star_cid'],'list_dir'),'jumpurl'=>$cminfo['star_jumpurl']));
+			}
+
+{/php}
+<li>
+  <div class="news-avatar">
+  <a href="javascript:void(0);"><img src="{$userinfo['avatar']}" alt="{$userinfo.nickname}"></a></div>
+  <div class="news-box">
+  <div class="news-cnt">
+  <div class="news-top">
+   {eq name="xianyu.cm_pid" xianyu="0"}<a href="javascript:void(0);">我</a> 评论了：
+    <span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span>
+    {else/}<a href="javascript:void(0);">我</a> 回复了<span class="user">&nbsp;<a href='{:xianyu_user_url('user/home/index',array('id'=>$xianyu['cm_tuid']))}' target='_blank'>{:get_user_info($xianyu['cm_tuid'])}</a>&nbsp;</span>在：<span class="name"><a href='{$url}' target='_blank'>【{$type}】{$name}</a></span><span>的评论</span>
+    {/eq}
+  </div>
+   </div>
+  <p class="cmt">{$xianyu['cm_content']|strip_tags|remove_xss|get_emots}</p>
+   <div class="news-ft">{$xianyu['cm_addtime']|date='Y-m-d H:i:s',###}</div>
+  </div>
+  </li>
+{/volist}  
+{/notempty}
