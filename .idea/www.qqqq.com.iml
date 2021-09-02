@@ -37,6 +37,8 @@
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/swiftmailer/swiftmailer" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/yzh52521/think-mail" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/runtime" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

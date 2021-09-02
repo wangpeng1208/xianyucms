@@ -3,3 +3,5 @@
 /lib/api
 /addons
 /runtime
+.idea
+.DS_Store
