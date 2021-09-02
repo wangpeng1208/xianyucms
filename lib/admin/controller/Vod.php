@@ -37,7 +37,7 @@ class Vod extends Admin
 		$admin['orders'] = $admin['type'] . ' ' . $admin['order'];
 		$admin['p'] = input('p/d', '');
 		$limit = config('admin_list_pages');
-		$where = "";
+		$where = [];
 		if ($admin['cid']) {
 			$where['vod_cid'] = getlistsqlin($admin['cid']);
 		}

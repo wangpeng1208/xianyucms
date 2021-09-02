@@ -132,7 +132,7 @@ class Vod extends Home
             if ($detail['userid'] < 1) {
                 $detail['play_status'] = 500;//用户未登录
             } else {
-                $user = model('User')->where('user_status', 0)->find(cmf_is_user_login());
+                $user = model('User')->where('user_status', 2)->find(cmf_get_current_user_id());
                 if (!$user) {
                     $detail['play_status'] = 501;//没有找到用户或用户被锁定
                 } else {
@@ -140,6 +140,7 @@ class Vod extends Home
                     $detail['user_deadtime'] = $user['viptime'];
                 }
             }
+//            halt($detail);
             //VIP包月权限
             if ($user && $detail['play_vipplay'] == 2) {
                 if (time() > $user['viptime']) {

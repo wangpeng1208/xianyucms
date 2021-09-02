@@ -25,11 +25,18 @@
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/theseer/fdomdocument" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/topthink/think-captcha" />
-      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/topthink/think-helper" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/topthink/think-installer" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/topthink/think-worker" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/workerman/gateway-worker" />
       <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/workerman/workerman" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/egulias/email-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/symfony/polyfill-intl-idn" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/symfony/polyfill-intl-normalizer" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/symfony/polyfill-php72" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/symfony/polyfill-iconv" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/swiftmailer/swiftmailer" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/doctrine/lexer" />
+      <excludeFolder url="file://$MODULE_DIR$/thinkphp/vendor/yzh52521/think-mail" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

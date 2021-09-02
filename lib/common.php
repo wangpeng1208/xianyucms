@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
+use mailer\lib\Config as MailerConfig;
+use mailer\lib\Mailer;
 use think\Cache;
 use think\captcha\Captcha;
 use think\Db;
@@ -1224,7 +1226,7 @@ function xianyu_tag_auto($title, $content)
 /**
  * 获取客户端IP地址
  * @param integer $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
- * @param boolean $adv  是否进行高级模式获取（有可能被伪装）
+ * @param boolean $adv 是否进行高级模式获取（有可能被伪装）
  * @return string
  */
 function get_client_ip($type = 0, $adv = true)
@@ -1426,16 +1428,16 @@ function xianyu_img_url_array($content)
 {
     //import('phpQuery.phpQuery', EXTEND_PATH);
     \phpQuery::newDocumentHTML($content);
-    $pq         = pq(null);
-    $images     = $pq->find("img");
+    $pq = pq(null);
+    $images = $pq->find("img");
     $imagesData = [];
     if ($images->length) {
         foreach ($images as $img) {
-            $img            = pq($img);
-            $image          = [];
-            $image['src']   = $img->attr("src");
+            $img = pq($img);
+            $image = [];
+            $image['src'] = $img->attr("src");
             $image['title'] = $img->attr("title");
-            $image['alt']   = $img->attr("alt");
+            $image['alt'] = $img->attr("alt");
             array_push($imagesData, $image);
         }
     }
@@ -3372,7 +3374,7 @@ function xianyu_mysql_user()
 {
     $field = 'userid,avatar,nickname';
     $limit = 9;
-    $where['nickname'] = ['NEQ',''];
+    $where['nickname'] = ['NEQ', ''];
     // 查询字段
     $data = Db::name('user')->field($field)->where($where)->limit($limit)->order('last_login_time desc')->select();
     return $data;
@@ -4041,8 +4043,9 @@ function baidutui($urls, $type = 'add', $data = 1)
 }*/
 
 // 生成token
-function createToken($str){
-    $tokenSalt = md5( uniqid( md5(microtime(true)) ), true );
+function createToken($str)
+{
+    $tokenSalt = md5(uniqid(md5(microtime(true))), true);
     return sha1($tokenSalt . $str);
 }
 
@@ -4075,14 +4078,14 @@ function cmf_generate_user_token($userId, $deviceType)
     $userTokenQuery = Db::name("user_token")
         ->where('user_id', $userId)
         ->where('device_type', $deviceType);
-    $findUserToken  = $userTokenQuery->find();
-    $currentTime    = time();
-    $expireTime     = $currentTime + 24 * 3600 * 180;
-    $token          = md5(uniqid()) . md5(uniqid());
+    $findUserToken = $userTokenQuery->find();
+    $currentTime = time();
+    $expireTime = $currentTime + 24 * 3600 * 180;
+    $token = md5(uniqid()) . md5(uniqid());
     if (empty($findUserToken)) {
         Db::name("user_token")->insert([
-            'token'       => $token,
-            'user_id'     => $userId,
+            'token' => $token,
+            'user_id' => $userId,
             'expire_time' => $expireTime,
             'create_time' => $currentTime,
             'device_type' => $deviceType
@@ -4095,7 +4098,7 @@ function cmf_generate_user_token($userId, $deviceType)
                 ->where('user_id', $userId)
                 ->where('device_type', $deviceType)
                 ->update([
-                    'token'       => $token,
+                    'token' => $token,
                     'expire_time' => $expireTime,
                     'create_time' => $currentTime
                 ]);
@@ -4114,6 +4117,7 @@ function cmf_update_current_user($user)
 {
     session('user', $user);
 }
+
 /**
  * 获取当前登录前台用户id
  * @return int
@@ -4165,13 +4169,13 @@ function cmf_get_user_avatar($id)
 /**
  * 验证码检查，验证完后销毁验证码
  * @param string $value 要验证的字符串
- * @param string $id    验证码的ID
- * @param bool   $reset 验证成功后是否重置
+ * @param string $id 验证码的ID
+ * @param bool $reset 验证成功后是否重置
  * @return bool
  */
 function cmf_captcha_check($value, $id = "", $reset = true)
 {
-    $captcha        = new Captcha();
+    $captcha = new Captcha();
     return $captcha->check($value, $id);
 }
 
@@ -4200,7 +4204,7 @@ function cmf_check_mobile($mobile)
 
 /**
  * CMF密码加密方法
- * @param string $pw       要加密的原始密码
+ * @param string $pw 要加密的原始密码
  * @param string $authCode 加密字符串
  * @return string
  */
@@ -4215,28 +4219,28 @@ function cmf_password($pw, $authCode = '')
 
 /**
  * CMF密码比较方法,所有涉及密码比较的地方都用这个方法
- * @param string $password     要比较的密码
+ * @param string $password 要比较的密码
  * @param string $passwordInDb 数据库保存的已经加密过的密码
  * @return boolean 密码相同，返回true
  */
 function cmf_compare_password($password, $passwordInDb)
 {
 
-        return cmf_password($password) == $passwordInDb;
+    return cmf_password($password) == $passwordInDb;
 
 }
 
 /**
  * 添加钩子
- * @param string $hook   钩子名称
- * @param mixed  $params 传入参数
+ * @param string $hook 钩子名称
+ * @param mixed $params 传入参数
  * @return void
  */
 
 /**
  * 添加钩子,只执行一个
- * @param string $hook   钩子名称
- * @param mixed  $params 传入参数
+ * @param string $hook 钩子名称
+ * @param mixed $params 传入参数
  * @return mixed
  */
 function hook_one($hook, $params = null)
@@ -4280,11 +4284,11 @@ function cmf_user_action($action)
             switch ($cycleType) {//1:按天;2:按小时;3:永久
                 case 1:
                     $firstDayStartTime = strtotime(date('Y-m-d', $findUserScoreLog['create_time']));
-                    $endDayEndTime     = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
+                    $endDayEndTime = strtotime(date('Y-m-d', strtotime("+{$cycleTime} day", $firstDayStartTime)));
 //                    $todayStartTime        = strtotime(date('Y-m-d'));
 //                    $todayEndTime          = strtotime(date('Y-m-d', strtotime('+1 day')));
                     $findUserScoreLogCount = Db::name('user_score_log')->where([
-                        'user_id'     => $userId,
+                        'user_id' => $userId,
                         'create_time' => [['gt', $firstDayStartTime], ['lt', $endDayEndTime]]
                     ])->count();
                     if ($findUserScoreLogCount < $findUserAction['reward_number']) {
@@ -4307,11 +4311,11 @@ function cmf_user_action($action)
 
     if ($changeScore) {
         Db::name('user_score_log')->insert([
-            'user_id'     => $userId,
+            'user_id' => $userId,
             'create_time' => time(),
-            'action'      => $action,
-            'score'       => $findUserAction['score'],
-            'coin'        => $findUserAction['coin'],
+            'action' => $action,
+            'score' => $findUserAction['score'],
+            'coin' => $findUserAction['coin'],
         ]);
 
         $data = [];
@@ -4340,8 +4344,8 @@ function cmf_user_action($action)
 
 /**
  * 检查手机或邮箱是否还可以发送验证码,并返回生成的验证码
- * @param string  $account 手机或邮箱
- * @param integer $length  验证码位数,支持4,6,8
+ * @param string $account 手机或邮箱
+ * @param integer $length 验证码位数,支持4,6,8
  * @return string 数字验证码
  * @throws \think\db\exception\DataNotFoundException
  * @throws \think\db\exception\ModelNotFoundException
@@ -4351,14 +4355,14 @@ function cmf_get_verification_code($account, $length = 6)
 {
     if (empty($account)) return false;
     $verificationCodeQuery = Db::name('verification_code');
-    $currentTime           = time();
-    $maxCount              = 5;
-    $findVerificationCode  = $verificationCodeQuery->where('account', $account)->find();
-    $result                = false;
+    $currentTime = time();
+    $maxCount = 5;
+    $findVerificationCode = $verificationCodeQuery->where('account', $account)->find();
+    $result = false;
     if (empty($findVerificationCode)) {
         $result = true;
     } else {
-        $sendTime       = $findVerificationCode['send_time'];
+        $sendTime = $findVerificationCode['send_time'];
         $todayStartTime = strtotime(date('Y-m-d', $currentTime));
         if ($sendTime < $todayStartTime) {
             $result = true;
@@ -4388,9 +4392,9 @@ function cmf_get_verification_code($account, $length = 6)
 
 /**
  * 更新手机或邮箱验证码发送日志
- * @param string $account    手机或邮箱
- * @param string $code       验证码
- * @param int    $expireTime 过期时间
+ * @param string $account 手机或邮箱
+ * @param string $code 验证码
+ * @param int $expireTime 过期时间
  * @return int|string
  * @throws \think\Exception
  * @throws \think\db\exception\DataNotFoundException
@@ -4401,7 +4405,7 @@ function cmf_get_verification_code($account, $length = 6)
 function cmf_verification_code_log($account, $code, $expireTime = 0)
 {
     $currentTime = time();
-    $expireTime  = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
+    $expireTime = $expireTime > $currentTime ? $expireTime : $currentTime + 30 * 60;
 
     $findVerificationCode = Db::name('verification_code')->where('account', $account)->find();
 
@@ -4415,18 +4419,18 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
         $result = Db::name('verification_code')
             ->where('account', $account)
             ->update([
-                'send_time'   => $currentTime,
+                'send_time' => $currentTime,
                 'expire_time' => $expireTime,
-                'code'        => $code,
-                'count'       => $count
+                'code' => $code,
+                'count' => $count
             ]);
     } else {
         $result = Db::name('verification_code')
             ->insert([
-                'account'     => $account,
-                'send_time'   => $currentTime,
-                'code'        => $code,
-                'count'       => 1,
+                'account' => $account,
+                'send_time' => $currentTime,
+                'code' => $code,
+                'count' => 1,
                 'expire_time' => $expireTime
             ]);
     }
@@ -4436,9 +4440,9 @@ function cmf_verification_code_log($account, $code, $expireTime = 0)
 
 /**
  * 手机或邮箱验证码检查，验证完后销毁验证码增加安全性,返回true验证码正确，false验证码错误
- * @param string  $account 手机或邮箱
- * @param string  $code    验证码
- * @param boolean $clear   是否验证后销毁验证码
+ * @param string $account 手机或邮箱
+ * @param string $code 验证码
+ * @param boolean $clear 是否验证后销毁验证码
  * @return string  错误消息,空字符串代码验证码正确
  * @return string
  * @throws \think\Exception
@@ -4482,7 +4486,7 @@ function cmf_check_verification_code($account, $code, $clear = false)
 function cmf_clear_verification_code($account)
 {
     $verificationCodeQuery = Db::name('verification_code');
-    $result                = $verificationCodeQuery->where('account', $account)->update(['code' => '']);
+    $result = $verificationCodeQuery->where('account', $account)->update(['code' => '']);
     return $result;
 }
 
@@ -4492,67 +4496,42 @@ function cmf_clear_verification_code($account)
  * @param string $address 收件人邮箱
  * @param string $subject 邮件标题
  * @param string $message 邮件内容
- * @return array<br>
- *                        返回格式：<br>
- *                        array(<br>
- *                        "error"=>0|1,//0代表出错<br>
- *                        "message"=> "出错信息"<br>
- *                        );
- * @throws phpmailerException
  */
-function cmf_send_email($address, $subject, $message)
+function cmf_send_email($address = '', $subject = '', $message = '')
 {
-
-    $options = [
-        'charset' => 'utf-8', //编码格式
-        'debug' => 1, //调式模式
+    $userMailConfig = F('_data/userconfig_cache');
+    $config = [
+        'driver' => 'smtp', // 邮件驱动, 支持 smtp|sendmail|mail 三种驱动
+        'host' => $userMailConfig['mail_smtp_host'], // SMTP服务器地址
+        'port' => $userMailConfig['mail_smtp_port'], // SMTP服务器端口号,一般为25
+        'addr' => $userMailConfig['mail_smtp_user'], // 发件邮箱地址
+        'pass' => $userMailConfig['mail_smtp_pass'], // 发件邮箱密码
+        'name' => 'i7', // 发件邮箱名称
+        'content_type' => 'text/html', // 默认文本内容 text/html|text/plain
+        'charset' => 'utf-8', // 默认字符集
+        'security' => 'ssl', // 加密方式 null|ssl|tls, QQ邮箱必须使用ssl
+        'sendmail' => '/usr/sbin/sendmail -bs', // 不适用 sendmail 驱动不需要配置
+        'debug' => true, // 开启debug模式会直接抛出异常, 记录邮件发送日志
+        'left_delimiter' => '{', // 模板变量替换左定界符, 可选, 默认为 {
+        'right_delimiter' => '}', // 模板变量替换右定界符, 可选, 默认为 }
+        'log_driver' => '', // 日志驱动类, 可选, 如果启用必须实现静态 public static function write($content, $level = 'debug') 方法
+        'log_path' => '', // 日志路径, 可选, 不配置日志驱动时启用默认日志驱动, 默认路径是 /path/to/think-mailer/log, 要保证该目录有可写权限, 最好配置自己的日志路径
+        'embed' => 'embed:', // 邮件中嵌入图片元数据标记
     ];
-    if ($config = F('_data/userconfig_cache')) {
-        $smtpSetting = array_merge($config, $options);
+    MailerConfig::init($config);
+    $mailer = Mailer::instance();
+    $data = $mailer->from($userMailConfig['mail_smtp_user'], 'service')
+        ->to($address)
+        ->subject($subject)
+        ->text($message)
+        ->send();
+    if (!$data) {
+        return ["code" => 0, "message" => '发送失败'];
     } else {
-        return false;
-    }
-    $mail        = new \PHPMailer\PHPMailer\PHPMailer();
-    // 设置PHPMailer使用SMTP服务器发送Email
-    $mail->IsSMTP();
-    $mail->IsHTML(true);
-    //$mail->SMTPDebug = 3;
-    // 设置邮件的字符编码，若不指定，则为'UTF-8'
-    $mail->CharSet = 'UTF-8';
-    // 添加收件人地址，可以多次使用来添加多个收件人
-    $mail->AddAddress($address);
-    // 设置邮件正文
-    $mail->Body = $message;
-    // 设置邮件头的From字段。
-    $mail->From = $smtpSetting['mail_from'];
-    // 设置发件人名字
-    $mail->FromName = $smtpSetting['mail_smtp_user'];
-    // 设置邮件标题
-    $mail->Subject = $subject;
-    // 设置SMTP服务器。
-    $mail->Host = $smtpSetting['mail_smtp_host'];
-    //by Rainfer
-    // 设置SMTPSecure。
-    $Secure           = $smtpSetting['smtp_secure'];
-    $mail->SMTPSecure = empty($Secure) ? '' : $Secure;
-    // 设置SMTP服务器端口。
-    $port       = $smtpSetting['mail_smtp_port'];
-    $mail->Port = empty($port) ? "25" : $port;
-    // 设置为"需要验证"
-    $mail->SMTPAuth    = true;
-    $mail->SMTPAutoTLS = false;
-    $mail->Timeout     = 10;
-    // 设置用户名和密码。
-    $mail->Username = $smtpSetting['mail_smtp_user'];
-    $mail->Password = $smtpSetting['mail_smtp_pass'];
-    // 发送邮件。
-    if (!$mail->Send()) {
-        $mailError = $mail->ErrorInfo;
-        return ["error" => 1, "message" => $mailError];
-    } else {
-        return ["error" => 0, "message" => "success"];
+        return ["code" => 1, "message" => "发送成功"];
     }
 }
+
 /**
  * 获取系统配置，通用
  * @param string $key 配置键值,都小写

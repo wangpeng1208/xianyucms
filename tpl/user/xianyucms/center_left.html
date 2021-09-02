@@ -12,7 +12,6 @@
 {else /}
 <div class="user-center-title pt-0 hidden-xs"><h2 class="text-color">最近用户</h2></div>
 {php}$user_list = xianyu_mysql_user('limit:9;order:last_login_time desc');{/php}
-{$user_list|print_r}
 <ul class="box-star-list clearfix" >
 {volist name="user_list" id="r"}
 <li class="col-md-4 col-sm-4 col-xs-3"><a class="star-pic loading img-circle" data-original="{$r['avatar']}" style="padding-top:100%;" href="{:xianyu_user_url('user/home/index',array('id'=>$r['userid']))}"><span class="text-overflow">{$r.nickname}</span></a>
