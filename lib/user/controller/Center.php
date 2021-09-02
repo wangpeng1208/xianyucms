@@ -4,6 +4,7 @@
 namespace app\user\controller;
 
 use app\common\controller\User;
+use app\common\controller\Home;
 use app\common\model\Vod;
 use app\user\model\Favorite;
 use app\user\model\Remind;
@@ -12,7 +13,6 @@ use app\user\model\User as UserModel;
 use app\user\model\UserDetail;
 use cmf\lib\Storage;
 use think\Db;
-use think\Image;
 use think\Validate;
 
 class Center extends User

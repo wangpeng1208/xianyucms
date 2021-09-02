@@ -74,7 +74,7 @@ class Playlog extends Model
             $data['log_pid'] = $post['log_pid'];
             $data['log_urlname'] = $post['log_urlname'];
             $data['log_maxnum'] = $post['log_maxnum'];
-            $data['log_uid'] = cmf_is_user_login();
+            $data['log_uid'] = cmf_get_current_user_id();
             $data['log_addtime'] = time();
             $result = $this->save($data, ['log_vid' => $data['log_vid'], 'log_uid' => $data['log_uid']]);
             if (!$result) {
