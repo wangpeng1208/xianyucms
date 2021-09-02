@@ -32,6 +32,7 @@ class Push
      * @var null 本类实例化结果
      * */
     protected static $instance = null;
+
     protected function __construct($message_data = [])
     {
     }
@@ -94,19 +95,21 @@ class Push
         return;
     }
 
+
+
     protected function init()
     {
         $token = $this->message_data['msg']['token'];
-        if(empty($token)){
+        if (empty($token)) {
             // token不存在时 关闭ws  ? 是否游客也可以看到在线人数 则给游客加一个 9999
-            $this->uid = '99999'.rand(11111,99999);
+            $this->uid = '99999' . rand(11111, 99999);
             Gateway::bindUid($this->client_id, $this->uid);
             $_SESSION['user'] = [
                 'userid' => $this->uid,
-                'nickname' => '游客'. $this->uid
+                'nickname' => '游客' . $this->uid
             ];
             Gateway::bindUid($this->client_id, $_SESSION['user']['userid']);
-        }else{
+        } else {
             require_once './lib/push/mysql/Connection.php';
             $dataBase = require './runtime/conf/database.php';
             $this->db = new Connection($dataBase['hostname'], $dataBase['hostport'], $dataBase['username'], $dataBase['password'], $dataBase['database']);
@@ -138,9 +141,9 @@ class Push
         $onLineNumber = Gateway::getUidCountByGroup($vodRoom);
         // 通知自己进入了 标明自己当前状态
         Gateway::sendToUid($this->uid, json_encode([
-            'type' => 'vodRoomJoinStatus',
+            'type' => 'notice',
             'nickname' => $_SESSION['user']['nickname'],
-            'msgContent' => '连接成功',
+            'msgContent' => '在线',
             'status' => 1,
         ]));
         // vodRoomJoinTip 在线人数和在线列表
@@ -164,6 +167,7 @@ class Push
             'time' => time(),
             'msgContent' => $this->message_data['msg']['msgContent']
         ];
+
         Gateway::sendToGroup($this->vodRoom, json_encode($data));
     }
 

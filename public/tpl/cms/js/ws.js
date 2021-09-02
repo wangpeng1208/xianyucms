@@ -23,6 +23,7 @@ var Event = {
 var socket = {
     socket: null,
     token: getCookie('i7_token'),
+
     init() {
         this.socket = new WebSocket("ws://127.0.0.1:8282");
         this.socket.onopen = () => {
@@ -42,6 +43,13 @@ var socket = {
         setInterval(function () {
             socket.socket.send("{'type':'ping'}");
         }, 3000);
+        //请求加载历史评论
+        $.post(cms.root + "index.php?s=home-cm-getChat", {
+            vod_id: cms.id,
+        }, data => {
+            chatData = data
+            chatRender(chatData)
+        });
     },
     error(err) {
         console.log(err)
@@ -79,50 +87,41 @@ var socket = {
             case 'vodRoomChat': // 影片评论和在线聊天
                 Event.emit('vodRoomChat', msg)
                 return;
-            case 'addCm':
-                Event.emit('addCm', msg)
-                return;
         }
     }
 }
 socket.init()
+var chatData = []
 //所有用户进入房间 滚动提示 房间在线人数
 // 用户从该组离线后 考虑是否发功一个新的在线人数--ing
 Event.on('vodRoomJoinTip', msg => {
     $('#vodRoomTip').append(msg.msgContent);
-    $('#onLineNumber').html('(' + msg.onLineNumber + '人)');
+    $('#onLineNumber').html(msg.onLineNumber);
 })
 //房间用户的进入状态
-Event.on('vodRoomJoinStatus', msg => {
-    $('#vodRoomJoinStatus').html(msg.msgContent);
+Event.on('notice', msg => {
+    $('#vodRoomJoinStatus').html(msg.nickname + msg.msgContent);
     if (msg.status == 1) {
         $('#vodRoomJoin').hide()
     }
 })
+//房间在线人数
+Event.on('onLineNumber', msg => {
+    $('#onLineNumber').html(msg.onLineNumber);
+})
 //房间聊天内容
 Event.on('vodRoomChat', msg => {
-    if (msg.uid == cms.uid) {
-        var reverse = 'reverse'
-    } else {
-        reverse = ''
-    }
-    var msgTime = getNowFormatDate(msg.time)
-    var newMsg = `
-        <div class="message-wrapper ${reverse}">
-            <img class="message-pp" src="${msg.avatar}" alt="profile-pic">
-            ${msg.nickname}
-                <div class="message-box-wrapper">
-                    <div class="message-box">
-                        ${msg.msgContent}
-                    </div>
-                    <span>${msgTime}</span>
-                </div>
-        </div>
-    `;
-    // 监听聊天滚动的位置
-    var noticeEle = document.getElementById('notice');
-    noticeEle.innerHTML = noticeEle.innerHTML + newMsg;
-    noticeEle.scrollTop = noticeEle.scrollHeight; //当前div的滚轮始终保持最下面
+    //放进库中
+    $.post(cms.root + "index.php?s=home-cm-addChat", {
+            'msgContent':msg.msgContent,
+            'nickname':msg.nickname,
+            'time':msg.time,
+            'uid':msg.uid,
+            'videoId': cms.id,
+            'token' : getCookie('i7_token')
+    });
+    chatData.push(msg)
+    chatRender(chatData)
 })
 
 $('document').ready(function () {
@@ -159,12 +158,6 @@ $('document').ready(function () {
         socket.socket.send(JSON.stringify(data));
         msgContent.val("");
     });
-
-
-/*    function addChat(data) {
-        console.log(data);
-        $.post(cms.root + "index.php?s=home-cm-addChat", {"data": data});
-    }*/
 });
 
 /*
@@ -199,22 +192,33 @@ function delCookie(name) {
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-Date.prototype.Format = function (fmt) { //author: meizz
-    var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "H+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds() //毫秒
-    };
-    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-    return fmt;
-};
 
-function getNowFormatDate() {
-    return new Date().Format("yyyy-MM-dd HH:mm:ss");
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D+h+m+s;
+}
+
+function chatRender(data) {
+    var noticeEle = document.getElementById('notice');
+    noticeEle.innerHTML = '';
+    data.forEach((item, index) => {
+        item.reverse = item.uid == cms.uid ?'reverse':''
+        var msgTime = timestampToTime(item.time);
+        noticeEle.innerHTML +=  `<div class="message-wrapper ${item.reverse?'reverse':''}">
+            <img class="message-pp" src="${item.avatar}" alt="profile-pic">
+                <div class="message-box-wrapper">
+                    <div class="message-box">
+                        ${item.msgContent}
+                    </div>
+                    <span>${msgTime}</span>
+                </div>
+        </div>  `;
+        noticeEle.scrollTop = noticeEle.scrollHeight; //当前div的滚轮始终保持最下面
+    })
 }

@@ -101,7 +101,7 @@
            <div class="vodRoomJoin">
                <h5 class="m-0  col-md-offset-4 col-lg-offset-1 col-xl-offset-4">
                    <span class="btn btn-info" id="vodRoomJoin">({$vod_name})聊天房-登录后自动进入</span>
-                   <div style="padding: 5px;color: #fff"><span id="vodRoomJoinStatus">状态：未进入房间</span> | 在线人数：<span id="onLineNumber">0人</span></div>
+                   <div style="padding: 5px;color: #fff"><span id="vodRoomJoinStatus">状态：未进入房间</span> | 在线人数：(<span id="onLineNumber">0</span>人)</div>
                </h5>
            <div id="vodRoomTip"></div>
            <div class="app-container">
@@ -109,20 +109,16 @@
                    <div class="chat-wrapper">
                        <div id="notice" style="height:500px;overflow:auto">
 
-
-
                        </div>
                    </div>
                    <div id="onlineList">
-
                    </div>
-
                    <div class="chat-input-wrapper" id="sendMsgWrapper">
                        <button class="chat-attachment-btn">
                            设置
                        </button>
                        <div class="input-wrapper">
-                           <input type="text" class="chat-input msgContent" placeholder="我也来说说" >
+                           <input type="text" class="chat-input msgContent" placeholder="我也来说说（最多100字）" >
                            <button class="emoji-btn emotion">
                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-smile" viewBox="0 0 24 24">
                                    <defs></defs>

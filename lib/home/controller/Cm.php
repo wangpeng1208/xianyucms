@@ -20,32 +20,46 @@ class Cm extends Home
         $this->view->config('view_path', $path);
     }
 
-    public function index()
-    {
-        $data = $this->redis->get('qqqqe993aa091a91d681c663ca47a44ba5d80c61a369');
-        print_r($data);
-    }
 
     public function addChat()
     {
-        if ($this->request->instance()->isAjax()) {
-            $data = input('data');
-            $data = json_decode($data, true);
-            //            需要验证数据是否合法
-            $token = $data['sign'];
-            // 查询用户表里的sign
-            $user_token = Db::name('user')->where('userid', $data['cm_uid'])->find('token');
-            if ($token !== $user_token) {
+        if ($this->request->isPost()) {
+            $data = input('');
+            // 小于5个字 跳过
+            if(strlen($data['msgContent']) < 3*5){
                 return false;
             }
-            $data['cm_status'] = 1;
-            $data['cm_ip'] = ip2long(get_client_ip());
-            $data['cm_addtime'] = time();
-//            $rs=model('Cm');
-//            halt($rs);
-            Db::name('cm')->insert($data);
-//            静默不返回任何数据
+            $user_token = Db::name('user_token')->where('user_id', $data['uid'])->find();
+            // 信息不对 跳过
+            if($user_token['token'] !== $data['token']){
+                return false;
+            }
+            $result['cm_content'] = $data['msgContent'];
+            $result['cm_username'] = $data['nickname'];
+            $result['cm_addtime'] = $data['time'];
+            $result['cm_uid'] = $data['uid'];
+            $result['cm_vid'] = $data['videoId'];
+            $result['cm_status'] = 1;
+            $result['cm_ip'] = ip2long(get_client_ip());
+            Db::name('cm')->insert($result);
+        }
+    }
 
+    public function getChat()
+    {
+        if ($this->request->isPost()) {
+            $vod_id = input('vod_id/d');
+            $p = input('p/d');
+            $result = Db::name('cm')->field('cm_uid,cm_id,cm_content,cm_status,cm_uid,cm_username,cm_addtime')->where('cm_vid', $vod_id)->limit(10)->order('cm_addtime asc')->select();
+            $data = [];
+            foreach ($result as $key => $value){
+                $data[$key]['avatar'] = cmf_get_user_avatar($value['cm_uid']);
+                $data[$key]['msgContent'] = $value['cm_content'];
+                $data[$key]['nickname'] = $value['cm_username'];
+                $data[$key]['time'] = $value['cm_addtime'];
+                $data[$key]['uid'] = $value['cm_uid'];
+            }
+            return json($data);
         }
     }
 
