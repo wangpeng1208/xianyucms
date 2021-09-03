@@ -1,7 +1,7 @@
-/lib/admin/common.php
-/lib/admin/controller
-/lib/api
-/addons
-/runtime
+lib/admin/common.php
+lib/admin/controller
+lib/api
+addons
+runtime
 .idea
 .DS_Store
