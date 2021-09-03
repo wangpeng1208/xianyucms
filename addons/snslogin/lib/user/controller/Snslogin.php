@@ -6,12 +6,12 @@ use app\common\controller\User;
 use OAuth\OAuth;
 class Snslogin extends User
 {
+    protected $config;
 	public function _initialize()
 	{
 		parent::_initialize();
 
 	}
-	private $config;
 	public function __construct()
 	{
 		$userconfig = get_addon_config('snslogin');

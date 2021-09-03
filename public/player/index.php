@@ -1,5 +1,4 @@
 <?php
-    
     $arr['url'] = base64_decode($_GET['url']);
     if(strstr($arr['url'], 'http://')){
     	$arr['url'] = str_replace('http://', 'https://', $arr['url']);
