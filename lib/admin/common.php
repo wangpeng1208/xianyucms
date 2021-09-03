@@ -1,34 +1,7 @@
 <?php
-
-
-function getdomain($_arg_0)
-{
-    $_var_1 = (require APP_PATH . "common/library/Domain.php");
-    $_var_2 = explode(".", $_arg_0);
-    $_var_3 = '';
-    $_var_4 = 0;
-    $_var_5 = count($_var_2) - 1;
-    while ($_var_5 >= 0) {
-        if ($_var_5 == 0) {
-            break;
-        }
-        if (in_array($_var_2[$_var_5], $_var_1)) {
-            $_var_4 = $_var_4 + 1;
-            $_var_3 = "." . $_var_2[$_var_5] . $_var_3;
-            if ($_var_4 >= 2) {
-                break;
-            }
-        }
-        $_var_5 = $_var_5 - 1;
-    }
-    $_var_3 = $_var_2[count($_var_2) - $_var_4 - 1] . $_var_3;
-    return $_var_3;
-}
-
 function setMenu()
 {
     $request = request();
-//    print_r($request);
     $url = strtolower($request->module() . "/" . $request->controller() . "/" . $request->action());
     $param = $request->param();
     $re_ssl = "http";
@@ -392,11 +365,11 @@ function parse_config_attr($_arg_0)
 
 function admin_config()
 {
-    $_var_0 = request();
-    $_var_1 = config("site_path") . PUBLIC_PATH . "tpl/";
-    $_var_2 = config("xianyucms.api_url");
-    $_var_3 = array("site" => array("name" => config("xianyucms.name"), "title" => config("xianyucms.title"), "version" => lang("xianyucms_version"), "apiurl" => str_replace(array("https:", "http:"), '', $_var_2), "cdnurl" => $_var_1), "upload" => admin_upload(), "modulename" => strtolower($_var_0->module()), "controllername" => strtolower($_var_0->controller()), "actionname" => strtolower($_var_0->action()), "jsname" => "backend/" . str_replace(".", "/", strtolower($_var_0->controller())), "moduleurl" => url("/" . $_var_0->module() . '', false, false), "referer" => session("referer"));
-    return $_var_3;
+    $request = request();
+    $tpl = config("site_path") . PUBLIC_PATH . "tpl/";
+    $apiurl = config("xianyucms.api_url");
+    $arr = array("site" => array("name" => config("xianyucms.name"), "title" => config("xianyucms.title"), "version" => lang("xianyucms_version"), "apiurl" => str_replace(array("https:", "http:"), '', $apiurl), "cdnurl" => $tpl), "upload" => admin_upload(), "modulename" => strtolower($request->module()), "controllername" => strtolower($request->controller()), "actionname" => strtolower($request->action()), "jsname" => "backend/" . str_replace(".", "/", strtolower($request->controller())), "moduleurl" => url("/" . $request->module() . '', false, false), "referer" => session("referer"));
+    return $arr;
 }
 
 function admin_upload()
@@ -667,7 +640,7 @@ function _bootstrap_3ce0ea82ed7e1b85da862c42ef0d106c()
     $data = cache("xianyucms_version");
     // 如果不存在则写入v8变量缓存 时长259200s
     if (empty($data)) {
-        $data = '{"xianyu_name":"","xianyucms_name":"XianYuCms","xianyu_version":"v8.20180310","xianyu_qq":"12234@qq.com","xianyu_document":"https:\/\/www.baidu.com\/","xianyu_copyright":"<div class=\"copyright\" style=\"display:block;text-align:center\">Powered by xianyuCms \u00a92017-2018 All Rights Reserved <\/div>\r\n<\/body>","xianyu_api":"","caiji_api":{"1":"v.97bike.com","2":"v1.97bike.com","3":"v2.97bike.com","4":"v3.97bike.com","5":"v4.97bike.com"},"xianyu_ad":null,"xianyu_apiurl":"https:\/\/yanzheng.97bike.com\/","xianyu_head":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/zp\/v8index.js?time\"><\/script>","xianyu_caiji":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/caiji.js?time\"><\/script>","xianyu_caijids":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/ds.js?time\"><\/script> ","xianyu_timming":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/timming.js?time\"><\/script> ","xianyu_body":"<div class=\"copyright\" style=\"display:block;text-align:center\">Powered by ZanPianCms \u00a92018-2019 All Rights Reserved <\/div>"}';
+        $data = '{"xianyu_name":"","xianyucms_name":"XianYuCms","xianyu_version":"v8.20180310","xianyu_qq":"12234@qq.com","xianyu_document":"https:\/\/www.baidu.com\/","xianyu_copyright":"<div class=\"copyright\" style=\"display:block;text-align:center\">Powered by xianyuCms \u00a92017-2018 All Rights Reserved <\/div>\r\n<\/body>","xianyu_api":"","caiji_api":{"1":"v.97bike.com","2":"v1.97bike.com","3":"v2.97bike.com","4":"v3.97bike.com","5":"v4.97bike.com"},"xianyu_ad":null,"xianyu_apiurl":"https:\/\/yanzheng.97bike.com\/","xianyu_head":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/zp\/v8index.js?time\"><\/script>","xianyu_caiji":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/caiji.js?time\"><\/script>","xianyu_caijids":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/ds.js?time\"><\/script> ","xianyu_timming":"<script type=\"text\/javascript\" charset=\"utf-8\" src=\"\/\/yanzheng.97bike.com\/caiji\/timming.js?time\"><\/script> ","xianyu_body":"<div class=\"copyright\" style=\"display:block;text-align:center\">Powered by XianYuCms \u00a92018-2019 All Rights Reserved <\/div>"}';
         $data = json_decode($data, true);
         cache("xianyucms_version", $data, 259200);
 

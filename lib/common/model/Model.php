@@ -1,11 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | ZanPianCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.xianyu.com All rights reserved.
-// +----------------------------------------------------------------------
-// | BBS:  <http://www.feifeicms.cc>
-// +----------------------------------------------------------------------
 namespace app\common\model;
 class Model extends \think\Model{
 	protected $auto = [ 'update_time', 'field_sort', 'attribute_list'];

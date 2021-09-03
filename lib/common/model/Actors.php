@@ -1,15 +1,13 @@
 <?php
-// +----------------------------------------------------------------------
-// | ZanPianCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.xianyu.com All rights reserved.
-// +----------------------------------------------------------------------
-// | BBS:  <http://www.feifeicms.cc>
-// +----------------------------------------------------------------------
+
 namespace app\common\model;
+
 use think\Model;
-class Actors extends Model {
-    public function actors_update($id, $actors, $type) {
+
+class Actors extends Model
+{
+    public function actors_update($id, $actors, $type)
+    {
         $rs = db("Actors");
         $data['actors_id'] = $id;
         $data['actors_type'] = $type;
@@ -24,7 +22,7 @@ class Actors extends Model {
                     ' ',
                     '，',
                     '、'
-                ) , ',', $actors));
+                ), ',', $actors));
             }
             $actor_arr = array_filter(array_unique($actor_arr));
             foreach ($actor_arr as $key => $val) {

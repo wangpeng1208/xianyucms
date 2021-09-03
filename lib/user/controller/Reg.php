@@ -4,6 +4,11 @@ namespace app\user\controller;
 
 use app\common\controller\All;
 use \app\user\model\User;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\Exception;
+use think\exception\DbException;
+use think\exception\PDOException;
 use \think\Validate;
 
 class Reg extends All
@@ -66,17 +71,21 @@ class Reg extends All
             $user['nickname'] = $data['nickname'];
             // 推荐人
             $user['userpid'] = session('userpid') > 0 ? session('userpid') : 0;
-            $log = $register->register($user);
+            try {
+                $log = $register->register($user);
+            } catch (Exception $e) {
+                abort('异常');
+            }
             $sessionLoginHttpReferer = session('login_http_referer');
             switch ($log) {
                 case 0:
                     // 未完善nickname email认证
 //                    session('needEditUserInfo',1);
                     //是否需要跳转
-                    if($data['jump']){
-                        return json(['msg'=>"注册成功",'rcode'=>1,'redir'=>xianyu_user_url('user/center/index'),'wantredir'=>1]);
-                    }else{
-                        return json(['msg'=>"注册成功",'rcode'=>1]);
+                    if ($data['jump']) {
+                        return json(['msg' => "注册成功", 'rcode' => 1, 'redir' => xianyu_user_url('user/center/index'), 'wantredir' => 1]);
+                    } else {
+                        return json(['msg' => "注册成功", 'rcode' => 1]);
                     }
                     break;
                 case 1:
@@ -91,12 +100,19 @@ class Reg extends All
         }
 
     }
+
     public function ajax()
     {
         return view('reg/ajax');
     }
+
     public function agreement()
     {
         return view('/agreement');
+    }
+
+    // 邮箱内url 验证码
+    public function mailCode()
+    {
     }
 }

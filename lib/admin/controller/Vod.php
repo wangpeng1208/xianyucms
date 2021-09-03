@@ -174,10 +174,6 @@ class Vod extends Admin
 				action_log('admin/vod/edit', 'vod', $data['vod_id'], 1);
 				$readurl = xianyu_data_url('home/vod/read', array('id' => $id, 'pinyin' => $data['vod_letters'], 'cid' => $data['vod_cid'], 'dir' => getlistname($data['vod_cid'], 'list_dir'), 'jumpurl' => $data['vod_jumpurl']), true, true);
 				$userconfig = F('_data/userconfig_cache');
-				if ($userconfig['remindset_auth']) {
-					$email = new Email();
-					$email->remindset($data);
-				}
 				return $this->success('编辑视频成功！' . baidutui($readurl, 'update', 1), Cookie('vod_url_forward'), admin_url('admin/html/vod_detail_id', ['ids' => $data['vod_id']]));
 			} else {
 				action_log('admin/vod/edit', 'vod', 0, 0);

@@ -1,16 +1,14 @@
 <?php
-// +----------------------------------------------------------------------
-// | ZanPianCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.xianyu.com All rights reserved.
-// +----------------------------------------------------------------------
-// | BBS:  <http://www.feifeicms.cc>
-// +----------------------------------------------------------------------
+
 namespace app\common\model;
+
 use think\Model;
-class Weekday extends Model {
+
+class Weekday extends Model
+{
     //获取相关的数据转为字符串
-    public function weekday_data($id, $sid) {
+    public function weekday_data($id, $sid)
+    {
         $rs = db("Weekday");
         $data['weekday_id'] = $id;
         $data['weekday_sid'] = $sid;
@@ -24,7 +22,9 @@ class Weekday extends Model {
             return array();
         }
     }
-    public function weekday_update($id, $cid, $sid) {
+
+    public function weekday_update($id, $cid, $sid)
+    {
         $rs = db("Weekday");
         $data['weekday_id'] = $id;
         $data['weekday_sid'] = $sid;

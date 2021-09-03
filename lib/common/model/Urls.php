@@ -1,16 +1,14 @@
 <?php
-// +----------------------------------------------------------------------
-// | ZanPianCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.xianyu.com All rights reserved.
-// +----------------------------------------------------------------------
-// | BBS:  <http://www.feifeicms.cc>
-// +----------------------------------------------------------------------
+
 namespace app\common\model;
+
 use think\Model;
-class Urls extends Model {
+
+class Urls extends Model
+{
     //获取相关的数据转为字符串
-    public function urls_data($id) {
+    public function urls_data($id)
+    {
         $rs = db("Urls");
         $data['urls_id'] = $id;
         $list = $rs->where($data)->select();
@@ -23,7 +21,9 @@ class Urls extends Model {
             return array();
         }
     }
-    public function urls_update($id, $urls) {
+
+    public function urls_update($id, $urls)
+    {
         $rs = db("Urls");
         $data['urls_id'] = $id;
         $rs->where($data)->delete();

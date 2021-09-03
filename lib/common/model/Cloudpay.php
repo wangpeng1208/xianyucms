@@ -1,21 +1,19 @@
 <?php
-// +----------------------------------------------------------------------
-// | ZanPianCMS [ WE CAN DO IT JUST THINK IT ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2013 http://www.xianyu.com All rights reserved.
-// +----------------------------------------------------------------------
-// | BBS:  <http://www.feifeicms.cc>
-// +----------------------------------------------------------------------
+
 namespace app\common\model;
+
 use think\Model;
-class Cloudpay extends Model{
-    public function submit($user_id, $score_ext){
+
+class Cloudpay extends Model
+{
+    public function submit($user_id, $score_ext)
+    {
         $options = [
             'order_sign' => date("YmdHis") . mt_rand(10000, 99999),
             // 商户订单号
             'order_money' => number_format($score_ext, 2),
             // 支付金额
-            'order_info' => 'score UID:'.$user_id,
+            'order_info' => 'score UID:' . $user_id,
             // 支付订单描述
             'order_type' => 4,
             // 支付方式
@@ -25,7 +23,9 @@ class Cloudpay extends Model{
         model('Orders')->data($options)->save();
         return $this->pay($options);
     }
-    public function pay($options){
+
+    public function pay($options)
+    {
         $payconfig = F('_data/payconfig_cache');
         //组装参数
         $data = array(
@@ -49,7 +49,9 @@ class Cloudpay extends Model{
         $url = "http://api.atfpay.net/pay?" . http_build_query($data);
         return $url;
     }
-    public function notify($data){
+
+    public function notify($data)
+    {
         $payconfig = F('_data/payconfig_cache');
         $sign = $this->sign($data);
         if ($sign == $data['sign']) {
@@ -62,7 +64,9 @@ class Cloudpay extends Model{
             return 'fail';
         }
     }
-    function sign($arr){
+
+    function sign($arr)
+    {
         $payconfig = F('_data/payconfig_cache');
         $arr_filter = array();
         foreach ($arr as $key => $val) {

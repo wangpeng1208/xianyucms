@@ -4497,8 +4497,9 @@ function cmf_clear_verification_code($account)
  * @param string $subject 邮件标题
  * @param string $message 邮件内容
  */
-function cmf_send_email($address = '', $subject = '', $message = '')
+function cmf_send_email($address = '', $subject = '', $message = '', $type = '')
 {
+    $type = $type ?? 'text';
     $userMailConfig = F('_data/userconfig_cache');
     $config = [
         'driver' => 'smtp', // 邮件驱动, 支持 smtp|sendmail|mail 三种驱动
@@ -4506,7 +4507,7 @@ function cmf_send_email($address = '', $subject = '', $message = '')
         'port' => $userMailConfig['mail_smtp_port'], // SMTP服务器端口号,一般为25
         'addr' => $userMailConfig['mail_smtp_user'], // 发件邮箱地址
         'pass' => $userMailConfig['mail_smtp_pass'], // 发件邮箱密码
-        'name' => 'i7', // 发件邮箱名称
+        'name' => '系统消息', // 发件邮箱名称
         'content_type' => 'text/html', // 默认文本内容 text/html|text/plain
         'charset' => 'utf-8', // 默认字符集
         'security' => 'ssl', // 加密方式 null|ssl|tls, QQ邮箱必须使用ssl
@@ -4520,18 +4521,16 @@ function cmf_send_email($address = '', $subject = '', $message = '')
     ];
     MailerConfig::init($config);
     $mailer = Mailer::instance();
-    $data = $mailer->from($userMailConfig['mail_smtp_user'], 'service')
-        ->to($address)
+    $data = $mailer->to($address)
         ->subject($subject)
-        ->text($message)
+        ->$type($message)
         ->send();
     if (!$data) {
-        return ["code" => 0, "message" => '发送失败'];
+        return ["code" => 0, "message" => $mailer->getError()];
     } else {
         return ["code" => 1, "message" => "发送成功"];
     }
 }
-
 /**
  * 获取系统配置，通用
  * @param string $key 配置键值,都小写
